@@ -98,7 +98,8 @@
                     android:text="System.out.printLine('üzenet')  # nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót?"
                     android:layout_margin="10dp"
                     android:padding="15dp"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:id="@+id/button_temp_Api"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="match_parent"
