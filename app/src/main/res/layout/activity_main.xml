@@ -15,20 +15,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:gravity="center"
+            android:weightSum="3">
+            <ImageView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Hamburger"
-                android:minHeight="30sp"/>
+                android:src="@drawable/ic_baseline_menu_24"
+                android:id="@+id/icon_Hamburger"
+                android:layout_weight="1"/>
+
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:text="1/20"
+                android:textSize="20sp"
+                android:id="@+id/textView_Haladas"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:text="0:30"
-                android:minHeight="30sp"
-                android:layout_gravity="end"/>
+                android:textSize="20sp"
+                android:id="@+id/textView_Ido"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"/>
         </LinearLayout>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -56,7 +70,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textAlignment="textStart"/>
     </ScrollView>
 
@@ -137,7 +151,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="12dp"
             android:background="@color/white"
             android:orientation="vertical"
             android:id="@+id/layout_Progress"
@@ -148,12 +162,7 @@
                 android:layout_height="wrap_content"
                 android:max="100"
                 android:progress="25"
-                android:scaleY="5"
-                android:layout_marginBottom="20sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- - - - -"/>
+                android:scaleY="5"/>
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
