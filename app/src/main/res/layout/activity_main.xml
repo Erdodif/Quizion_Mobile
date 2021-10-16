@@ -61,6 +61,7 @@
         android:layout_height="150dp">
 
         <TextView
+            android:id="@+id/textView_Kerdes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="150sp"
