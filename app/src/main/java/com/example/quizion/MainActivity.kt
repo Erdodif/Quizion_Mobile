@@ -1,55 +1,68 @@
 package com.example.quizion
 
-import android.app.DownloadManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.*
+import com.android.volley.toolbox.BasicNetwork
+import com.android.volley.toolbox.DiskBasedCache
+import com.android.volley.toolbox.HurlStack
+import com.android.volley.toolbox.StringRequest
 import com.example.quizion.databinding.ActivityMainBinding
+import org.jetbrains.annotations.NotNull
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var bind : ActivityMainBinding
+    private var threadLocked = false;
+
+    fun szovegModosit(tartalom : String){
+        runOnUiThread(Runnable {
+            bind.textViewKerdes!!.text = tartalom
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bind: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
-        APIhivas(bind)
+        bind = ActivityMainBinding.inflate(layoutInflater)
+        val view = bind.root
+        setContentView(view)
+        bind.buttonTempApi!!.setOnClickListener{
+            val hivas = Thread(Runnable{APIhivas()})
+            if(!hivas.isAlive){
+                hivas.start()
+            }
+
+        }
     }
 
-    fun APIhivas(bind: ActivityMainBinding) {
-        // Instantiate the cache
-        val cache = DiskBasedCache(cacheDir, 1024 * 1024) // 1MB cap
 
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        val network = BasicNetwork(HurlStack())
-
-        // Instantiate the RequestQueue with the cache and network. Start the queue.
-        val requestQueue = RequestQueue(cache, network).apply {
-            start()
+    fun APIhivas() {
+        if (threadLocked){
+            Log.d("Figyelmeztetés","Szál foglalva!")
+            return
         }
-
-        val url = "https://10.147.20.1/quizion/adatok/index.php?method=read&table=quiz";
-
-        // Formulate the request and handle the response.
-
-        val stringRequest = StringRequest(Request.Method.GET, url,
-            { response ->
-                val ki = "Response is: " + response.substring(0, 500);
-                bind.textViewKerdes?.setText(ki)
-                Log.d("Eredmény:", ki)
-
-            },
-            { error ->
-                val ki = "Ez baj, $error"
-                bind.textViewKerdes?.setText(ki)
-                Log.d("Hiba: ", ki)
-            }
-        )
-        requestQueue.add(stringRequest)
+        threadLocked = true;
+        Log.d("Mellékszál állapota","fut")
+        val baseUrl = "http://10.147.20.1/adatok/index.php"
+        val quizkeres = "?method=read&table=quiz"
+        val connection = URL(baseUrl + quizkeres).openConnection() as HttpURLConnection
+        try {
+            val data = connection.inputStream.bufferedReader().readText()
+            szovegModosit(data)
+            Log.d("Eredmény:", data)
+            // ... do something with "data"
+        } catch (e :Exception){
+            Log.d("Hiba",e.message.toString())
+            szovegModosit(e.message.toString())
+        }
+        finally {
+            connection.disconnect()
+            threadLocked = false;
+        }
     }
 
 }
