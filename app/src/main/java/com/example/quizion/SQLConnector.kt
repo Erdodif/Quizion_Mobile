@@ -16,16 +16,16 @@ class SQLConnector {
     companion object {
         private var threadLocked = false
 
-        fun APIhivas(params: String): String? {
+        private fun apiHivas(params: String): String? {
             if (threadLocked) {
                 Log.d("Figyelmeztetés", "Szál foglalva!")
                 return null
             }
-            threadLocked = true;
+            threadLocked = true
             Log.d("Mellékszál állapota", "fut")
             val baseUrl = "http://10.147.20.1/adatok/index.php?"
             val connection = URL(baseUrl + params).openConnection() as HttpURLConnection
-            var kiad: String? = ""
+            var kiad: String?
             try {
                 val data = connection.inputStream.bufferedReader().readText()
                 Log.d("Kérés állapota:", "Adat visszatért!")
@@ -35,21 +35,20 @@ class SQLConnector {
                 kiad = null
             } finally {
                 connection.disconnect()
-                threadLocked = false;
+                threadLocked = false
             }
             return kiad
         }
 
-        fun getQuizAll(): List<Quiz> {
-            val quizJSON = APIhivas("method=read&table=quiz")
-            val jsonContact: JSONObject = JSONObject(quizJSON!!)
+        private fun getQuizAll(): List<Quiz> {
+            val quizJSON = apiHivas("method=read&table=quiz")
+            val jsonContact = JSONObject(quizJSON!!)
             val jsonArray: JSONArray = jsonContact.getJSONArray("data")
-            var i = 0;
             val size = jsonArray.length()
-            var quizList = LinkedList<Quiz>()
+            val quizList = LinkedList<Quiz>()
             for (i in 0 until size) {
                 val elem = jsonArray.getJSONObject(i)
-                val quiz: Quiz = Quiz(
+                val quiz = Quiz(
                     elem.getInt("id"),
                     elem.getString("header"),
                     elem.getString("description"),
@@ -60,16 +59,15 @@ class SQLConnector {
             return quizList
         }
 
-        fun getQuestionAll() :List<Question>{
-            val quizJSON = APIhivas("method=read&table=question")
-            val jsonContact: JSONObject = JSONObject(quizJSON!!)
+        private fun getQuestionAll() :List<Question>{
+            val quizJSON = apiHivas("method=read&table=question")
+            val jsonContact = JSONObject(quizJSON!!)
             val jsonArray: JSONArray = jsonContact.getJSONArray("data")
-            var i = 0;
             val size = jsonArray.length()
-            var questionList = LinkedList<Question>()
+            val questionList = LinkedList<Question>()
             for (i in 0 until size) {
                 val elem = jsonArray.getJSONObject(i)
-                val question: Question = Question(
+                val question = Question(
                     elem.getInt("id"),
                     elem.getInt("quiz_id"),
                     elem.getString("content"),
@@ -81,16 +79,15 @@ class SQLConnector {
             return questionList
         }
 
-        fun getAnswerAll() :List<Answer>{
-            val quizJSON = APIhivas("table=answer")
-            val jsonContact: JSONObject = JSONObject(quizJSON!!)
+        private fun getAnswerAll() :List<Answer>{
+            val quizJSON = apiHivas("table=answer")
+            val jsonContact = JSONObject(quizJSON!!)
             val jsonArray: JSONArray = jsonContact.getJSONArray("data")
-            var i = 0;
             val size = jsonArray.length()
-            var answerList = LinkedList<Answer>()
+            val answerList = LinkedList<Answer>()
             for (i in 0 until size) {
                 val elem = jsonArray.getJSONObject(i)
-                val answer: Answer = Answer(
+                val answer = Answer(
                     elem.getInt("id"),
                     elem.getInt("question_id"),
                     elem.getString("content"),
@@ -102,7 +99,7 @@ class SQLConnector {
         }
 
         fun init() {
-            var objectList = LinkedList<Any>()
+            val objectList = LinkedList<Any>()
             objectList.addAll(getQuizAll())
             objectList.addAll(getQuestionAll())
             objectList.addAll(getAnswerAll())
