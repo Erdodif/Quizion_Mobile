@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/secondary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +19,8 @@
             android:orientation="horizontal"
             android:padding="5dp"
             android:gravity="center"
-            android:weightSum="3">
+            android:weightSum="3"
+            android:background="@color/primary_variant">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -33,7 +35,8 @@
                 android:textSize="20sp"
                 android:id="@+id/textView_Haladas"
                 android:layout_weight="1"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textColor="@color/on_primary"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -42,7 +45,8 @@
                 android:textSize="20sp"
                 android:id="@+id/textView_Ido"
                 android:layout_weight="1"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:textColor="@color/on_primary"/>
         </LinearLayout>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -53,7 +57,8 @@
             android:scaleY="5"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="5dp"
-            app:trackColor="@color/black"/>
+            app:trackColor="@color/warning"
+            android:background="@color/black"/>
     </LinearLayout>
 
     <ScrollView

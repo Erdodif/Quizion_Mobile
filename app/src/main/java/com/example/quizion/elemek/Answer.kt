@@ -4,7 +4,7 @@ class Answer(
     private var id: Int,
     private var questionId: Int,
     private var content: String,
-    private var right: Boolean
+    private var right: Int
 ) {
     fun getId(): Int {
         return this.id
@@ -19,6 +19,6 @@ class Answer(
     }
 
     fun isRight(): Boolean {
-        return this.right
+        return this.right == 1
     }
 }
