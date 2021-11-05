@@ -1,29 +1,29 @@
 package com.example.quizion.elemek
 
 class Question(
-    private var id: Int,
-    private var quizId: Int,
-    private var content: String,
-    private var rightAnswerCount: Int,
-    private var point: Int,
+    private var id: Int?,
+    private var quizId: Int?,
+    private var content: String?,
+    private var rightAnswerCount: Int?,
+    private var point: Int?,
 ) {
-    fun getId(): Int {
+    fun getId(): Int? {
         return this.id
     }
 
-    fun getQuizId(): Int {
+    fun getQuizId(): Int? {
         return this.quizId
     }
 
-    fun getcontent(): String {
+    fun getcontent(): String? {
         return this.content
     }
 
-    fun getRightAnswerCount(): Int {
+    fun getRightAnswerCount(): Int? {
         return this.rightAnswerCount
     }
 
-    fun getPoint(): Int {
+    fun getPoint(): Int? {
         return this.point
     }
 }
