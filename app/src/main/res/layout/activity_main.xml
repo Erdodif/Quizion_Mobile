@@ -10,44 +10,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20sp"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:gravity="center"
-            android:weightSum="3"
-            android:background="@color/primary">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_menu_24"
-                android:id="@+id/icon_Hamburger"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="1/20"
-                android:textSize="20sp"
-                android:id="@+id/textView_Haladas"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textColor="@color/on_primary"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="0:30"
-                android:textSize="20sp"
-                android:id="@+id/textView_Ido"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textColor="@color/on_primary"/>
-        </LinearLayout>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:layout_width="match_parent"
@@ -58,26 +22,28 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="5dp"
             app:trackColor="@color/primary"
-            app:indicatorColor="@color/warning"/>
+            app:indicatorColor="@color/warning"
+            android:id="@+id/progressBar_Ido"/>
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="200dp">
 
         <TextView
             android:id="@+id/textView_Kerdes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="150sp"
-            android:paddingHorizontal="15sp"
+            android:minHeight="200sp"
+            android:paddingHorizontal="25sp"
+            android:paddingTop="15dp"
             android:text="A c# nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót? c# nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót?"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:textSize="25sp"
-            android:textAlignment="textStart"
+            android:textAlignment="center"
             android:background="@color/secondary_variant"
             android:textColor="@color/on_primary"/>
     </ScrollView>
@@ -87,7 +53,7 @@
         android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="380dp"
+            android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:id="@+id/scrollView_Valaszok">
 
@@ -149,6 +115,17 @@
                     android:layout_height="wrap_content"
                     android:textAllCaps="false"
                     android:text="echo 'üzenet';"
+                    android:layout_margin="10dp"
+                    android:padding="15dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/primary"
+                    android:background="@color/on_primary"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="print('üzenet')"
                     android:layout_margin="10dp"
                     android:padding="15dp"
                     android:textSize="20sp"
