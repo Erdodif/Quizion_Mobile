@@ -1,10 +1,14 @@
 package com.example.quizion
 
-import com.example.quizion.databinding.ActivityMainBinding
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quizion.adatbazis.SQLConnector
 import android.os.Bundle
+import android.widget.Toast
 import com.example.quizion.elemek.Quiz
+import com.example.quizion.databinding.ActivityMainBinding
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
@@ -21,16 +25,29 @@ class MainActivity : AppCompatActivity() {
         bind = ActivityMainBinding.inflate(layoutInflater)
         val view = bind.root
         setContentView(view)
-        val thread = Thread(Runnable{
+        loadQuiz(this)
+        bind.buttonTempApi!!.setOnClickListener {
+            loadQuiz(this)
+        }
+    }
+
+    fun loadQuiz(activity: MainActivity) = runBlocking{
+        val quizTolt = launch {
             val quizek = Quiz.getQuizAll()
-            if (quizek!!.size > 0){
-                feltolt(quizek.get(0).getHeader())
+            try{
+                if (quizek!!.isNotEmpty()){
+                    feltolt(quizek[0].getHeader())
+                }
+                else{
+                    feltolt("Nem sikerült csatlakozni, vagy az adatot kinyerni...")
+                }
+            }catch (e : Exception) {
+                feltolt( e.message)
             }
-            else{
-                feltolt("Nem sikerült csatlakozni, vagy az adatot kinyerni...")
-            }
-        })
-        thread.start()
+
+        }
+        quizTolt.join()
+        Toast.makeText(activity, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -1,69 +1,61 @@
 package com.example.quizion.adatbazis
 
-import com.example.quizion.elemek.Question
-import com.example.quizion.elemek.Answer
-import com.example.quizion.elemek.Quiz
-
-import java.io.BufferedOutputStream
 import java.net.HttpURLConnection
 import java.lang.Exception
 import org.json.JSONObject
-import org.json.JSONArray
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.DataOutputStream
 import java.net.URL
-import java.util.*
 
 class SQLConnector {
     companion object {
         private var threadLocked = false
 
-        public fun apiHivas(method: Method, params: JSONObject): String? {
-            /*
-            if (threadLocked) {
-                Log.d("Figyelmeztetés", "Szál foglalva!")
-                return null
-            }*/
-            threadLocked = true
+        suspend fun apiHivas(method: Method, params: JSONObject): String? {
             Log.d("HTTP hívás", "fut a mellékszálon")
             val baseUrl = "http://10.147.20.1/adatok/index.php"
             val isGet = method.params == "GET"
-            var kiParams = ""
-            if (isGet){
-                kiParams = params.toString()
-                    .replace("\"","")
-                    .replace(':','=')
-                    .replace("{","")
-                    .replace("}","")
+            var queryParams = ""
+            if (isGet) {
+                queryParams = "?" + params.toString()
+                    .replace("\"", "")
+                    .replace(':', '=')
+                    .replace("{", "")
+                    .replace("}", "")
             }
-            val connection = URL(
-                baseUrl + if (isGet) "?$kiParams" else ""
-            ).openConnection() as HttpURLConnection
+            val connection = URL(baseUrl + queryParams).openConnection() as HttpURLConnection
             connection.doOutput = !isGet
-            connection.requestMethod = method.type
-            connection.setRequestProperty("Content-Type", "application/json; utf-8")
             connection.setRequestProperty("Accept", "application/json")
-            if (connection.doOutput) {
-                val out = DataOutputStream(connection.getOutputStream())
+            if (method.type === "GET") {
+                connection.requestMethod = method.type
+            }
+            if (!isGet) {
+                connection.setRequestProperty("Content-Type", "application/json; utf-8")
+                val out = DataOutputStream(connection.outputStream)
                 out.writeBytes(params.toString())
                 out.flush()
                 out.close()
             }
             var kiad: String?
             try {
-                val responseCode: Int = connection.responseCode
-                if (responseCode != HttpURLConnection.HTTP_OK) {
-                    throw Exception("Kapcsolati hibakód/" + responseCode)
+                kiad = withContext(Dispatchers.IO) {
+
+                    val responseCode: Int = connection.responseCode
+                    if (responseCode != HttpURLConnection.HTTP_OK) {
+                        throw Exception("Kapcsolati hibakód/" + responseCode)
+                    }
+                    val data = connection.inputStream.bufferedReader().readText()
+                    Log.d("Kérés állapota:", "Adat visszatért!")
+                    return@withContext data
                 }
-                val data = connection.inputStream.bufferedReader().readText()
-                Log.d("Kérés állapota:", "Adat visszatért!")
-                kiad = data
+
             } catch (e: Exception) {
-                Log.d("Kérés állapota", "Hiba/" + e.message.toString())
+                Log.d("Kérés állapota", "Hiba/" + e.message)
                 kiad = null
             } finally {
                 connection.disconnect()
-                threadLocked = false
             }
             return kiad
         }
