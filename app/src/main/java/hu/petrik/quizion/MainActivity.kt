@@ -1,22 +1,57 @@
 package hu.petrik.quizion
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.Toast
-import hu.petrik.quizion.elemek.Quiz
-import com.example.quizion.databinding.ActivityMainBinding
-import hu.petrik.quizion.elemek.Answer
+import android.content.res.ColorStateList
+import android.icu.number.NumberFormatter
 import hu.petrik.quizion.elemek.Question
+import hu.petrik.quizion.elemek.Answer
+import hu.petrik.quizion.elemek.Quiz
+
+import android.os.Bundle
+import android.util.Log
+import android.view.ViewGroup.LayoutParams.*
+import android.widget.LinearLayout
+import android.widget.Toast
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.*
+import com.google.android.material.button.MaterialButton
+import hu.petrik.quizion.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
 
-    fun feltolt(kerdes: String?, valasz: List<String>? = null) {
+    fun toPX(dp: Int): Int {
+        Log.d("density", resources.displayMetrics.density.toString())
+        return (resources.displayMetrics.density * dp).toInt()
+    }
+
+    fun feltolt(kerdes: String?, valasz: List<Answer>? = null) {
         runOnUiThread(Runnable {
             bind.textViewKerdes!!.text = kerdes
         })
+        if (valasz !== null) {
+            bind.layoutValaszok.removeAllViews()
+            for (i in valasz.indices) {
+                val valaszGomb = MaterialButton(this)
+                val lp = LinearLayout.LayoutParams(bind.layoutValaszok.layoutParams)
+                lp.setMargins(20)
+                Log.d("ki", valasz.get(i).getcontent()!!)
+                (valaszGomb as MaterialButton).apply {
+                    isAllCaps = false
+                    text = valasz.get(i).getcontent()!!
+                    layoutParams = lp
+                    setPadding(toPX(15))
+                    //margin és padding körbe
+                    textSize = 20F
+                    setTextColor(getColor(R.color.primary))
+                    //background
+                    backgroundTintList = getColorStateList(R.color.on_primary)
+                    cornerRadius = 20
+                }
+                bind.layoutValaszok.addView(valaszGomb)
+            }
+        }
     }
 
 
@@ -26,50 +61,46 @@ class MainActivity : AppCompatActivity() {
         val view = bind.root
         setContentView(view)
         loadQuiz(this)
-        bind.buttonTempApi!!.setOnClickListener {
+        /*bind.buttonTempApi!!.setOnClickListener {
             loadQuiz(this)
-        }
+        }*/
     }
 
-    fun loadQuiz(activity: MainActivity) = runBlocking{
-        val quizTolt = launch {
+    fun loadQuiz(activity: MainActivity) = runBlocking {
+        /*val quizTolt = launch {
             val kvizek = Quiz.getAll()
-            try{
-                if (kvizek!!.isNotEmpty()){
+            try {
+                if (kvizek!!.isNotEmpty()) {
                     feltolt(kvizek[0].getHeader())
-                }
-                else{
+                } else {
                     feltolt("Nem sikerült csatlakozni, vagy az adatot kinyerni...")
                 }
-            }catch (e : Exception) {
-                feltolt( e.message)
+            } catch (e: Exception) {
+                feltolt(e.message)
             }
         }
         val questionTolt = launch {
             val kerdesek = Question.getAll()
             try {
-                if(kerdesek!!.isNotEmpty()){
+                if (kerdesek!!.isNotEmpty()) {
                     feltolt(kerdesek[0].getcontent())
-                }
-                else{
+                } else {
                     feltolt("Nem Sikerült csatlakozni")
                 }
-            }
-            catch (e : Exception){
+            } catch (e: Exception) {
                 feltolt(e.message)
             }
-        }
+        }*/
         val anwerTolt = launch {
             val valaszok = Answer.getAll()
+            val kerdesek = Question.getAll()
             try {
-                if(valaszok!!.isNotEmpty()){
-                    feltolt(valaszok[0].getcontent())
-                }
-                else{
+                if (valaszok!!.isNotEmpty() && kerdesek!!.isNotEmpty()) {
+                    feltolt(kerdesek[0].getcontent(), valaszok)
+                } else {
                     feltolt("Nem Sikerült csatlakozni")
                 }
-            }
-            catch (e : Exception){
+            } catch (e: Exception) {
                 feltolt(e.message)
             }
         }

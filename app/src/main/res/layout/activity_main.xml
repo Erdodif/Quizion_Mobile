@@ -28,16 +28,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="220dp">
 
         <TextView
             android:id="@+id/textView_Kerdes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="200sp"
+            android:minHeight="220sp"
             android:paddingHorizontal="25sp"
             android:paddingTop="15dp"
-            android:text="A c# nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót? c# nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót?"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -65,7 +64,7 @@
                 android:layout_gravity="top"
                 >
 
-                <androidx.appcompat.widget.AppCompatButton
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAllCaps="false"
@@ -75,8 +74,10 @@
                     android:textSize="20sp"
                     android:id="@+id/button_temp_Api"
                     android:textColor="@color/primary"
-                    android:background="@color/on_primary"/>
-
+                    android:backgroundTint="@color/on_primary"
+                    app:cornerRadius="20dp"
+                    />
+<!--
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,10 +143,9 @@
                     android:textSize="20sp"
                     android:textColor="@color/primary"
                     android:background="@color/on_primary"/>
-
+-->
             </LinearLayout>
         </ScrollView>
-
 
         <LinearLayout
             android:layout_width="match_parent"
