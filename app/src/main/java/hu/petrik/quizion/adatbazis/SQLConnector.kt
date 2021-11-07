@@ -11,8 +11,6 @@ import java.net.URL
 
 class SQLConnector {
     companion object {
-        private var threadLocked = false
-
         suspend fun apiHivas(method: Method, params: JSONObject): String? {
             Log.d("HTTP hívás", "fut a mellékszálon")
             val baseUrl = "http://10.147.20.1/adatok/index.php"
@@ -34,9 +32,11 @@ class SQLConnector {
             if (!isGet) {
                 connection.setRequestProperty("Content-Type", "application/json; utf-8")
                 val out = DataOutputStream(connection.outputStream)
-                out.writeBytes(params.toString())
-                out.flush()
-                out.close()
+                with(out) {
+                    writeBytes(params.toString())
+                    flush()
+                    close()
+                }
             }
             var kiad: String?
             try {
@@ -44,7 +44,7 @@ class SQLConnector {
 
                     val responseCode: Int = connection.responseCode
                     if (responseCode != HttpURLConnection.HTTP_OK) {
-                        throw Exception("Kapcsolati hibakód/" + responseCode)
+                        throw Exception("Kapcsolati hibakód/$responseCode")
                     }
                     val data = connection.inputStream.bufferedReader().readText()
                     Log.d("Kérés állapota:", "Adat visszatért!")
@@ -100,9 +100,5 @@ class SQLConnector {
                     return answerList
                 }
         */
-        fun init() {
-        }
-
-
     }
 }

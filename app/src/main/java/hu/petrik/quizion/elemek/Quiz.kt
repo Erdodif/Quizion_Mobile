@@ -30,14 +30,14 @@ class Quiz(
         return this.active == 1
     }
     companion object{
-        suspend fun getQuizAll(): List<Quiz>?{
+        suspend fun getAll(): List<Quiz>?{
             var quizList :LinkedList<Quiz>?= null
             val paramJSON = JSONObject()
             paramJSON.put("table","quiz")
             Log.d("paramJSON",paramJSON.toString())
             val quizJSON = SQLConnector.apiHivas(Method.READ, paramJSON)
             if (quizJSON!==null){
-                val jsonContact = JSONObject(quizJSON!!)
+                val jsonContact = JSONObject(quizJSON)
                 val hiba = jsonContact.getBoolean("error")
                 if(hiba){
                     Log.d("Hibaállapot",hiba.toString())

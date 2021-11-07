@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import hu.petrik.quizion.elemek.Quiz
 import com.example.quizion.databinding.ActivityMainBinding
+import hu.petrik.quizion.elemek.Answer
+import hu.petrik.quizion.elemek.Question
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -31,10 +33,10 @@ class MainActivity : AppCompatActivity() {
 
     fun loadQuiz(activity: MainActivity) = runBlocking{
         val quizTolt = launch {
-            val quizek = Quiz.getQuizAll()
+            val kvizek = Quiz.getAll()
             try{
-                if (quizek!!.isNotEmpty()){
-                    feltolt(quizek[0].getHeader())
+                if (kvizek!!.isNotEmpty()){
+                    feltolt(kvizek[0].getHeader())
                 }
                 else{
                     feltolt("Nem sikerült csatlakozni, vagy az adatot kinyerni...")
@@ -42,9 +44,38 @@ class MainActivity : AppCompatActivity() {
             }catch (e : Exception) {
                 feltolt( e.message)
             }
-
         }
-        quizTolt.join()
+        val questionTolt = launch {
+            val kerdesek = Question.getAll()
+            try {
+                if(kerdesek!!.isNotEmpty()){
+                    feltolt(kerdesek[0].getcontent())
+                }
+                else{
+                    feltolt("Nem Sikerült csatlakozni")
+                }
+            }
+            catch (e : Exception){
+                feltolt(e.message)
+            }
+        }
+        val anwerTolt = launch {
+            val valaszok = Answer.getAll()
+            try {
+                if(valaszok!!.isNotEmpty()){
+                    feltolt(valaszok[0].getcontent())
+                }
+                else{
+                    feltolt("Nem Sikerült csatlakozni")
+                }
+            }
+            catch (e : Exception){
+                feltolt(e.message)
+            }
+        }
+        //quizTolt.join()
+        //questionTolt.join()
+        anwerTolt.join()
         Toast.makeText(activity, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
     }
 
