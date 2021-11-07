@@ -1,4 +1,4 @@
-package com.example.quizion.elemek
+package hu.petrik.quizion.elemek
 
 class Question(
     private var id: Int?,

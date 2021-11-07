@@ -1,4 +1,4 @@
-package com.example.quizion.adatbazis
+package hu.petrik.quizion.adatbazis
 
 enum class Method (val type:String, val params: String ){
     CREATE("POST","POST"),

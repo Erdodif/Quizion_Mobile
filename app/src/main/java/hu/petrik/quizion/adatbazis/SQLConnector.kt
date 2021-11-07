@@ -1,4 +1,4 @@
-package com.example.quizion.adatbazis
+package hu.petrik.quizion.adatbazis
 
 import java.net.HttpURLConnection
 import java.lang.Exception

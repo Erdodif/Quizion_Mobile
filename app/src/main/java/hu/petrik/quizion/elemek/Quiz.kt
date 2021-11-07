@@ -1,13 +1,11 @@
-package com.example.quizion.elemek
+package hu.petrik.quizion.elemek
 
 import android.util.Log
-import com.example.quizion.adatbazis.Method
-import com.example.quizion.adatbazis.SQLConnector
-import kotlinx.coroutines.GlobalScope
+import hu.petrik.quizion.adatbazis.Method
+import hu.petrik.quizion.adatbazis.SQLConnector
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
-import kotlinx.coroutines.async
 import kotlin.coroutines.*
 
 class Quiz(

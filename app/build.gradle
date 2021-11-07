@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.quizion"
+        applicationId "hu.petrik.quizion"
         minSdk 26
         targetSdk 30
         versionCode 1

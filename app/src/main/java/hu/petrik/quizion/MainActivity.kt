@@ -1,14 +1,12 @@
-package com.example.quizion
+package hu.petrik.quizion
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.quizion.elemek.Quiz
+import hu.petrik.quizion.elemek.Quiz
 import com.example.quizion.databinding.ActivityMainBinding
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
