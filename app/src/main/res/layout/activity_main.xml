@@ -7,7 +7,18 @@
     tools:context="hu.petrik.quizion.MainActivity"
     android:orientation="vertical"
     android:background="@color/secondary">
-
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_variant"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/quizion_logo_q_betu_korben_eloter"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+    </com.google.android.material.appbar.MaterialToolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="20sp"
@@ -68,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAllCaps="false"
-                    android:text="System.out.printLine('üzenet')  # nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót?"
+                    android:text="# nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót?"
                     android:layout_margin="10dp"
                     android:padding="15dp"
                     android:textSize="20sp"
