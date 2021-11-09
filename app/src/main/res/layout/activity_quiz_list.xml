@@ -28,7 +28,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/layout_QuizList">
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@color/on_primary"
+                    android:orientation="vertical"
+                    android:layout_marginVertical="10dp"
+                    android:padding="10sp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Quiz #001"
+                        android:textAllCaps="false"
+                        android:textSize="20sp"
+                        android:textColor="@color/primary_variant"
+                        android:textAlignment="center"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Második kvíz tartalma, hosszabb, mint az elsőé"
+                        android:textAllCaps="false"
+                        android:layout_marginVertical="10sp"
+                        android:textSize="20sp"
+                        android:textColor="@color/primary_variant"
+                        android:textAlignment="textStart"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Játék"
+                        android:layout_gravity="center"
+                        android:background="@color/secondary_variant"
+                        android:textColor="@color/on_primary"
+                        android:textSize="15sp"/>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
