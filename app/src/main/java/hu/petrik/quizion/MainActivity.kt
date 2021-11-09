@@ -1,19 +1,17 @@
 package hu.petrik.quizion
 
-import android.content.res.ColorStateList
-import android.icu.number.NumberFormatter
 import hu.petrik.quizion.elemek.Question
 import hu.petrik.quizion.elemek.Answer
 import hu.petrik.quizion.elemek.Quiz
 
 import android.os.Bundle
 import android.util.Log
-import android.view.ViewGroup.LayoutParams.*
 import android.widget.LinearLayout
 import android.widget.Toast
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat.getExtras
 import androidx.core.view.*
 import com.google.android.material.button.MaterialButton
 import hu.petrik.quizion.databinding.ActivityMainBinding
@@ -61,6 +59,12 @@ class MainActivity : AppCompatActivity() {
         val view = bind.root
         setContentView(view)
         loadQuiz(this)
+        val id = intent.getIntExtra("id",-1)
+        if (id == -1){
+            return
+        }
+        Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
+        Log.d("id",id.toString())
         /*bind.buttonTempApi!!.setOnClickListener {
             loadQuiz(this)
         }*/
