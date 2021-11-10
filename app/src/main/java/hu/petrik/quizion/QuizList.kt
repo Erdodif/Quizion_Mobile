@@ -10,6 +10,7 @@ import android.content.Intent
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 
 class QuizList : AppCompatActivity() {
     private lateinit var bind: ActivityQuizListBinding
@@ -23,24 +24,24 @@ class QuizList : AppCompatActivity() {
         val bind = ActivityQuizListBinding.inflate(layoutInflater)
         setContentView(bind.root)
         //ideiglenes
-        kiirat(this,bind)
+        kiirat(this,bind.layoutQuizList)
     }
 
-    fun kiirat(context: Activity,bind:ActivityQuizListBinding) = runBlocking {
+    fun kiirat(context: Activity,hova :LinearLayout) = runBlocking {
         val quizTolt = launch {
             Log.d("Coroutine állapota", "fut")
             val kvizek = Quiz.getAll()
             try {
                 if (kvizek!!.isNotEmpty()) {
-                    ViewBuilder.kvizBetoltMind(context, bind.layoutQuizList, kvizek)
+                    ViewBuilder.kvizBetoltMind(context, hova, kvizek)
                 } else {
                     ViewBuilder.labelHibaBetolt(
-                        context, bind.layoutQuizList,
+                        context, hova,
                         "Nem sikerült csatlakozni, vagy az adatot kinyerni..."
                     )
                 }
             } catch (e: Exception) {
-                ViewBuilder.labelHibaBetolt(context, bind.layoutQuizList, e.message.toString())
+                ViewBuilder.labelHibaBetolt(context, hova, e.message.toString())
             }
         }
         quizTolt.join()
