@@ -1,12 +1,12 @@
 package hu.petrik.quizion.adatbazis
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
+import java.io.DataOutputStream
 import java.lang.Exception
 import org.json.JSONObject
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.DataOutputStream
 import java.net.URL
 
 class SQLConnector {

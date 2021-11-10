@@ -11,7 +11,7 @@ class Login : AppCompatActivity() {
         val bind = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bind.root)
         bind.buttonTovabb.setOnClickListener {
-            val intent = Intent(this,QuizList::class.java)
+            val intent = Intent(this, QuizList::class.java)
             startActivity(intent)
             finish()
         }
