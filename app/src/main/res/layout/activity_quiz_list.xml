@@ -35,11 +35,12 @@
                     android:background="@color/on_primary"
                     android:orientation="vertical"
                     android:layout_marginVertical="10dp"
-                    android:padding="10sp">
+                    android:padding="10sp"
+                    android:id="@+id/tempLayout">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Quiz #001"
+                        android:text="Quiz #002"
                         android:textAllCaps="false"
                         android:textSize="20sp"
                         android:textColor="@color/primary_variant"

@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAllCaps="false"
-                    android:text="# nyelvben hogyan valósítaná meg a konzolon keresztüli felhasználói interakciót?"
+                    android:text=""
                     android:layout_margin="10dp"
                     android:padding="15dp"
                     android:textSize="20sp"
@@ -88,73 +88,6 @@
                     android:backgroundTint="@color/on_primary"
                     app:cornerRadius="20dp"
                     />
-<!--
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text="Console.writeLine('Üzenet');"
-                    android:layout_margin="10dp"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary"
-                    android:background="@color/on_primary"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text="System.out.printLine('üzenet');"
-                    android:layout_margin="10dp"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary"
-                    android:background="@color/on_primary"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text="writeLine('Üzenet')"
-                    android:layout_margin="10dp"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary"
-                    android:background="@color/on_primary"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text="echo 'üzenet';"
-                    android:layout_margin="10dp"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary"
-                    android:background="@color/on_primary"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text="print('üzenet')"
-                    android:layout_margin="10dp"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary"
-                    android:background="@color/on_primary"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text="print('üzenet')"
-                    android:layout_margin="10dp"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary"
-                    android:background="@color/on_primary"/>
--->
             </LinearLayout>
         </ScrollView>
 

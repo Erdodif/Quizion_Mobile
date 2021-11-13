@@ -22,9 +22,10 @@ class QuizList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val bind = ActivityQuizListBinding.inflate(layoutInflater)
-        setContentView(bind.root)
         //ideiglenes
         kiirat(this,bind.layoutQuizList)
+        bind.layoutQuizList.removeView(bind.tempLayout)
+        setContentView(bind.root)
     }
 
     fun kiirat(context: Activity,hova :LinearLayout) = runBlocking {
