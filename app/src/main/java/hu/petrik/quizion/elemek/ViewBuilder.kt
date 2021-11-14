@@ -27,10 +27,9 @@ class ViewBuilder {
         @Deprecated(
             replaceWith = ReplaceWith(
                 expression = "kerdesBetolt(kerdes_helye,kerdes)"),
-            level = DeprecationLevel.WARNING,
+            level = DeprecationLevel.ERROR,
             message = "use kerdesbetolt(kerdes_helye,kerdes) instead!")
         fun kerdesBetolt(context:Activity,kerdes_helye :TextView,kerdes: String?){
-            DeprecationLevel.WARNING
             context.runOnUiThread {
                 kerdes_helye.text = kerdes
             }
@@ -64,7 +63,7 @@ class ViewBuilder {
             context.runOnUiThread(Runnable {
                 if (valasz !== null) {
                     for (i in valasz.indices) {
-                        valaszGombKreal(valaszok_helye,valasz.get(i))
+                        valaszGombKreal(valaszok_helye,valasz[i])
                     }
                 }
             })
@@ -120,7 +119,7 @@ class ViewBuilder {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("id", elem.getId())
                     context.startActivity(intent)
-                    context.finish()
+                    //context.finish()
                 }
                 layout.measure(
                     LinearLayout.LayoutParams.MATCH_PARENT,

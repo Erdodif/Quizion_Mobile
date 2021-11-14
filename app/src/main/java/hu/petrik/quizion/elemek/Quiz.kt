@@ -1,11 +1,13 @@
 package hu.petrik.quizion.elemek
 
+import android.os.Bundle
 import android.util.Log
 import hu.petrik.quizion.adatbazis.Method
 import hu.petrik.quizion.adatbazis.SQLConnector
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.coroutines.*
 
 class Quiz(
@@ -31,13 +33,18 @@ class Quiz(
     }
 
     companion object {
-        suspend fun getAll(): List<Quiz>? {
+        suspend fun getAll(params: HashMap<String,Any>? = null): List<Quiz>? {
             var quizList: LinkedList<Quiz>? = null
             val paramJSON = JSONObject()
             paramJSON.put("table", "quiz")
-            Log.d("paramJSON", paramJSON.toString())
+            if(params!==null){
+                for(entry in params.entries){
+                    paramJSON.put(entry.key,entry.value)
+                }
+            }
             val quizJSON = SQLConnector.apiHivas(Method.READ, paramJSON)
             if (quizJSON !== null) {
+                Log.d("visszatérés",quizJSON)
                 val jsonContact = JSONObject(quizJSON)
                 val hiba = jsonContact.getBoolean("error")
                 if (hiba) {

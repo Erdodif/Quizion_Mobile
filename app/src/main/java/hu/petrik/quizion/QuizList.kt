@@ -6,18 +6,12 @@ import hu.petrik.quizion.elemek.ViewBuilder
 import kotlinx.coroutines.runBlocking
 import hu.petrik.quizion.elemek.Quiz
 import kotlinx.coroutines.launch
-import android.content.Intent
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
 
 class QuizList : AppCompatActivity() {
-    private lateinit var bind: ActivityQuizListBinding
-
-    fun toPX(dp: Int): Int {
-        return (resources.displayMetrics.density * dp).toInt()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +25,9 @@ class QuizList : AppCompatActivity() {
     fun kiirat(context: Activity,hova :LinearLayout) = runBlocking {
         val quizTolt = launch {
             Log.d("Coroutine állapota", "fut")
-            val kvizek = Quiz.getAll()
+            val params :HashMap<String,Any> = HashMap()
+            params["active"] = 1
+            val kvizek = Quiz.getAll(params)
             try {
                 if (kvizek!!.isNotEmpty()) {
                     ViewBuilder.kvizBetoltMind(context, hova, kvizek)

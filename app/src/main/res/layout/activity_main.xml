@@ -74,20 +74,6 @@
                 android:id="@+id/layout_Valaszok"
                 android:layout_gravity="top"
                 >
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAllCaps="false"
-                    android:text=""
-                    android:layout_margin="10dp"
-                    android:padding="15dp"
-                    android:textSize="20sp"
-                    android:id="@+id/button_temp_Api"
-                    android:textColor="@color/primary"
-                    android:backgroundTint="@color/on_primary"
-                    app:cornerRadius="20dp"
-                    />
             </LinearLayout>
         </ScrollView>
 

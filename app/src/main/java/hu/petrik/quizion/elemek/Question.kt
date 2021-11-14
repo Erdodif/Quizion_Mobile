@@ -34,11 +34,15 @@ class Question(
         return this.point
     }
     companion object{
-        suspend fun getAll(): List<Question>?{
+        suspend fun getAll(params: HashMap<String,Any>? = null): List<Question>?{
             var questionList : LinkedList<Question>?= null
             val paramJSON = JSONObject()
             paramJSON.put("table","question")
-            Log.d("paramJSON",paramJSON.toString())
+            if(params!==null){
+                for(entry in params.entries){
+                    paramJSON.put(entry.key,entry.value)
+                }
+            }
             val quizJSON = SQLConnector.apiHivas(Method.READ, paramJSON)
             if (quizJSON!==null){
                 val jsonContact = JSONObject(quizJSON)

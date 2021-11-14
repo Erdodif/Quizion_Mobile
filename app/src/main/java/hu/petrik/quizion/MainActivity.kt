@@ -13,6 +13,7 @@ import kotlinx.coroutines.runBlocking
 import hu.petrik.quizion.elemek.ViewBuilder
 import androidx.appcompat.app.AppCompatActivity
 import hu.petrik.quizion.databinding.ActivityMainBinding
+import hu.petrik.quizion.elemek.ViewBuilder.Companion.kerdesBetolt
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
@@ -22,25 +23,45 @@ class MainActivity : AppCompatActivity() {
         bind = ActivityMainBinding.inflate(layoutInflater)
         val view = bind.root
         setContentView(view)
-        loadQuiz(this,bind)
         val id = intent.getIntExtra("id", -1)
+        loadQuiz(this,bind,id)
         //Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
         Log.d("id", id.toString())
     }
 
-    fun loadQuiz(context: Activity,binding: ActivityMainBinding) = runBlocking {
+    fun loadQuiz(context: Activity,binding: ActivityMainBinding,id : Int,start :Int = 0) = runBlocking {
         val anwerTolt = launch {
-            val valaszok = Answer.getAll()
-            val kerdes = Question.getAll()!![0]
+            var params :HashMap<String,Any> = HashMap()
+            if(id!=-1){
+                params["quiz_id"] = id
+            }
+            val kerdes = Question.getAll(params)!![start]
+            params = HashMap()
+            if(id!=-1){
+                params["question_id"] = kerdes.getId().toString()
+            }
+            val valaszok = Answer.getAll(params)
+            var kerdesreValaszok :List<Answer> = ArrayList()
+            Log.d("valaszok",valaszok.toString())
+            if(valaszok !=null){
+                for(i in valaszok.indices){
+                    if(valaszok[i].getQuestionId() == kerdes.getId()){
+                        kerdesreValaszok = kerdesreValaszok.plus(valaszok[i])
+                    }
+                }
+            }
             try {
-                if (valaszok!!.isNotEmpty()) {
-                    ViewBuilder.kerdesBetolt(context,bind.textViewKerdes!!,kerdes.getcontent())
-                    ViewBuilder.valaszBetoltMind(context,bind.layoutValaszok, valaszok)
+                if (kerdesreValaszok.isNotEmpty()) {
+                    kerdesBetolt(bind.textViewKerdes!!, kerdes.getcontent())
+                    ViewBuilder.valaszBetoltMind(context, bind.layoutValaszok, kerdesreValaszok)
                 } else {
-                    ViewBuilder.kerdesBetolt(context,bind.textViewKerdes!!,"Nem Sikerült csatlakozni")
+                    kerdesBetolt(
+                        bind.textViewKerdes!!,
+                        "Nem Sikerült csatlakozni"
+                    )
                 }
             } catch (e: Exception) {
-                ViewBuilder.kerdesBetolt(context,bind.textViewKerdes!!,e.message)
+                kerdesBetolt(bind.textViewKerdes!!, e.message)
             }
         }
         //quizTolt.join()
