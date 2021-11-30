@@ -1,65 +1,62 @@
 package hu.petrik.quizion.adatbazis
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import android.os.Bundle
+import android.util.JsonReader
 import java.net.HttpURLConnection
 import java.io.DataOutputStream
 import java.lang.Exception
 import org.json.JSONObject
 import android.util.Log
+import hu.petrik.quizion.MainActivity
+import kotlinx.coroutines.*
 import java.net.URL
 
 class SQLConnector {
     companion object {
-        suspend fun apiHivas(method: Method, params: JSONObject): String? {
+        suspend fun apiHivas(
+            method: Method,
+            urlExtension: String,
+            params: JSONObject? = null
+        ): String? {
             Log.d("HTTP hívás", "fut a mellékszálon")
-            val baseUrl = "http://10.147.20.1/adatok/index.php"
+            val baseUrl = "http://10.147.20.1/api/"
             val isGet = method.params == "GET"
-            var queryParams = ""
-            if (isGet) {
-                queryParams = "?" + params.toString()
-                    .replace("\"", "")
-                    .replace(":",  "=")
-                    .replace("{", "")
-                    .replace("}", "")
-                    .replace(",", "&")
-            }
-            Log.d("querryparams",queryParams)
-            val connection = URL(baseUrl + queryParams).openConnection() as HttpURLConnection
-            connection.doOutput = !isGet
-            connection.setRequestProperty("Accept", "application/json")
-            if (method.type === "GET") {
+            var data: String?
+            return withContext(Dispatchers.IO) {
+                val connection =
+                    URL(baseUrl + urlExtension).openConnection() as HttpURLConnection
+                connection.doOutput = !isGet
+                connection.setRequestProperty("Accept", "application/json")
                 connection.requestMethod = method.type
-            }
-            if (!isGet) {
-                connection.setRequestProperty("Content-Type", "application/json; utf-8")
-                val out = DataOutputStream(connection.outputStream)
-                with(out) {
-                    writeBytes(params.toString())
-                    flush()
-                    close()
-                }
-            }
-            var kiad: String?
-            try {
-                kiad = withContext(Dispatchers.IO) {
-                    val responseCode: Int = connection.responseCode
-                    if (responseCode != HttpURLConnection.HTTP_OK) {
-                        throw Exception("Kapcsolati hibakód/$responseCode")
+                if (!isGet && params !== null) {
+                    connection.setRequestProperty("Content-Type", "application/json; utf-8")
+                    val out = DataOutputStream(connection.outputStream)
+                    with(out) {
+                        writeBytes(params.toString())
+                        flush()
+                        close()
                     }
-                    val data = connection.inputStream.bufferedReader().readText()
-                    Log.d("Kérés állapota:", "Adat visszatért!")
-                    Log.d("Adat:", data)
-                    return@withContext data
                 }
+                try {
+                    val responseCode: Int = connection.responseCode
+                    data = connection.inputStream.bufferedReader().readText()
+                    if (responseCode != HttpURLConnection.HTTP_OK &&
+                        responseCode != HttpURLConnection.HTTP_CREATED &&
+                        responseCode != HttpURLConnection.HTTP_NO_CONTENT
+                    ) {
+                        throw Exception("$responseCode:$data")
+                    }
+                    Log.d("Kérés állapota:", "Adat visszatért!")
+                    Log.d("Adat:", data.toString())
 
-            } catch (e: Exception) {
-                Log.d("Kérés állapota", "Hiba/" + e.message)
-                kiad = null
-            } finally {
-                connection.disconnect()
+                } catch (e: Exception) {
+                    Log.d("Kérés állapota", "Hiba/" + e.message)
+                    data = null
+                } finally {
+                    connection.disconnect()
+                }
+                return@withContext data
             }
-            return kiad
         }
     }
 }

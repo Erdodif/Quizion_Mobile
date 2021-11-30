@@ -4,69 +4,57 @@ import android.os.Bundle
 import android.util.Log
 import hu.petrik.quizion.adatbazis.Method
 import hu.petrik.quizion.adatbazis.SQLConnector
+import kotlinx.coroutines.CoroutineScope
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.coroutines.*
 
-class Quiz(
-    private var id: Int,
-    private var header: String,
-    private var description: String,
-    private var active: Int
-) {
-    fun getId(): Int {
-        return this.id
+class Quiz {
+    var id: Int?
+        private set
+    var header: String
+        private set
+    var description: String
+        private set
+
+    constructor(id: Int?, header: String, description: String, active: Boolean = false) {
+        this.id = id
+        this.header = header
+        this.description = description
     }
 
-    fun getHeader(): String {
-        return this.header
-    }
-
-    fun getDescription(): String {
-        return this.description
-    }
-
-    fun isActive(): Boolean {
-        return this.active == 1
+    constructor(jsonObject: JSONObject) {
+        this.id = jsonObject.get("id") as Int?
+        this.header = jsonObject.get("header") as String
+        this.description = jsonObject.get("description") as String
     }
 
     companion object {
-        suspend fun getAll(params: HashMap<String,Any>? = null): List<Quiz>? {
-            var quizList: LinkedList<Quiz>? = null
-            val paramJSON = JSONObject()
-            paramJSON.put("table", "quiz")
-            if(params!==null){
-                for(entry in params.entries){
-                    paramJSON.put(entry.key,entry.value)
-                }
+        suspend fun getAll(): ArrayList<Quiz> {
+            val response = JSONArray(SQLConnector.apiHivas(Method.READ, "quizes"))
+            val list = ArrayList<Quiz>()
+            for (i in 0 until response.length()) {
+                val item = response.getJSONObject(i)
+                list.add(Quiz(item))
             }
-            val quizJSON = SQLConnector.apiHivas(Method.READ, paramJSON)
-            if (quizJSON !== null) {
-                Log.d("visszatérés",quizJSON)
-                val jsonContact = JSONObject(quizJSON)
-                val hiba = jsonContact.getBoolean("error")
-                if (hiba) {
-                    Log.d("Hibaállapot", hiba.toString())
-                    Log.d("Hibakód", jsonContact.getString("message"))
-                } else {
-                    quizList = LinkedList<Quiz>()
-                    val jsonArray: JSONArray = jsonContact.getJSONArray("data")
-                    val size = jsonArray.length()
-                    for (i in 0 until size) {
-                        val elem = jsonArray.getJSONObject(i)
-                        val quiz = Quiz(
-                            elem.getInt("id"),
-                            elem.getString("header"),
-                            elem.getString("description"),
-                            elem.getInt("active")
-                        )
-                        quizList.add(quiz)
-                    }
-                }
+            return list
+        }
+
+        suspend fun getAllActive(): ArrayList<Quiz> {
+            val response = JSONArray(SQLConnector.apiHivas(Method.READ, "quizes/active"))
+            val list = ArrayList<Quiz>()
+            for (i in 0 until response.length()) {
+                val item = response.getJSONObject(i)
+                list.add(Quiz(item))
             }
-            return quizList
+            return list
+        }
+
+        suspend fun getById(id: Int): Quiz {
+            return Quiz(JSONObject(SQLConnector.apiHivas(Method.READ, "quiz/$id")!!))
         }
     }
 }

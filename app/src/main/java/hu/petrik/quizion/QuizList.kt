@@ -27,9 +27,9 @@ class QuizList : AppCompatActivity() {
             Log.d("Coroutine állapota", "fut")
             val params :HashMap<String,Any> = HashMap()
             params["active"] = 1
-            val kvizek = Quiz.getAll(params)
+            val kvizek = Quiz.getAll()
             try {
-                if (kvizek!!.isNotEmpty()) {
+                if (kvizek.isNotEmpty()) {
                     ViewBuilder.kvizBetoltMind(context, hova, kvizek)
                 } else {
                     ViewBuilder.labelHibaBetolt(

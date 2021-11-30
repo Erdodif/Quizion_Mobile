@@ -45,10 +45,10 @@ class ViewBuilder {
             val valaszGomb = MaterialButton(context)
             val lp = LinearLayout.LayoutParams(valaszok_helye.layoutParams)
             lp.setMargins(toPX(context,9), toPX(context,2),toPX(context,9), toPX(context,2))
-            Log.d("ki", valasz.getcontent()!!)
+            Log.d("ki", valasz.content)
             valaszGomb.apply {
                 isAllCaps = false
-                text = valasz.getcontent()!!
+                text = valasz.content
                 layoutParams = lp
                 setPadding(toPX(context, 15))
                 textSize = 20F
@@ -84,7 +84,7 @@ class ViewBuilder {
                 lp.setMargins(10)
                 header.apply {
                     layoutParams = lp
-                    text = elem.getHeader()
+                    text = elem.header
                     isAllCaps = false
                     textSize = 20F
                     setTextColor(context.getColor(R.color.primary_variant))
@@ -95,7 +95,7 @@ class ViewBuilder {
                 lp.height = LinearLayout.LayoutParams.WRAP_CONTENT
                 description.apply {
                     layoutParams = lp
-                    text = elem.getDescription()
+                    text = elem.description
                     isAllCaps = false
                     textSize = 20F
                     setTextColor(context.getColor(R.color.primary_variant))
@@ -117,7 +117,7 @@ class ViewBuilder {
                 layout.addView(indito)
                 indito.setOnClickListener {
                     val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("id", elem.getId())
+                    intent.putExtra("id", elem.id)
                     context.startActivity(intent)
                     //context.finish()
                 }
@@ -125,10 +125,10 @@ class ViewBuilder {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT)
                 kvizek_helye.addView(layout)
-                Log.d("Fejléc", elem.getHeader())
-                Log.d("Leírás", elem.getDescription())
+                Log.d("Fejléc", elem.header)
+                Log.d("Leírás", elem.description)
                 Log.d("Leírás beiktatva",description.text.toString())
-                Log.d("Indító", elem.getId().toString())
+                Log.d("Indító", elem.id.toString())
             }
             kvizek_helye.measure(
                 LinearLayout.LayoutParams.MATCH_PARENT,

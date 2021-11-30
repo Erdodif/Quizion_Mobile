@@ -31,28 +31,18 @@ class MainActivity : AppCompatActivity() {
 
     fun loadQuiz(context: Activity,binding: ActivityMainBinding,id : Int,start :Int = 0) = runBlocking {
         val anwerTolt = launch {
-            var params :HashMap<String,Any> = HashMap()
-            if(id!=-1){
-                params["quiz_id"] = id
-            }
-            val kerdes = Question.getAll(params)!![start]
-            params = HashMap()
-            if(id!=-1){
-                params["question_id"] = kerdes.getId().toString()
-            }
-            val valaszok = Answer.getAll(params)
+            val kerdes = Question.getAll()[start]
+            val valaszok = Answer.getAll()
             var kerdesreValaszok :List<Answer> = ArrayList()
             Log.d("valaszok",valaszok.toString())
-            if(valaszok !=null){
-                for(i in valaszok.indices){
-                    if(valaszok[i].getQuestionId() == kerdes.getId()){
-                        kerdesreValaszok = kerdesreValaszok.plus(valaszok[i])
-                    }
+            for(i in valaszok.indices){
+                if(valaszok[i].questionId == kerdes.id){
+                    kerdesreValaszok = kerdesreValaszok.plus(valaszok[i])
                 }
             }
             try {
                 if (kerdesreValaszok.isNotEmpty()) {
-                    kerdesBetolt(bind.textViewKerdes!!, kerdes.getcontent())
+                    kerdesBetolt(bind.textViewKerdes!!, kerdes.content)
                     ViewBuilder.valaszBetoltMind(context, bind.layoutValaszok, kerdesreValaszok)
                 } else {
                     kerdesBetolt(

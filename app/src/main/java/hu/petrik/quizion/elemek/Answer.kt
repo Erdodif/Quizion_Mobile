@@ -6,65 +6,46 @@ import hu.petrik.quizion.adatbazis.SQLConnector
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.HashMap
 
-class Answer(
-    private var id: Int?,
-    private var questionId: Int?,
-    private var content: String?,
-    private var right: Int?
-) {
-    fun getId(): Int? {
-        return this.id
+class Answer {
+    var id: Int?
+        private set
+    var questionId: Int
+        private set
+    var content: String
+        private set
+
+    constructor(
+        id: Int?,
+        quiz_id: Int,
+        content: String,
+        right: Boolean
+    ) {
+        this.id = id
+        this.questionId = quiz_id
+        this.content = content
     }
 
-    fun getQuestionId(): Int? {
-        return this.questionId
+    constructor(jsonObject: JSONObject) {
+        this.id = jsonObject.get("id") as Int?
+        this.questionId = jsonObject.getInt("question_id")
+        this.content = jsonObject.getString("content")
     }
 
-    fun getcontent(): String? {
-        return this.content
-    }
-
-    fun isRight(): Boolean? {
-        return this.right == 1
-    }
-
-    companion object{
-        suspend fun getAll(params: HashMap<String,Any>? = null): List<Answer>?{
-            var answerList : LinkedList<Answer>?= null
-            val paramJSON = JSONObject()
-            paramJSON.put("table","answer")
-            if(params!==null){
-                for(entry in params.entries){
-                    Log.d("Param ${entry.key}",entry.value.toString())
-                    paramJSON.put(entry.key,entry.value)
-                }
+    companion object {
+        suspend fun getAll(): ArrayList<Answer> {
+            val response = JSONArray(SQLConnector.apiHivas(Method.READ, "answers"))
+            val list = ArrayList<Answer>()
+            for (i in 0 until response.length()) {
+                val item = response.getJSONObject(i)
+                list.add(Answer(item))
             }
-            val quizJSON = SQLConnector.apiHivas(Method.READ, paramJSON)
-            if (quizJSON!==null){
-                val jsonContact = JSONObject(quizJSON)
-                val hiba = jsonContact.getBoolean("error")
-                if(hiba){
-                    Log.d("Hibaállapot",hiba.toString())
-                    Log.d("Hibakód",jsonContact.getString("message"))
-                }
-                else{
-                    answerList = LinkedList<Answer>()
-                    val jsonArray: JSONArray = jsonContact.getJSONArray("data")
-                    val size = jsonArray.length()
-                    for (i in 0 until size){
-                        val elem = jsonArray.getJSONObject(i)
-                        val answer = Answer(
-                            elem.getInt("id"),
-                            elem.getInt("question_id"),
-                            elem.getString("content"),
-                            elem.getInt("is_right")
-                        )
-                        answerList.add(answer)
-                    }
-                }
-            }
-            return answerList
+            return list
+        }
+
+        suspend fun getById(id: Int): Quiz {
+            return Quiz(JSONObject(SQLConnector.apiHivas(Method.READ, "answer/$id")!!))
         }
     }
 }
