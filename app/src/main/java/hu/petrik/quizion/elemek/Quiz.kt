@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import hu.petrik.quizion.adatbazis.Method
 import hu.petrik.quizion.adatbazis.SQLConnector
+import hu.petrik.quizion.adatbazis.SQLConnector.Companion.apiHivas
 import kotlinx.coroutines.CoroutineScope
 import org.json.JSONArray
 import org.json.JSONObject
@@ -34,7 +35,7 @@ class Quiz {
 
     companion object {
         suspend fun getAll(): ArrayList<Quiz> {
-            val response = JSONArray(SQLConnector.apiHivas(Method.READ, "quizes"))
+            val response = JSONArray(apiHivas(Method.READ, "quizes"))
             val list = ArrayList<Quiz>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -44,7 +45,7 @@ class Quiz {
         }
 
         suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = JSONArray(SQLConnector.apiHivas(Method.READ, "quizes/active"))
+            val response = JSONArray(apiHivas(Method.READ, "quizes/active"))
             val list = ArrayList<Quiz>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -54,7 +55,7 @@ class Quiz {
         }
 
         suspend fun getById(id: Int): Quiz {
-            return Quiz(JSONObject(SQLConnector.apiHivas(Method.READ, "quiz/$id")!!))
+            return Quiz(JSONObject(apiHivas(Method.READ, "quiz/$id")!!))
         }
     }
 }

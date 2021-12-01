@@ -31,22 +31,16 @@ class MainActivity : AppCompatActivity() {
 
     fun loadQuiz(context: Activity,binding: ActivityMainBinding,id : Int,start :Int = 0) = runBlocking {
         val anwerTolt = launch {
-            val kerdes = Question.getAll()[start]
-            val valaszok = Answer.getAll()
-            var kerdesreValaszok :List<Answer> = ArrayList()
+            val kerdes = Question.getByQuiz(id,1)
+            val valaszok = Answer.getAllByQuestion(id,1)
             Log.d("valaszok",valaszok.toString())
-            for(i in valaszok.indices){
-                if(valaszok[i].questionId == kerdes.id){
-                    kerdesreValaszok = kerdesreValaszok.plus(valaszok[i])
-                }
-            }
             try {
-                if (kerdesreValaszok.isNotEmpty()) {
-                    kerdesBetolt(bind.textViewKerdes!!, kerdes.content)
-                    ViewBuilder.valaszBetoltMind(context, bind.layoutValaszok, kerdesreValaszok)
+                if (valaszok.isNotEmpty()) {
+                    kerdesBetolt(binding.textViewKerdes!!, kerdes.content)
+                    ViewBuilder.valaszBetoltMind(context, binding.layoutValaszok, valaszok)
                 } else {
                     kerdesBetolt(
-                        bind.textViewKerdes!!,
+                        binding.textViewKerdes!!,
                         "Nem Sikerült csatlakozni"
                     )
                 }
@@ -54,8 +48,6 @@ class MainActivity : AppCompatActivity() {
                 kerdesBetolt(bind.textViewKerdes!!, e.message)
             }
         }
-        //quizTolt.join()
-        //questionTolt.join()
         anwerTolt.join()
         Toast.makeText(context, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
     }
