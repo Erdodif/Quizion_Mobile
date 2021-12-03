@@ -24,32 +24,33 @@ class MainActivity : AppCompatActivity() {
         val view = bind.root
         setContentView(view)
         val id = intent.getIntExtra("id", -1)
-        loadQuiz(this,bind,id)
+        loadQuiz(this, bind, id)
         //Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
         Log.d("id", id.toString())
     }
 
-    fun loadQuiz(context: Activity,binding: ActivityMainBinding,id : Int,start :Int = 0) = runBlocking {
-        val anwerTolt = launch {
-            val kerdes = Question.getByQuiz(id,1)
-            val valaszok = Answer.getAllByQuestion(id,1)
-            Log.d("valaszok",valaszok.toString())
-            try {
-                if (valaszok.isNotEmpty()) {
-                    kerdesBetolt(binding.textViewKerdes!!, kerdes.content)
-                    ViewBuilder.valaszBetoltMind(context, binding.layoutValaszok, valaszok)
-                } else {
-                    kerdesBetolt(
-                        binding.textViewKerdes!!,
-                        "Nem Sikerült csatlakozni"
-                    )
+    fun loadQuiz(context: Activity, binding: ActivityMainBinding, id: Int, start: Int = 0) =
+        runBlocking {
+            val anwerTolt = launch {
+                val kerdes = Question.getByQuiz(id, 1)
+                val valaszok = Answer.getAllByQuestion(id, 1)
+                Log.d("valaszok", valaszok.toString())
+                try {
+                    if (valaszok.isNotEmpty()) {
+                        kerdesBetolt(binding.textViewKerdes!!, kerdes.content)
+                        ViewBuilder.valaszBetoltMind(context, binding.layoutValaszok, valaszok)
+                    } else {
+                        kerdesBetolt(
+                            binding.textViewKerdes!!,
+                            "Nem Sikerült csatlakozni"
+                        )
+                    }
+                } catch (e: Exception) {
+                    kerdesBetolt(bind.textViewKerdes!!, e.message)
                 }
-            } catch (e: Exception) {
-                kerdesBetolt(bind.textViewKerdes!!, e.message)
             }
+            anwerTolt.join()
+            Toast.makeText(context, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
         }
-        anwerTolt.join()
-        Toast.makeText(context, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
-    }
 
 }

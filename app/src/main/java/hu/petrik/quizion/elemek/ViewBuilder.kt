@@ -19,32 +19,35 @@ import android.util.Log
 import androidx.appcompat.content.res.AppCompatResources
 
 class ViewBuilder {
-    companion object{
-        fun toPX(context :Activity,dp: Int): Int {
+    companion object {
+        fun toPX(context: Activity, dp: Int): Int {
             return (context.resources.displayMetrics.density * dp).toInt()
         }
 
         @Deprecated(
             replaceWith = ReplaceWith(
-                expression = "kerdesBetolt(kerdes_helye,kerdes)"),
+                expression = "kerdesBetolt(kerdes_helye,kerdes)"
+            ),
             level = DeprecationLevel.ERROR,
-            message = "use kerdesbetolt(kerdes_helye,kerdes) instead!")
-        fun kerdesBetolt(context:Activity,kerdes_helye :TextView,kerdes: String?){
+            message = "use kerdesbetolt(kerdes_helye,kerdes) instead!"
+        )
+        fun kerdesBetolt(context: Activity, kerdes_helye: TextView, kerdes: String?) {
             context.runOnUiThread {
                 kerdes_helye.text = kerdes
             }
         }
-        fun kerdesBetolt(kerdes_helye: TextView,kerdes: String?){
-            (kerdes_helye.context as Activity).runOnUiThread{
+
+        fun kerdesBetolt(kerdes_helye: TextView, kerdes: String?) {
+            (kerdes_helye.context as Activity).runOnUiThread {
                 kerdes_helye.text = kerdes
             }
         }
 
-        fun valaszGombKreal(valaszok_helye: LinearLayout,valasz: Answer){
+        fun valaszGombKreal(valaszok_helye: LinearLayout, valasz: Answer) {
             val context = valaszok_helye.context as Activity
             val valaszGomb = MaterialButton(context)
             val lp = LinearLayout.LayoutParams(valaszok_helye.layoutParams)
-            lp.setMargins(toPX(context,9), toPX(context,2),toPX(context,9), toPX(context,2))
+            lp.setMargins(toPX(context, 9), toPX(context, 2), toPX(context, 9), toPX(context, 2))
             Log.d("ki", valasz.content)
             valaszGomb.apply {
                 isAllCaps = false
@@ -54,30 +57,34 @@ class ViewBuilder {
                 textSize = 20F
                 setTextColor(context.getColor(R.color.primary))
                 backgroundTintList = context.getColorStateList(R.color.on_primary)
-                cornerRadius = toPX(context,10)
+                cornerRadius = toPX(context, 10)
             }
             valaszok_helye.addView(valaszGomb)
         }
 
-        fun valaszBetoltMind(context:Activity,valaszok_helye : LinearLayout, valasz: List<Answer>? = null) {
+        fun valaszBetoltMind(
+            context: Activity,
+            valaszok_helye: LinearLayout,
+            valasz: List<Answer>? = null
+        ) {
             context.runOnUiThread(Runnable {
                 if (valasz !== null) {
                     for (i in valasz.indices) {
-                        valaszGombKreal(valaszok_helye,valasz[i])
+                        valaszGombKreal(valaszok_helye, valasz[i])
                     }
                 }
             })
         }
 
-        fun kvizBetoltMind(context: Activity,kvizek_helye : LinearLayout, tartalom: List<Quiz>) {
+        fun kvizBetoltMind(context: Activity, kvizek_helye: LinearLayout, tartalom: List<Quiz>) {
             for (elem in tartalom) {
                 val lp = LinearLayout.LayoutParams(kvizek_helye.layoutParams)
                 lp.setMargins(20, 10, 20, 10)
                 val layout = LinearLayout(context)
                 layout.apply {
-                    setPadding(toPX(context,15))
+                    setPadding(toPX(context, 15))
                     layoutParams = lp
-                    background = AppCompatResources.getDrawable(context,R.color.on_primary)
+                    background = AppCompatResources.getDrawable(context, R.color.on_primary)
                     orientation = LinearLayout.VERTICAL
                 }
                 val header = TextView(context)
@@ -106,7 +113,7 @@ class ViewBuilder {
                     isAllCaps = false
                     text = "Játék"
                     layoutParams = lp
-                    setPadding(toPX(context,15))
+                    setPadding(toPX(context, 15))
                     textSize = 20F
                     setTextColor(context.getColor(R.color.on_primary))
                     backgroundTintList = context.getColorStateList(R.color.secondary_variant)
@@ -123,28 +130,30 @@ class ViewBuilder {
                 }
                 layout.measure(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT)
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
                 kvizek_helye.addView(layout)
                 Log.d("Fejléc", elem.header)
                 Log.d("Leírás", elem.description)
-                Log.d("Leírás beiktatva",description.text.toString())
+                Log.d("Leírás beiktatva", description.text.toString())
                 Log.d("Indító", elem.id.toString())
             }
             kvizek_helye.measure(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT)
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
         }
 
-        fun labelHibaBetolt(context: Activity,kvizek_helye : LinearLayout, hiba:String) {
+        fun labelHibaBetolt(context: Activity, kvizek_helye: LinearLayout, hiba: String) {
             context.runOnUiThread {
                 kvizek_helye.removeAllViews()
                 val layout = LinearLayout(context)
                 val lp = LinearLayout.LayoutParams(kvizek_helye.layoutParams)
                 lp.setMargins(20, 10, 20, 10)
                 layout.apply {
-                    setPadding(toPX(context,15))
+                    setPadding(toPX(context, 15))
                     layoutParams = lp
-                    background = AppCompatResources.getDrawable(context,R.color.on_primary)
+                    background = AppCompatResources.getDrawable(context, R.color.on_primary)
                     orientation = LinearLayout.VERTICAL
                 }
                 val header = TextView(context)

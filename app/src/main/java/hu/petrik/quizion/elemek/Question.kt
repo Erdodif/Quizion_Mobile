@@ -71,7 +71,7 @@ class Question {
         }
 
         suspend fun getByQuiz(quiz: Quiz, order: Int): Question {
-            return getByQuiz(quiz.id!!,order)
+            return getByQuiz(quiz.id!!, order)
         }
     }
 }

@@ -17,15 +17,15 @@ class QuizList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val bind = ActivityQuizListBinding.inflate(layoutInflater)
         //ideiglenes
-        kiirat(this,bind.layoutQuizList)
+        kiirat(this, bind.layoutQuizList)
         bind.layoutQuizList.removeView(bind.tempLayout)
         setContentView(bind.root)
     }
 
-    fun kiirat(context: Activity,hova :LinearLayout) = runBlocking {
+    fun kiirat(context: Activity, hova: LinearLayout) = runBlocking {
         val quizTolt = launch {
             Log.d("Coroutine állapota", "fut")
-            val params :HashMap<String,Any> = HashMap()
+            val params: HashMap<String, Any> = HashMap()
             params["active"] = 1
             val kvizek = Quiz.getAllActive()
             try {
