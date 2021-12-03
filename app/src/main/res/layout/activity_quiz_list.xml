@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".QuizList"
     android:orientation="vertical"
-    android:background="@color/secondary"
-    android:foreground="@drawable/fejlec_allo_kepernyore">
+    android:background="@color/secondary">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,13 +15,13 @@
         android:weightSum="100"
         android:orientation="vertical">
         <View
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="38"/>
+            android:layout_weight="10"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="62">
+            android:layout_weight="80">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,5 +64,9 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

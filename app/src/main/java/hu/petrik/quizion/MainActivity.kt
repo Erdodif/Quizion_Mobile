@@ -24,33 +24,48 @@ class MainActivity : AppCompatActivity() {
         val view = bind.root
         setContentView(view)
         val id = intent.getIntExtra("id", -1)
-        loadQuiz(this, bind, id)
-        //Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
-        Log.d("id", id.toString())
+        try {
+            Log.d("id", id.toString())
+            loadQuiz(bind, id)
+        } catch (e: Exception) {
+            kerdesBetolt(bind.textViewKerdes!!, e.toString())
+        }
     }
 
-    fun loadQuiz(context: Activity, binding: ActivityMainBinding, id: Int, start: Int = 0) =
-        runBlocking {
-            val anwerTolt = launch {
-                val kerdes = Question.getByQuiz(id, 1)
-                val valaszok = Answer.getAllByQuestion(id, 1)
-                Log.d("valaszok", valaszok.toString())
-                try {
-                    if (valaszok.isNotEmpty()) {
-                        kerdesBetolt(binding.textViewKerdes!!, kerdes.content)
-                        ViewBuilder.valaszBetoltMind(context, binding.layoutValaszok, valaszok)
-                    } else {
-                        kerdesBetolt(
-                            binding.textViewKerdes!!,
-                            "Nem Sikerült csatlakozni"
-                        )
-                    }
-                } catch (e: Exception) {
-                    kerdesBetolt(bind.textViewKerdes!!, e.message)
-                }
-            }
-            anwerTolt.join()
-            Toast.makeText(context, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
-        }
+    @Deprecated(
+        replaceWith = ReplaceWith(
+            expression = "loadquiz(binding, id, index)"
+        ),
+        level = DeprecationLevel.ERROR,
+        message = "use loadquiz(binding, id, index) instead!"
+    )
+    fun loadQuiz(context: Activity, binding: ActivityMainBinding, id: Int, index: Int = 1) =
+        runBlocking {}
 
+    fun loadQuiz(binding: ActivityMainBinding, id: Int, index: Int = 1) = runBlocking {
+        val anwerTolt = launch {
+            val kerdes = Question.getByQuiz(id, index)
+            val valaszok = Answer.getAllByQuestion(id, index)
+            Log.d("valaszok", valaszok.toString())
+            try {
+                if (valaszok.isNotEmpty()) {
+                    kerdesBetolt(binding.textViewKerdes!!, kerdes.content)
+                    ViewBuilder.valaszBetoltMind(
+                        binding.root.context as Activity,
+                        binding.layoutValaszok,
+                        valaszok
+                    )
+                } else {
+                    kerdesBetolt(
+                        binding.textViewKerdes!!,
+                        "Nem Sikerült csatlakozni"
+                    )
+                }
+            } catch (e: Exception) {
+                kerdesBetolt(bind.textViewKerdes!!, e.message)
+            }
+        }
+        anwerTolt.join()
+        Toast.makeText(binding.root.context, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
+    }
 }
