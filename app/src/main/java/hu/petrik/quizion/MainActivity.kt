@@ -32,16 +32,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Deprecated(
-        replaceWith = ReplaceWith(
-            expression = "loadquiz(binding, id, index)"
-        ),
-        level = DeprecationLevel.ERROR,
-        message = "use loadquiz(binding, id, index) instead!"
-    )
-    fun loadQuiz(context: Activity, binding: ActivityMainBinding, id: Int, index: Int = 1) =
-        runBlocking {}
-
     fun loadQuiz(binding: ActivityMainBinding, id: Int, index: Int = 1) = runBlocking {
         val anwerTolt = launch {
             val kerdes = Question.getByQuiz(id, index)

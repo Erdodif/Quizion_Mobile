@@ -24,19 +24,6 @@ class ViewBuilder {
             return (context.resources.displayMetrics.density * dp).toInt()
         }
 
-        @Deprecated(
-            replaceWith = ReplaceWith(
-                expression = "kerdesBetolt(kerdes_helye,kerdes)"
-            ),
-            level = DeprecationLevel.ERROR,
-            message = "use kerdesbetolt(kerdes_helye,kerdes) instead!"
-        )
-        fun kerdesBetolt(context: Activity, kerdes_helye: TextView, kerdes: String?) {
-            context.runOnUiThread {
-                kerdes_helye.text = kerdes
-            }
-        }
-
         fun kerdesBetolt(kerdes_helye: TextView, kerdes: String?) {
             (kerdes_helye.context as Activity).runOnUiThread {
                 kerdes_helye.text = kerdes
