@@ -73,6 +73,5 @@ class Game(quiz:Quiz,questions: ArrayList<Question>) {
             }
         }
         anwerTolt.join()
-        Toast.makeText(binding.root.context, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
     }
 }

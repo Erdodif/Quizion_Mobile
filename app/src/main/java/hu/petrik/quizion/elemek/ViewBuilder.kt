@@ -59,6 +59,7 @@ class ViewBuilder {
         ) {
             context.runOnUiThread(Runnable {
                 if (valasz !== null) {
+                    valaszok_helye.removeAllViewsInLayout()
                     for (i in valasz.indices) {
                         valaszGombKreal(valaszok_helye, valasz[i])
                     }
