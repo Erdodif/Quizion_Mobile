@@ -12,11 +12,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import hu.petrik.quizion.elemek.ViewBuilder
 import androidx.appcompat.app.AppCompatActivity
+import hu.petrik.quizion.adatbazis.Method
+import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.databinding.ActivityMainBinding
 import hu.petrik.quizion.elemek.ViewBuilder.Companion.kerdesBetolt
+import kotlinx.coroutines.coroutineScope
+import org.json.JSONObject
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
+    private lateinit var game: Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,38 +30,39 @@ class MainActivity : AppCompatActivity() {
         val view = bind.root
         setContentView(view)
         val id = intent.getIntExtra("id", -1)
-        try {
+        /*try {*/
             Log.d("id", id.toString())
-            loadQuiz(bind, id)
-        } catch (e: Exception) {
+            game = Game.newGame(id)
+            game.play(bind)
+        /*} catch (e: Exception) {
             kerdesBetolt(bind.textViewKerdes!!, e.toString())
+        }*/
+    }
+
+    fun jumpOnNext(rightId: Int) {
+        var joe = false
+        suspend {
+            joe = JSONObject(
+                SQLConnector.apiHivas(
+                    Method.READ, "pick/answer/$rightId"
+                )!!
+            ).get("is_right") as Boolean
+        }
+        if(joe){
+            Toast.makeText(this, "Jó 😁", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(this, "Nem jó 😫", Toast.LENGTH_SHORT).show()
+        }
+        if (game.hasNext()) {
+            game.toNext()
+            game.play(bind, game.actual)
+        } else {
+            endingScreen()
         }
     }
 
-    fun loadQuiz(binding: ActivityMainBinding, id: Int, index: Int = 1) = runBlocking {
-        val anwerTolt = launch {
-            val kerdes = Question.getByQuiz(id, index)
-            val valaszok = Answer.getAllByQuestion(id, index)
-            Log.d("valaszok", valaszok.toString())
-            try {
-                if (valaszok.isNotEmpty()) {
-                    kerdesBetolt(binding.textViewKerdes!!, kerdes.content)
-                    ViewBuilder.valaszBetoltMind(
-                        binding.root.context as Activity,
-                        binding.layoutValaszok,
-                        valaszok
-                    )
-                } else {
-                    kerdesBetolt(
-                        binding.textViewKerdes!!,
-                        "Nem Sikerült csatlakozni"
-                    )
-                }
-            } catch (e: Exception) {
-                kerdesBetolt(bind.textViewKerdes!!, e.message)
-            }
-        }
-        anwerTolt.join()
-        Toast.makeText(binding.root.context, "Folyamat lezárult", Toast.LENGTH_SHORT).show()
+    fun endingScreen() {
+        TODO()
     }
 }

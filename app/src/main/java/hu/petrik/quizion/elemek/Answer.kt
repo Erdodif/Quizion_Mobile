@@ -39,7 +39,7 @@ class Answer {
             return list
         }
 
-        suspend fun getAllByQuestion(id: Int, order: Int): ArrayList<Answer> {
+        suspend fun getAllByQuiz(id: Int, order: Int): ArrayList<Answer> {
             val response =
                 JSONArray(apiHivas(Method.READ, "quiz/$id/question/$order/answers"))
             val list = ArrayList<Answer>()
@@ -50,12 +50,34 @@ class Answer {
             return list
         }
 
-        suspend fun getByQuestion(id: Int, questionOrder: Int, answerOrder: Int): Answer {
+        suspend fun getByQuiz(id: Int, questionOrder: Int, answerOrder: Int): Answer {
             return Answer(
                 JSONObject(
                     apiHivas(
                         Method.READ,
                         "quiz/$id/question/$questionOrder/answer/$answerOrder"
+                    )!!
+                )
+            )
+        }
+
+        suspend fun getAllByQuestion(questionId: Int): ArrayList<Answer> {
+            val response =
+                JSONArray(apiHivas(Method.READ, "question/$questionId/answers"))
+            val list = ArrayList<Answer>()
+            for (i in 0 until response.length()) {
+                val item = response.getJSONObject(i)
+                list.add(Answer(item))
+            }
+            return list
+        }
+
+        suspend fun getByQuestion(questionId: Int, answerOrder: Int): Answer {
+            return Answer(
+                JSONObject(
+                    apiHivas(
+                        Method.READ,
+                        "/question/$questionId/answer/$answerOrder"
                     )!!
                 )
             )

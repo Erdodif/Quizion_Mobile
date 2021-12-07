@@ -45,6 +45,9 @@ class ViewBuilder {
                 setTextColor(context.getColor(R.color.primary))
                 backgroundTintList = context.getColorStateList(R.color.on_primary)
                 cornerRadius = toPX(context, 10)
+                setOnClickListener{
+                    (context as MainActivity).jumpOnNext(valasz.id!!)
+                }
             }
             valaszok_helye.addView(valaszGomb)
         }

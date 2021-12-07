@@ -18,7 +18,6 @@ class Question {
 
     constructor(
         id: Int?,
-        quiz_id: Int,
         noRightAnswers: Int,
         content: String,
         point: Int
