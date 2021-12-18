@@ -17,7 +17,8 @@ class SQLConnector {
             method: Method,
             urlExtension: String,
             params: JSONObject? = null
-        ): String? {
+        ): ArrayList<String> {
+            //TODO FULL REMIX NEEDED!!!
             Log.d("HTTP hívás", "fut a mellékszálon")
             val baseUrl = "http://10.147.20.1/api/"
             val isGet = method.params == "GET"
@@ -37,25 +38,27 @@ class SQLConnector {
                         close()
                     }
                 }
+                var code:Int
                 try {
-                    val responseCode: Int = connection.responseCode
+                    code = connection.responseCode
                     data = connection.inputStream.bufferedReader().readText()
-                    if (responseCode != HttpURLConnection.HTTP_OK &&
-                        responseCode != HttpURLConnection.HTTP_CREATED &&
-                        responseCode != HttpURLConnection.HTTP_NO_CONTENT
-                    ) {
-                        throw Exception("$responseCode:$data")
-                    }
+                    /*if(responseCode != HttpURLConnection.HTTP_NO_CONTENT){
+
+                    }*/
                     Log.d("Kérés állapota:", "Adat visszatért!")
                     Log.d("Adat:", data.toString())
 
                 } catch (e: Exception) {
                     Log.d("Kérés állapota", "Hiba/" + e.message)
+                    code = 500
                     data = null
                 } finally {
                     connection.disconnect()
                 }
-                return@withContext data
+                val ki = ArrayList<String>()
+                ki.add(code.toString())
+                ki.add(data.toString())
+                return@withContext ki
             }
         }
     }

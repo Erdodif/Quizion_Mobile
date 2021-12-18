@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var game: Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //TODO TELJES REMAKE A BACKEND-NEK MEGFELELŐEN
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
         val view = bind.root
@@ -43,10 +44,8 @@ class MainActivity : AppCompatActivity() {
         var joe = false
         suspend {
             joe = JSONObject(
-                SQLConnector.apiHivas(
-                    Method.READ, "pick/answer/$rightId"
-                )!!
-            ).get("is_right") as Boolean
+                SQLConnector.apiHivas(Method.READ,"pick/answer/$rightId")[1]
+            ).get("us_rigth") as Boolean
         }
         if(joe){
             Toast.makeText(this, "Jó 😁", Toast.LENGTH_SHORT).show()

@@ -45,7 +45,7 @@ class Quiz {
         }
 
         suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = JSONArray(apiHivas(Method.READ, "quizes/active"))
+            val response = JSONArray(apiHivas(Method.READ, "quizes/actives"))
             val list = ArrayList<Quiz>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -55,7 +55,7 @@ class Quiz {
         }
 
         suspend fun getById(id: Int): Quiz {
-            return Quiz(JSONObject(apiHivas(Method.READ, "quiz/$id")!!))
+            return Quiz(JSONObject(apiHivas(Method.READ, "quiz/$id")[1]))
         }
     }
 }

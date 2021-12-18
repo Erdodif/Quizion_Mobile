@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
+    tools:context=".LoginActivity"
     android:orientation="vertical"
     android:background="@color/secondary"
-    android:foreground="@drawable/fejlec_allo_kepernyore">
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,19 +15,74 @@
         android:gravity="center"
         android:weightSum="100"
         android:orientation="vertical">
-        <View
-            android:layout_width="0dp"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="30"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Tovább a kvízekhez"
-            android:textAllCaps="false"
-            android:textSize="20sp"
-            android:background="@color/on_secondary"
-            android:textColor="@color/on_primary"
-            android:id="@+id/button_Tovabb"/>
+            android:layout_weight="35"
+            android:background="@drawable/ic_fejlec_allo_kepernyore"
+            android:weightSum="60"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="35"
+                android:layout_marginHorizontal="20dp"
+                android:src="@drawable/ic_quizion_logo" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="65"
+            android:orientation="vertical"
+            android:gravity="center">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginVertical="10dp"
+                android:id="@+id/textInputUID">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Felhasználónév vagy email"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginVertical="10dp"
+                android:id="@+id/textInputPassword">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Jelszó"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Bejelentkezés"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                android:background="@color/on_secondary"
+                android:textColor="@color/on_primary"
+                android:id="@+id/buttonLogin"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:padding="10dp"
+                android:text="Regisztráció"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                android:background="@color/on_secondary"
+                android:textColor="@color/on_primary"
+                android:id="@+id/buttonRegister"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

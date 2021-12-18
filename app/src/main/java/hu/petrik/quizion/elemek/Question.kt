@@ -11,19 +11,15 @@ class Question {
         private set
     var content: String
         private set
-    var noRightAnswers: Int
-        private set
     var point: Int
         private set
 
     constructor(
         id: Int?,
-        noRightAnswers: Int,
         content: String,
         point: Int
     ) {
         this.id = id
-        this.noRightAnswers = noRightAnswers
         this.content = content
         this.point = point
     }
@@ -31,7 +27,6 @@ class Question {
     constructor(jsonObject: JSONObject) {
         this.id = jsonObject.get("id") as Int?
         this.content = jsonObject.getString("content")
-        this.noRightAnswers = jsonObject.getInt("no_right_answers")
         this.point = jsonObject.getInt("point")
     }
 
@@ -48,7 +43,7 @@ class Question {
         }
 
         suspend fun getById(id: Int): Question {
-            return Question(JSONObject(apiHivas(Method.READ, "question/$id")!!))
+            return Question(JSONObject(apiHivas(Method.READ, "question/$id")[1]))
         }
 
         suspend fun getAllByQuiz(id: Int): ArrayList<Question> {
@@ -66,7 +61,7 @@ class Question {
         }
 
         suspend fun getByQuiz(id: Int, order: Int): Question {
-            return Question(JSONObject(apiHivas(Method.READ, "quiz/$id/question/$order")!!))
+            return Question(JSONObject(apiHivas(Method.READ, "quiz/$id/question/$order")[1]))
         }
 
         suspend fun getByQuiz(quiz: Quiz, order: Int): Question {

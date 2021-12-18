@@ -56,7 +56,7 @@ class Answer {
                     apiHivas(
                         Method.READ,
                         "quiz/$id/question/$questionOrder/answer/$answerOrder"
-                    )!!
+                    )[1]
                 )
             )
         }
@@ -78,13 +78,13 @@ class Answer {
                     apiHivas(
                         Method.READ,
                         "/question/$questionId/answer/$answerOrder"
-                    )!!
+                    )[1]
                 )
             )
         }
 
         suspend fun getById(id: Int): Answer {
-            return Answer(JSONObject(apiHivas(Method.READ, "answer/$id")!!))
+            return Answer(JSONObject(apiHivas(Method.READ, "answer/$id")[1]))
         }
     }
 }

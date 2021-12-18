@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Quizion</string>
+    <string name="preference_file_key">hu.petrik.quizion.QuizionSharedPreferences</string>
 </resources>

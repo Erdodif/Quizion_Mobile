@@ -7,9 +7,11 @@ import kotlinx.coroutines.runBlocking
 import hu.petrik.quizion.elemek.Quiz
 import kotlinx.coroutines.launch
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.Toast
 
 class QuizList : AppCompatActivity() {
 
@@ -20,6 +22,10 @@ class QuizList : AppCompatActivity() {
         kiirat(this, bind.layoutQuizList)
         bind.layoutQuizList.removeView(bind.tempLayout)
         setContentView(bind.root)
+        val sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE)
+        val token = sharedPref.getString("Token","")
+        Toast.makeText(this, token, Toast.LENGTH_SHORT).show()
     }
 
     fun kiirat(context: Activity, hova: LinearLayout) = runBlocking {

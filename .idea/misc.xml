@@ -26,9 +26,23 @@
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/layout/activity_quiz_list.xml" value="0.33" />
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3828125" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1984375" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_fejlec.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_fejlec_allo_kepernyore.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_homokora_piktogram.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_kicsi_felso_fejlec.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_quizion_logo.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_quizion_logo_q_betu_korben.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_quizion_logo_q_betu_korben_eloter.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_quizion_logo_q_betu_korben_hatter.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_szazalek_piktogram.xml" value="0.33611111111111114" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_x_piktogram.xml" value="0.33611111111111114" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_login.xml" value="0.396403242147923" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_quiz_list.xml" value="0.25" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22135416666666666" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22135416666666666" />
       </map>
     </option>
   </component>
