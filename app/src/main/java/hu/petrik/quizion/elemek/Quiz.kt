@@ -35,7 +35,7 @@ class Quiz {
 
     companion object {
         suspend fun getAll(): ArrayList<Quiz> {
-            val response = JSONArray(apiHivas(Method.READ, "quizes"))
+            val response = JSONArray(apiHivas(Method.READ, "quizes")[1])
             val list = ArrayList<Quiz>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -45,7 +45,7 @@ class Quiz {
         }
 
         suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = JSONArray(apiHivas(Method.READ, "quizes/actives"))
+            val response = JSONArray(apiHivas(Method.READ, "quizes/actives")[1])
             val list = ArrayList<Quiz>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)

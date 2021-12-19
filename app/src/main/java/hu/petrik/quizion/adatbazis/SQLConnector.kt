@@ -1,65 +1,56 @@
 package hu.petrik.quizion.adatbazis
 
-import android.os.Bundle
-import android.util.JsonReader
-import java.net.HttpURLConnection
-import java.io.DataOutputStream
-import java.lang.Exception
-import org.json.JSONObject
 import android.util.Log
-import hu.petrik.quizion.MainActivity
+import org.json.JSONObject
 import kotlinx.coroutines.*
+import kotlinx.coroutines.internal.SynchronizedObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.lang.StringBuilder
+import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.atomic.AtomicInteger
+import kotlin.coroutines.CoroutineContext
 
 class SQLConnector {
-    companion object {
+    companion object : CoroutineScope {
+        override val coroutineContext: CoroutineContext = Dispatchers.IO
         suspend fun apiHivas(
             method: Method,
             urlExtension: String,
-            params: JSONObject? = null
-        ): ArrayList<String> {
-            //TODO FULL REMIX NEEDED!!!
-            Log.d("HTTP hívás", "fut a mellékszálon")
-            val baseUrl = "http://10.147.20.1/api/"
-            val isGet = method.params == "GET"
-            var data: String?
-            return withContext(Dispatchers.IO) {
-                val connection =
-                    URL(baseUrl + urlExtension).openConnection() as HttpURLConnection
-                connection.doOutput = !isGet
-                connection.setRequestProperty("Accept", "application/json")
-                connection.requestMethod = method.type
-                if (!isGet && params !== null) {
-                    connection.setRequestProperty("Content-Type", "application/json; utf-8")
-                    val out = DataOutputStream(connection.outputStream)
-                    with(out) {
-                        writeBytes(params.toString())
-                        flush()
-                        close()
+            params: JSONObject? = null,
+            token: String? = null
+        ): ArrayList<String> = withContext(Dispatchers.IO) {
+            val ki= ArrayList<String>()
+            val url = URL("http://10.147.20.1/api/$urlExtension")
+            try {
+                val connection = url.openConnection() as HttpURLConnection
+                with(connection) {
+                    if (token !== null) {
+                        setRequestProperty("Authorization", "Bearer $token")
                     }
+                    setRequestProperty("Content-Type", "application/json")
+                    requestMethod = method.type
                 }
-                var code:Int
-                try {
-                    code = connection.responseCode
-                    data = connection.inputStream.bufferedReader().readText()
-                    /*if(responseCode != HttpURLConnection.HTTP_NO_CONTENT){
-
-                    }*/
-                    Log.d("Kérés állapota:", "Adat visszatért!")
-                    Log.d("Adat:", data.toString())
-
-                } catch (e: Exception) {
-                    Log.d("Kérés állapota", "Hiba/" + e.message)
-                    code = 500
-                    data = null
-                } finally {
-                    connection.disconnect()
+                val responseReader = connection.inputStream.bufferedReader()
+                var line: String? = responseReader.readLine()
+                val stringBuilder = StringBuilder()
+                while (line != null) {
+                    stringBuilder.append(line)
+                    line = responseReader.readLine()
                 }
-                val ki = ArrayList<String>()
-                ki.add(code.toString())
-                ki.add(data.toString())
-                return@withContext ki
+                responseReader.close()
+                ki.add(connection.responseCode.toString())
+                ki.add(stringBuilder.toString())
             }
+            catch (e:IOException){
+                ki.add("404")
+                ki.add("Not found")
+            }
+            Log.d("Visszatérés / Kód", ki[0])
+            Log.d("Visszatérés / Tartalom", ki[1])
+            return@withContext ki
         }
     }
 }
