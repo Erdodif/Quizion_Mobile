@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
@@ -21,16 +23,22 @@ class MainActivity : AppCompatActivity() {
         val id = intent.getIntExtra("id", -1)
         Log.d("id", id.toString())
         val token = intent.getStringExtra("token")!!
-        Log.d("token", token.toString())
-        game = Game.newGame(id,token)
-        game.play(bind)
+        Log.d("token", token)
+        runBlocking {
+            launch {
+                game = Game.newGame(id,token)
+            }.join()
+            game.play(bind)
+        }
     }
 
     fun jumpOnNext(rightId: Int) {
+        TODO()
+        /*
         var joe = false
         suspend {
             joe = JSONObject(
-                SQLConnector.apiHivas("POST","pick/answer/$rightId")[1]
+                SQLConnector.apiHivas("POST","play/${game.quiz.id}",)[1]
             ).get("us_rigth") as Boolean
         }
         if(joe){
@@ -38,8 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             Toast.makeText(this, "Nem jó 😫", Toast.LENGTH_SHORT).show()
-        }
-        game.play(bind)
+        }*/
     }
 
     fun endingScreen() {

@@ -4,10 +4,7 @@ import android.util.Log
 import org.json.JSONObject
 import kotlinx.coroutines.*
 import kotlinx.coroutines.internal.SynchronizedObject
-import java.io.BufferedReader
-import java.io.DataOutputStream
-import java.io.IOException
-import java.io.InputStreamReader
+import java.io.*
 import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.net.URL
@@ -16,7 +13,8 @@ import kotlin.coroutines.CoroutineContext
 
 class SQLConnector {
     companion object : CoroutineScope {
-        override val coroutineContext: CoroutineContext = Dispatchers.IO
+        override val coroutineContext: CoroutineContext
+            get() = Dispatchers.IO
         suspend fun apiHivas(
             method: String,
             urlExtension: String,
@@ -33,8 +31,8 @@ class SQLConnector {
                     }
                     setRequestProperty("charset", "utf-8")
                     setRequestProperty("Accept", "application/json")
+                    connectTimeout = 5000
                     requestMethod = method
-                    connectTimeout = 10000
                     if (params != null) {
                         setRequestProperty("Content-Type", "application/json")
                         connection.doOutput = true
@@ -42,6 +40,7 @@ class SQLConnector {
                             val outputStream = DataOutputStream(connection.outputStream)
                             outputStream.write(params.toString().toByteArray())
                             outputStream.flush()
+                            outputStream.close()
                         } catch (exception: Exception) {
                             Log.d("Küldési hiba", exception.toString())
                         }
@@ -56,10 +55,10 @@ class SQLConnector {
                 else{
                     responseReader = connection.inputStream.bufferedReader()
                 }
-                val content: String? = responseReader.readText()
+                val content: String = responseReader.readText()
                 responseReader.close()
                 ki.add(connection.responseCode.toString())
-                ki.add(content.toString())
+                ki.add(content)
                 connection.disconnect()
             }
             catch (e:IOException){

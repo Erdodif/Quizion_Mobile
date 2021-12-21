@@ -2,16 +2,20 @@ package hu.petrik.quizion
 
 import android.app.Activity
 import android.util.Log
+import androidx.annotation.UiThread
 import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.databinding.ActivityMainBinding
 import hu.petrik.quizion.elemek.Answer
 import hu.petrik.quizion.elemek.Question
 import hu.petrik.quizion.elemek.Quiz
 import hu.petrik.quizion.elemek.ViewBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.coroutines.CoroutineContext
 
 class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
     var quiz: Quiz
@@ -25,21 +29,24 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
     var currentIndex: Int = 0
         private set
 
-    companion object {
-        fun newGame(quiz_id: Int, token: String): Game = runBlocking {
+    companion object{
+        fun newGame(quiz_id: Int, token: String): Game = runBlocking{
             lateinit var quiz: Quiz
-            var count: Int= 0
-            lateinit var questions: ArrayList<Question>
-            val io = launch {
+            var count = 0
+            launch{
                 quiz = Quiz.getById(quiz_id)
                 count = JSONObject(
-                SQLConnector.apiHivas(
-                    "GET",
-                    "quiz/$quiz_id/questions/count"
-                )[1]
-            ).getInt("count")
+                    SQLConnector.apiHivas(
+                        "GET",
+                        "quiz/$quiz_id/questions/count"
+                    )[1]
+                ).getInt("count")
+                val result = SQLConnector.apiHivas(
+                    "POST",
+                    "play/newgame/$quiz_id",
+                    token = token)
+                Log.d("Új játék / ${result[0]}", result[1])
             }.join()
-            SQLConnector.apiHivas("POST", "play/newgame/$quiz_id", token = token)
             return@runBlocking Game(quiz,token,count)
         }
     }
@@ -68,7 +75,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
         return list
     }
 
-    fun loadCurrent(binding: ActivityMainBinding) = runBlocking {
+    fun loadCurrent(binding: ActivityMainBinding) = runBlocking{
         lateinit var kerdes:Question
         lateinit var valaszok:ArrayList<Answer>
         launch {
@@ -76,6 +83,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
             valaszok = getCurrentAnswers()
             Log.d("valaszok", valaszok.toString())
         }.join()
+
         try {
             if (valaszok.isNotEmpty()) {
                 ViewBuilder.kerdesBetolt(binding.textViewKerdes!!, kerdes.content)

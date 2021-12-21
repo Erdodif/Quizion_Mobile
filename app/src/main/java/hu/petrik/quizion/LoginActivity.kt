@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
                         Context.MODE_PRIVATE
                     )
                     with(sharedPref.edit()) {
-                        putString("Token", result[1])
+                        putString("Token", JSONObject(result[1]).getString("token"))
                         apply()
                     }
                     ViewSwapper.swapActivity(context, QuizList())
