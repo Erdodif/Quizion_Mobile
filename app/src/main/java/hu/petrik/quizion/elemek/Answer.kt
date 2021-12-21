@@ -1,13 +1,9 @@
 package hu.petrik.quizion.elemek
 
-import android.util.Log
-import hu.petrik.quizion.adatbazis.Method
-import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.adatbazis.SQLConnector.Companion.apiHivas
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.HashMap
 
 class Answer {
     var id: Int?
@@ -30,7 +26,7 @@ class Answer {
 
     companion object {
         suspend fun getAll(): ArrayList<Answer> {
-            val response = JSONArray(apiHivas(Method.READ, "answers"))
+            val response = JSONArray(apiHivas("GET", "answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -41,7 +37,7 @@ class Answer {
 
         suspend fun getAllByQuiz(id: Int, order: Int): ArrayList<Answer> {
             val response =
-                JSONArray(apiHivas(Method.READ, "quiz/$id/question/$order/answers"))
+                JSONArray(apiHivas("GET", "quiz/$id/question/$order/answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -54,7 +50,7 @@ class Answer {
             return Answer(
                 JSONObject(
                     apiHivas(
-                        Method.READ,
+                        "GET",
                         "quiz/$id/question/$questionOrder/answer/$answerOrder"
                     )[1]
                 )
@@ -63,7 +59,7 @@ class Answer {
 
         suspend fun getAllByQuestion(questionId: Int): ArrayList<Answer> {
             val response =
-                JSONArray(apiHivas(Method.READ, "question/$questionId/answers"))
+                JSONArray(apiHivas("GET", "question/$questionId/answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -76,7 +72,7 @@ class Answer {
             return Answer(
                 JSONObject(
                     apiHivas(
-                        Method.READ,
+                        "GET",
                         "/question/$questionId/answer/$answerOrder"
                     )[1]
                 )
@@ -84,7 +80,7 @@ class Answer {
         }
 
         suspend fun getById(id: Int): Answer {
-            return Answer(JSONObject(apiHivas(Method.READ, "answer/$id")[1]))
+            return Answer(JSONObject(apiHivas("GET", "answer/$id")[1]))
         }
     }
 }

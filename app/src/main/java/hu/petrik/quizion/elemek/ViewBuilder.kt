@@ -45,7 +45,7 @@ class ViewBuilder {
                 setTextColor(context.getColor(R.color.primary))
                 backgroundTintList = context.getColorStateList(R.color.on_primary)
                 cornerRadius = toPX(context, 10)
-                setOnClickListener{
+                setOnClickListener {
                     (context as MainActivity).jumpOnNext(valasz.id!!)
                 }
             }
@@ -67,7 +67,12 @@ class ViewBuilder {
             })
         }
 
-        fun kvizBetoltMind(context: Activity, kvizek_helye: LinearLayout, tartalom: List<Quiz>) {
+        fun kvizBetoltMind(
+            context: Activity,
+            kvizek_helye: LinearLayout,
+            tartalom: List<Quiz>,
+            token: String
+        ) {
             for (elem in tartalom) {
                 val lp = LinearLayout.LayoutParams(kvizek_helye.layoutParams)
                 lp.setMargins(20, 10, 20, 10)
@@ -116,8 +121,9 @@ class ViewBuilder {
                 indito.setOnClickListener {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("id", elem.id)
+                    intent.putExtra("token", token)
                     context.startActivity(intent)
-                    //context.finish()
+                    context.finish()
                 }
                 layout.measure(
                     LinearLayout.LayoutParams.MATCH_PARENT,

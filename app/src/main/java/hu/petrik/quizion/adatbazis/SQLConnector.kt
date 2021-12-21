@@ -5,6 +5,7 @@ import org.json.JSONObject
 import kotlinx.coroutines.*
 import kotlinx.coroutines.internal.SynchronizedObject
 import java.io.BufferedReader
+import java.io.DataOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.lang.StringBuilder
@@ -17,7 +18,7 @@ class SQLConnector {
     companion object : CoroutineScope {
         override val coroutineContext: CoroutineContext = Dispatchers.IO
         suspend fun apiHivas(
-            method: Method,
+            method: String,
             urlExtension: String,
             params: JSONObject? = null,
             token: String? = null
@@ -30,23 +31,45 @@ class SQLConnector {
                     if (token !== null) {
                         setRequestProperty("Authorization", "Bearer $token")
                     }
-                    setRequestProperty("Content-Type", "application/json")
-                    requestMethod = method.type
+                    setRequestProperty("charset", "utf-8")
+                    setRequestProperty("Accept", "application/json")
+                    requestMethod = method
+                    connectTimeout = 10000
+                    if (params != null) {
+                        setRequestProperty("Content-Type", "application/json")
+                        connection.doOutput = true
+                        try {
+                            val outputStream = DataOutputStream(connection.outputStream)
+                            outputStream.write(params.toString().toByteArray())
+                            outputStream.flush()
+                        } catch (exception: Exception) {
+                            Log.d("Küldési hiba", exception.toString())
+                        }
+                    } else {
+                        connection.doOutput = false
+                    }
                 }
-                val responseReader = connection.inputStream.bufferedReader()
-                var line: String? = responseReader.readLine()
-                val stringBuilder = StringBuilder()
-                while (line != null) {
-                    stringBuilder.append(line)
-                    line = responseReader.readLine()
+                val responseReader :BufferedReader
+                if(connection.responseCode > 399){
+                    responseReader = connection.errorStream.bufferedReader()
                 }
+                else{
+                    responseReader = connection.inputStream.bufferedReader()
+                }
+                val content: String? = responseReader.readText()
                 responseReader.close()
                 ki.add(connection.responseCode.toString())
-                ki.add(stringBuilder.toString())
+                ki.add(content.toString())
+                connection.disconnect()
             }
             catch (e:IOException){
-                ki.add("404")
-                ki.add("Not found")
+                Log.d("Error", e.toString())
+                if (ki.count() ==0){
+                    ki.add(404.toString())
+                }
+                if (ki.count() ==1){
+                    ki.add("Not found!")
+                }
             }
             Log.d("Visszatérés / Kód", ki[0])
             Log.d("Visszatérés / Tartalom", ki[1])

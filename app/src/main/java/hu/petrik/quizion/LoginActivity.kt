@@ -5,24 +5,22 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import hu.petrik.quizion.adatbazis.Method
+import androidx.appcompat.app.AppCompatDelegate
 import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.databinding.ActivityLoginBinding
 import hu.petrik.quizion.elemek.ViewSwapper
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
-    private var loginInProgress = false;
+    private var loginInProgress = false
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         val bind = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bind.root)
         bind.buttonLogin.setOnClickListener {
-            Toast.makeText(this, "no suspend", Toast.LENGTH_SHORT).show()
             login(
                 this,
                 bind.textInputUID.editText!!.text.toString(),
@@ -45,10 +43,8 @@ class LoginActivity : AppCompatActivity() {
         var result: ArrayList<String> = ArrayList()
         val run = runBlocking {
             try {
-                Toast.makeText(context, "Try elindult!", Toast.LENGTH_SHORT).show()
                 val run = launch {
-                    result = SQLConnector.apiHivas(Method.READ, "quiz/1/questions", params)
-                    Toast.makeText(context, "Adat visszatért", Toast.LENGTH_SHORT).show()
+                    result = SQLConnector.apiHivas("POST", "user/login", params)
                 }
                 run.join()
                 if (result[0].startsWith("2")) {
@@ -61,8 +57,11 @@ class LoginActivity : AppCompatActivity() {
                         apply()
                     }
                     ViewSwapper.swapActivity(context, QuizList())
-                    Toast.makeText(context, "váltani kéne...", Toast.LENGTH_SHORT).show()
                     Log.d("Állapot", "váltani kéne")
+                }
+                else{
+                    Toast.makeText(context, "Sikertelen bejelentkezés", Toast.LENGTH_SHORT).show()
+                    Log.d("Állapot", result[0])
                 }
             } catch (e: Exception) {
                 Toast.makeText(context, "Sikertelen bejelentkezés!", Toast.LENGTH_SHORT).show()
@@ -70,7 +69,6 @@ class LoginActivity : AppCompatActivity() {
             }
             return@runBlocking
         }
-        Toast.makeText(context, "Lezárult!", Toast.LENGTH_SHORT).show()
         Log.d("Állapot", "Lezárult!")
         loginInProgress = false
     }

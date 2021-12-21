@@ -1,17 +1,10 @@
 package hu.petrik.quizion.elemek
 
-import android.os.Bundle
 import android.util.Log
-import hu.petrik.quizion.adatbazis.Method
-import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.adatbazis.SQLConnector.Companion.apiHivas
-import kotlinx.coroutines.CoroutineScope
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.coroutines.*
 
 class Quiz {
     var id: Int?
@@ -34,28 +27,26 @@ class Quiz {
     }
 
     companion object {
-        suspend fun getAll(): ArrayList<Quiz> {
-            val response = JSONArray(apiHivas(Method.READ, "quizes")[1])
-            val list = ArrayList<Quiz>()
-            for (i in 0 until response.length()) {
-                val item = response.getJSONObject(i)
-                list.add(Quiz(item))
-            }
-            return list
-        }
 
         suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = JSONArray(apiHivas(Method.READ, "quizes/actives")[1])
-            val list = ArrayList<Quiz>()
-            for (i in 0 until response.length()) {
-                val item = response.getJSONObject(i)
-                list.add(Quiz(item))
+            val response = apiHivas("GET", "quizes/actives")
+            if(response[0].startsWith("2")){
+                Log.d("Adat:", response[1])
+                val json = JSONArray(response[1])
+                val list = ArrayList<Quiz>()
+                for (i in 0 until json.length()) {
+                    val item = json.getJSONObject(i)
+                    list.add(Quiz(item))
+                }
+                return list
             }
-            return list
+            else{
+                throw Exception("😴😫")
+            }
         }
 
         suspend fun getById(id: Int): Quiz {
-            return Quiz(JSONObject(apiHivas(Method.READ, "quiz/$id")[1]))
+            return Quiz(JSONObject(apiHivas("GET", "quiz/$id")[1]))
         }
     }
 }

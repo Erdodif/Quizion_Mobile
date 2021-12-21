@@ -19,16 +19,16 @@ class QuizList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val bind = ActivityQuizListBinding.inflate(layoutInflater)
         //ideiglenes
-        kiirat(this, bind.layoutQuizList)
-        bind.layoutQuizList.removeView(bind.tempLayout)
-        setContentView(bind.root)
         val sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key),
             Context.MODE_PRIVATE)
-        val token = sharedPref.getString("Token","")
+        val token = sharedPref.getString("Token","")!!
+        kiirat(this, bind.layoutQuizList,token)
+        bind.layoutQuizList.removeView(bind.tempLayout)
+        setContentView(bind.root)
         Toast.makeText(this, token, Toast.LENGTH_SHORT).show()
     }
 
-    fun kiirat(context: Activity, hova: LinearLayout) = runBlocking {
+    fun kiirat(context: Activity, hova: LinearLayout, token :String) = runBlocking {
         val quizTolt = launch {
             Log.d("Coroutine állapota", "fut")
             val params: HashMap<String, Any> = HashMap()
@@ -36,7 +36,7 @@ class QuizList : AppCompatActivity() {
             val kvizek = Quiz.getAllActive()
             try {
                 if (kvizek.isNotEmpty()) {
-                    ViewBuilder.kvizBetoltMind(context, hova, kvizek)
+                    ViewBuilder.kvizBetoltMind(context, hova, kvizek,token)
                 } else {
                     ViewBuilder.labelHibaBetolt(
                         context, hova,
