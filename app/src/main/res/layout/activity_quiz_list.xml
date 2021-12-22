@@ -69,7 +69,7 @@
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Játék"
+                        android:text="@string/play"
                         android:layout_gravity="center"
                         android:background="@color/secondary_variant"
                         android:textColor="@color/on_primary"

@@ -1,0 +1,13 @@
+<resources>
+    <string name="register">Regisztráció</string>
+    <string name="back">Vissza</string>
+    <string name="username_or_email">Felhasználónév vagy email</string>
+    <string name="login">Bejelentkezés</string>
+    <string name="password_again">Jelszó még egyszer</string>
+    <string name="password">Jelszó</string>
+    <string name="email">Email cím</string>
+    <string name="username">Felhasználónév</string>
+    <string name="play">Játék</string>
+    <string name="send">Elküld</string>
+    <string name="skip">ugrás</string>
+</resources>

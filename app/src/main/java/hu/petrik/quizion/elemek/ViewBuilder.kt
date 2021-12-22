@@ -12,7 +12,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.content.Intent
 import android.app.Activity
-import android.graphics.drawable.Drawable
 import hu.petrik.quizion.R
 import android.view.View
 import android.util.Log
@@ -30,41 +29,45 @@ class ViewBuilder {
             }
         }
 
-        fun valaszGombKreal(valaszok_helye: LinearLayout, valasz: Answer) {
+        fun valaszGombKreal(valaszok_helye: LinearLayout, valasz: Answer):Int {
             val context = valaszok_helye.context as Activity
             val valaszGomb = MaterialButton(context)
             val lp = LinearLayout.LayoutParams(valaszok_helye.layoutParams)
+            val viewId = MaterialButton.generateViewId()
             lp.setMargins(toPX(context, 9), toPX(context, 2), toPX(context, 9), toPX(context, 2))
             Log.d("ki", valasz.content)
+            Log.d("ki id", viewId.toString())
             valaszGomb.apply {
                 isAllCaps = false
                 text = valasz.content
                 layoutParams = lp
+                id = viewId
                 setPadding(toPX(context, 15))
                 textSize = 20F
                 setTextColor(context.getColor(R.color.primary))
                 backgroundTintList = context.getColorStateList(R.color.on_primary)
                 cornerRadius = toPX(context, 10)
-                setOnClickListener {
-                    (context as MainActivity).jumpOnNext(valasz.id!!)
-                }
             }
             valaszok_helye.addView(valaszGomb)
+            return viewId
         }
 
         fun valaszBetoltMind(
             context: Activity,
             valaszok_helye: LinearLayout,
             valasz: List<Answer>? = null
-        ) {
+        ):ArrayList<Int> {
+            val ids = ArrayList<Int>()
             context.runOnUiThread(Runnable {
                 if (valasz !== null) {
                     valaszok_helye.removeAllViewsInLayout()
                     for (i in valasz.indices) {
-                        valaszGombKreal(valaszok_helye, valasz[i])
+                        ids.add(valaszGombKreal(valaszok_helye, valasz[i]))
                     }
                 }
             })
+            Log.d("ids", ids.toString())
+            return ids
         }
 
         fun kvizBetoltMind(
@@ -107,7 +110,7 @@ class ViewBuilder {
                 lp.setMargins(20, 0, 20, 0)
                 indito.apply {
                     isAllCaps = false
-                    text = "Játék"
+                    text = resources.getText(R.string.play)
                     layoutParams = lp
                     setPadding(toPX(context, 15))
                     textSize = 20F

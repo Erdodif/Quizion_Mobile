@@ -10,6 +10,9 @@ class Answer {
         private set
     var content: String
         private set
+    var buttonID: Int? = null
+    var isChoosen: Boolean = false
+        private set
 
     constructor(
         id: Int?,
@@ -22,6 +25,10 @@ class Answer {
     constructor(jsonObject: JSONObject) {
         this.id = jsonObject.get("id") as Int?
         this.content = jsonObject.getString("content")
+    }
+
+    fun switchChoosen() {
+        this.isChoosen = !this.isChoosen
     }
 
     companion object {
@@ -82,5 +89,11 @@ class Answer {
         suspend fun getById(id: Int): Answer {
             return Answer(JSONObject(apiHivas("GET", "answer/$id")[1]))
         }
+    }
+
+    override fun toString(): String {
+        return "Answer | Id: $id, Button Id: $buttonID, ${
+            if (isChoosen) "Selected" else "Unselected"
+        }, content: $content"
     }
 }

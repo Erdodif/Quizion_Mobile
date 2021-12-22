@@ -14,5 +14,18 @@ class RegisterActivity : AppCompatActivity() {
         bind.buttonBack.setOnClickListener {
             ViewSwapper.swapActivity(this,LoginActivity())
         }
+        bind.buttonRegister.setOnClickListener {
+            val uname = bind.textInputUserName.editText!!.text.toString()
+            val email = bind.textInputEmail.editText!!.text.toString()
+            val password = bind.textInputPassword.editText!!.text.toString()
+            val passwordAgain = bind.textInputPasswordAgain.editText!!.text.toString()
+            if (password != passwordAgain){
+                bind.textInputPasswordAgain.error = "A két jelszó nem egyezik!"
+            }
+            val passwordErrors = ArrayList<String>()
+            if (password.length<8){
+                passwordErrors.add("")
+            }
+        }
     }
 }

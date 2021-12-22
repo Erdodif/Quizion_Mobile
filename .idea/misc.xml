@@ -26,6 +26,7 @@
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/layout/activity_quiz_list.xml" value="0.33" />
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3828125" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/answer.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/choosen_bad_answer.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/choosen_right_answer.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/diagonal_line.xml" value="0.2046875" />
@@ -43,6 +44,7 @@
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/info_rounded_corner.xml" value="0.3828125" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/lined_green.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/rounded_corner.xml" value="0.2046875" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/selected_answer.xml" value="0.3828125" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/top_info_button.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/unchosen_good_answer.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_login.xml" value="0.33" />
