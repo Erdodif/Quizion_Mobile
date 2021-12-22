@@ -16,6 +16,7 @@ import android.widget.Toast
 class QuizList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        this.window.navigationBarColor = this.resources.getColor(R.color.secondary)
         super.onCreate(savedInstanceState)
         val bind = ActivityQuizListBinding.inflate(layoutInflater)
         //ideiglenes

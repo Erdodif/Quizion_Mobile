@@ -9,19 +9,42 @@
     android:background="@color/secondary">
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary_variant"
+        android:layout_height="70dp"
+        android:background="@drawable/ic_kicsi_felso_fejlec"
         >
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_quizion_logo_q_betu_korben_eloter"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_quizion_logo"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
+        <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:background="@drawable/top_info_button"
+            android:layout_gravity="right"
+            android:id="@+id/button_info_top"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:text="i"
+                android:textStyle="bold"
+                android:shadowColor="@color/black"
+                android:shadowRadius="10"
+                android:shadowDx="5"
+                android:shadowDy="5"
+                android:textSize="22sp"
+                android:textAlignment="center"
+                android:textColor="@color/on_primary"
+                android:background="@drawable/info_rounded_corner"/>
+        </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20sp"
+        android:layout_height="15sp"
         android:orientation="vertical">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -36,61 +59,85 @@
             app:indicatorColor="@color/warning"
             android:id="@+id/progressBar_Ido"/>
     </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="220dp">
-
-        <TextView
-            android:id="@+id/textView_Kerdes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="220sp"
-            android:paddingHorizontal="25sp"
-            android:paddingTop="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="25sp"
-            android:textAlignment="center"
-            android:background="@color/secondary_variant"
-            android:textColor="@color/on_primary"/>
-    </ScrollView>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:id="@+id/scrollView_Valaszok">
+            android:layout_height="220dp"
+            android:id="@+id/scrollView_Kerdes"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView_Kerdes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="220sp"
+                android:paddingHorizontal="25sp"
+                android:paddingTop="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="25sp"
+                android:textAlignment="center"
+                android:background="@color/secondary_variant"
+                android:textColor="@color/on_primary"/>
+        </ScrollView>
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/scrollView_Kerdes"
+            android:background="@drawable/skip_rounded_corner"
+            app:layout_constraintTop_toBottomOf="@id/scrollView_Kerdes"
+            app:layout_constraintBottom_toBottomOf="@id/scrollView_Kerdes"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="skip"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/on_primary">
+
+        </TextView>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator_Valaszok"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/scrollView_Kerdes"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ScrollView
+                android:id="@+id/scrollView_Valaszok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_Valaszok"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:orientation="vertical" />
+            </ScrollView>
 
             <LinearLayout
+                android:id="@+id/layout_Progress"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="12dp"
+                android:background="@color/white"
                 android:orientation="vertical"
-                android:id="@+id/layout_Valaszok"
-                android:layout_gravity="top"
-                >
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="25"
+                    android:scaleY="5" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:id="@+id/layout_Progress"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="25"
-                android:scaleY="5"/>
-        </LinearLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

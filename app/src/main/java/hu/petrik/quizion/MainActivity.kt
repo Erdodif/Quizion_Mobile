@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //TODO TELJES REMAKE A BACKEND-NEK MEGFELELŐEN
+        this.window.navigationBarColor = this.resources.getColor(R.color.secondary)
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
         val view = bind.root
