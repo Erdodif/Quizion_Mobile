@@ -125,17 +125,28 @@
             <LinearLayout
                 android:id="@+id/layout_Progress"
                 android:layout_width="match_parent"
-                android:layout_height="12dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:max="100"
-                    android:progress="25"
-                    android:scaleY="5" />
+                    android:progress="20"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/secondary">
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:text="Next"
+                        android:id="@+id/button_next"
+                        />
+                </RelativeLayout>
             </LinearLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
