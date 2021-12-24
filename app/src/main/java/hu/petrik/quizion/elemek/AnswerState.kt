@@ -1,10 +1,10 @@
 package hu.petrik.quizion.elemek
 
-import androidx.appcompat.content.res.AppCompatResources
 import hu.petrik.quizion.R
 
+@Suppress("unused")
 enum class AnswerState(
-    var stringName: String,
+    private var stringName: String,
     var background: Int,
     var textColor: Int,
     var backgroundColor: Int

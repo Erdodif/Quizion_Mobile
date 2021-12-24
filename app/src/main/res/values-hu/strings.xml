@@ -20,4 +20,10 @@
     <string name="description">Leírás</string>
     <string name="send_error">Küldési Hiba</string>
     <string name="server_connection_error">Nem sikerült csatlakozni a szerverre</string>
+    <string name="validation_lowercase">kisbetűt</string>
+    <string name="validation_uppercase">nagybetűt</string>
+    <string name="validation_number_or_special">vagy számot vagy speciális karaktert</string>
+    <string name="validation_and">"valamint "</string>
+    <string name="validation_char">‍</string>
+    <string name="validation_must">"A jelszónak tartalmaznia kell "</string>
 </resources>

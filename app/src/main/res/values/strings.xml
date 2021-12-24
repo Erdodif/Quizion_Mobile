@@ -22,4 +22,10 @@
     <string name="description">Description</string>
     <string name="send_error">Sending Error</string>
     <string name="server_connection_error">Cannot connect to server</string>
+    <string name="validation_lowercase">lowercase</string>
+    <string name="validation_uppercase">uppercase</string>
+    <string name="validation_number_or_special">either numeric or special</string>
+    <string name="validation_char">character</string>
+    <string name="validation_and">"and "</string>
+    <string name="validation_must">Password must contain</string>
 </resources>
