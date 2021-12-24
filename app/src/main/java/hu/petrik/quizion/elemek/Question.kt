@@ -1,6 +1,6 @@
 package hu.petrik.quizion.elemek
 
-import hu.petrik.quizion.adatbazis.SQLConnector.Companion.apiHivas
+import hu.petrik.quizion.adatbazis.SQLConnector.Companion.serverCall
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -32,7 +32,7 @@ class Question {
 
     companion object {
         suspend fun getAll(): ArrayList<Question> {
-            val response = JSONArray(apiHivas("GET", "questions"))
+            val response = JSONArray(serverCall("GET", "questions"))
             val list = ArrayList<Question>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -42,11 +42,11 @@ class Question {
         }
 
         suspend fun getById(id: Int): Question {
-            return Question(JSONObject(apiHivas("GET", "question/$id")[1]))
+            return Question(JSONObject(serverCall("GET", "question/$id")[1]))
         }
 
         suspend fun getAllByQuiz(id: Int): ArrayList<Question> {
-            val response = JSONArray(apiHivas("GET", "quiz/$id/questions"))
+            val response = JSONArray(serverCall("GET", "quiz/$id/questions"))
             val list = ArrayList<Question>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -60,7 +60,7 @@ class Question {
         }
 
         suspend fun getByQuiz(id: Int, order: Int): Question {
-            return Question(JSONObject(apiHivas("GET", "quiz/$id/question/$order")[1]))
+            return Question(JSONObject(serverCall("GET", "quiz/$id/question/$order")[1]))
         }
 
         suspend fun getByQuiz(quiz: Quiz, order: Int): Question {

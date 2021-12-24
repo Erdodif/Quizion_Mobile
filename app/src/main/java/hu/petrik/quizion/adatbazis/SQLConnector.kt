@@ -1,27 +1,27 @@
+@file:Suppress("BlockingMethodInNonBlockingContext")
+
 package hu.petrik.quizion.adatbazis
 
 import android.util.Log
 import org.json.JSONObject
 import kotlinx.coroutines.*
-import kotlinx.coroutines.internal.SynchronizedObject
 import java.io.*
-import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.CoroutineContext
 
 class SQLConnector {
     companion object : CoroutineScope {
         override val coroutineContext: CoroutineContext
             get() = Dispatchers.IO
-        suspend fun apiHivas(
+
+        suspend fun serverCall(
             method: String,
             urlExtension: String,
             params: JSONObject? = null,
             token: String? = null
         ): ArrayList<String> = withContext(Dispatchers.IO) {
-            val ki= ArrayList<String>()
+            val ki = ArrayList<String>()
             val url = URL("http://10.147.20.1/api/$urlExtension")
             try {
                 val connection = url.openConnection() as HttpURLConnection
@@ -42,36 +42,33 @@ class SQLConnector {
                             outputStream.flush()
                             outputStream.close()
                         } catch (exception: Exception) {
-                            Log.d("Küldési hiba", exception.toString())
+                            Log.d("Error", exception.toString())
                         }
                     } else {
                         connection.doOutput = false
                     }
                 }
-                val responseReader :BufferedReader
-                if(connection.responseCode > 399){
-                    responseReader = connection.errorStream.bufferedReader()
-                }
-                else{
-                    responseReader = connection.inputStream.bufferedReader()
+                val responseReader = if (connection.responseCode > 399) {
+                    connection.errorStream.bufferedReader()
+                } else {
+                    connection.inputStream.bufferedReader()
                 }
                 val content: String = responseReader.readText()
                 responseReader.close()
                 ki.add(connection.responseCode.toString())
                 ki.add(content)
                 connection.disconnect()
-            }
-            catch (e:IOException){
+            } catch (e: IOException) {
                 Log.d("Error", e.toString())
-                if (ki.count() ==0){
+                if (ki.count() == 0) {
                     ki.add(404.toString())
                 }
-                if (ki.count() ==1){
+                if (ki.count() == 1) {
                     ki.add("Not found!")
                 }
             }
-            Log.d("Visszatérés / Kód", ki[0])
-            Log.d("Visszatérés / Tartalom", ki[1])
+            Log.d("Response code", ki[0])
+            Log.d("Response content", ki[1])
             return@withContext ki
         }
     }

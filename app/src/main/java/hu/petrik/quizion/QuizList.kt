@@ -13,42 +13,44 @@ import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 
+@Suppress("MemberVisibilityCanBePrivate")
 class QuizList : AppCompatActivity() {
 
+    @Suppress("deprecation")
     override fun onCreate(savedInstanceState: Bundle?) {
         this.window.navigationBarColor = this.resources.getColor(R.color.secondary)
         super.onCreate(savedInstanceState)
         val bind = ActivityQuizListBinding.inflate(layoutInflater)
-        //ideiglenes
-        val sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE)
-        val token = sharedPref.getString("Token","")!!
-        kiirat(this, bind.layoutQuizList,token)
+        val sharedPref = this.getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
+        val token = sharedPref.getString("Token", "")!!
+        loadQuizzes(this, bind.layoutQuizList, token)
         bind.layoutQuizList.removeView(bind.tempLayout)
         setContentView(bind.root)
         Toast.makeText(this, token, Toast.LENGTH_SHORT).show()
     }
 
-    fun kiirat(context: Activity, hova: LinearLayout, token :String) = runBlocking {
-        val quizTolt = launch {
-            Log.d("Coroutine állapota", "fut")
+    fun loadQuizzes(context: Activity, quizLayout: LinearLayout, token: String): Unit = runBlocking {
+        launch {
+            Log.d("Coroutine state", "running")
             val params: HashMap<String, Any> = HashMap()
             params["active"] = 1
-            val kvizek = Quiz.getAllActive()
+            val quizzes = Quiz.getAllActive()
             try {
-                if (kvizek.isNotEmpty()) {
-                    ViewBuilder.kvizBetoltMind(context, hova, kvizek,token)
+                if (quizzes.isNotEmpty()) {
+                    ViewBuilder.loadQuizAll(context, quizLayout, quizzes, token)
                 } else {
-                    ViewBuilder.labelHibaBetolt(
-                        context, hova,
-                        "Nem sikerült csatlakozni, vagy az adatot kinyerni..."
+                    ViewBuilder.loadLabelError(
+                        context, quizLayout,
+                        getString(R.string.server_connection_error)
                     )
                 }
             } catch (e: Exception) {
-                ViewBuilder.labelHibaBetolt(context, hova, e.message.toString())
+                ViewBuilder.loadLabelError(context, quizLayout, e.message.toString())
             }
-        }
-        quizTolt.join()
+        }.join()
     }
 
 }

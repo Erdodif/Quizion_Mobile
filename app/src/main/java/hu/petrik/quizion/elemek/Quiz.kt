@@ -1,11 +1,11 @@
 package hu.petrik.quizion.elemek
 
-import android.util.Log
-import hu.petrik.quizion.adatbazis.SQLConnector.Companion.apiHivas
+import hu.petrik.quizion.adatbazis.SQLConnector.Companion.serverCall
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.collections.ArrayList
 
+@Suppress("unused")
 class Quiz {
     var id: Int?
         private set
@@ -14,7 +14,7 @@ class Quiz {
     var description: String
         private set
 
-    constructor(id: Int?, header: String, description: String, active: Boolean = false) {
+    constructor(id: Int?, header: String, description: String) {
         this.id = id
         this.header = header
         this.description = description
@@ -28,10 +28,10 @@ class Quiz {
 
     companion object {
 
+        @Suppress("SpellCheckingInspection")
         suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = apiHivas("GET", "quizes/actives")
-            if(response[0].startsWith("2")){
-                Log.d("Adat:", response[1])
+            val response = serverCall("GET", "quizes/actives")
+            if (response[0].startsWith("2")) {
                 val json = JSONArray(response[1])
                 val list = ArrayList<Quiz>()
                 for (i in 0 until json.length()) {
@@ -39,14 +39,13 @@ class Quiz {
                     list.add(Quiz(item))
                 }
                 return list
-            }
-            else{
+            } else {
                 throw Exception("😴😫")
             }
         }
 
         suspend fun getById(id: Int): Quiz {
-            return Quiz(JSONObject(apiHivas("GET", "quiz/$id")[1]))
+            return Quiz(JSONObject(serverCall("GET", "quiz/$id")[1]))
         }
     }
 }

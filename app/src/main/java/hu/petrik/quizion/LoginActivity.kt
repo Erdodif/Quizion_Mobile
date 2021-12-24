@@ -1,7 +1,6 @@
 package hu.petrik.quizion
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -15,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 
+@Suppress("Deprecation")
 class LoginActivity : AppCompatActivity() {
     private var loginInProgress = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +34,12 @@ class LoginActivity : AppCompatActivity() {
             )
         }
         bind.buttonRegister.setOnClickListener {
-            ViewSwapper.swapActivity(this,RegisterActivity())
+            ViewSwapper.swapActivity(this, RegisterActivity())
         }
     }
 
-    fun login(context: Context,uID : String ,password: String)  {
-        if(loginInProgress){
+    private fun login(context: Context, uID: String, password: String) {
+        if (loginInProgress) {
             return
         }
         loginInProgress = true
@@ -47,10 +47,10 @@ class LoginActivity : AppCompatActivity() {
         params.put("userID", uID)
         params.put("password", password)
         var result: ArrayList<String> = ArrayList()
-        val run = runBlocking {
+        runBlocking {
             try {
                 val run = launch {
-                    result = SQLConnector.apiHivas("POST", "user/login", params)
+                    result = SQLConnector.serverCall("POST", "user/login", params)
                 }
                 run.join()
                 if (result[0].startsWith("2")) {
@@ -63,19 +63,18 @@ class LoginActivity : AppCompatActivity() {
                         apply()
                     }
                     ViewSwapper.swapActivity(context, QuizList())
-                    Log.d("Állapot", "váltani kéne")
-                }
-                else{
-                    Toast.makeText(context, "Sikertelen bejelentkezés", Toast.LENGTH_SHORT).show()
-                    Log.d("Állapot", result[0])
+                    Log.d(getString(R.string.state), getString(R.string.login_successful))
+                } else {
+                    Toast.makeText(context, getString(R.string.login_failed), Toast.LENGTH_SHORT)
+                        .show()
+                    Log.d(getString(R.string.state), result[0])
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Sikertelen bejelentkezés!", Toast.LENGTH_SHORT).show()
-                Log.d("Állapot", "Sikertelen bejelentkezés")
+                Toast.makeText(context, getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
+                Log.d(getString(R.string.state), getString(R.string.login_failed))
             }
             return@runBlocking
         }
-        Log.d("Állapot", "Lezárult!")
         loginInProgress = false
     }
 

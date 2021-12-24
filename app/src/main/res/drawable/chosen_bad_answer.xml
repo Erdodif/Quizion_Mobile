@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/wrong_answer"/>
-    <corners android:radius="10dp"/>
-    <stroke android:width="3dp" android:color="@color/primary_variant"/>
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="2dp"
+        android:right="2dp"
+        android:top="5dp"
+        android:bottom="5dp"
+        >
+        <shape>
+            <solid android:color="@color/wrong_answer"/>
+            <corners android:radius="10dp"/>
+            <stroke android:width="3dp" android:color="@color/primary_variant"/>
+        </shape>
+    </item>
+</layer-list>

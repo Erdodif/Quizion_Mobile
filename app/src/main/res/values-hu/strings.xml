@@ -10,4 +10,14 @@
     <string name="play">Játék</string>
     <string name="send">Elküld</string>
     <string name="skip">ugrás</string>
+    <string name="login_failed">Sikertelen bejelentkezés</string>
+    <string name="login_successful">Sikeres bejelentkezés</string>
+    <string name="state">Állapot</string>
+    <string name="answers">Válaszok</string>
+    <string name="connection_failed">Sikertelen kapcsolódás</string>
+    <string name="error">Hiba</string>
+    <string name="header">Fejléc</string>
+    <string name="description">Leírás</string>
+    <string name="send_error">Küldési Hiba</string>
+    <string name="server_connection_error">Nem sikerült csatlakozni a szerverre</string>
 </resources>

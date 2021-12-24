@@ -126,20 +126,22 @@
                 android:id="@+id/layout_Progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="11dp"
+                android:minHeight="15dp"
                 android:background="@color/on_primary"
                 android:orientation="vertical"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
+                    android:scaleY="3"
                     android:max="100"
                     android:progress="20"
                     app:indicatorColor="@color/primary_variant"
                     android:id="@+id/progress_completion"/>
 
                 <RelativeLayout
+                    android:layout_marginTop="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/primary"
@@ -151,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_alignParentEnd="true"
                         android:text="@string/send"
                         android:backgroundTint="@color/primary_variant"/>

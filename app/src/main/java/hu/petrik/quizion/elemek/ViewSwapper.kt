@@ -6,10 +6,10 @@ import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
 
 class ViewSwapper {
-    companion object{
-        fun swapActivity (from : Context, to: Activity){
+    companion object {
+        fun swapActivity(from: Context, to: Activity) {
             val intent = Intent(from, to::class.java)
-            startActivity(from,intent,null)
+            startActivity(from, intent, null)
             (from as Activity).finish()
         }
     }

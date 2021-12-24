@@ -1,9 +1,5 @@
 package hu.petrik.quizion.elemek
 
-import hu.petrik.quizion.elemek.Question
-import hu.petrik.quizion.elemek.Answer
-import hu.petrik.quizion.elemek.Quiz
-
 import com.google.android.material.button.MaterialButton
 import hu.petrik.quizion.MainActivity
 import androidx.core.view.setMargins
@@ -19,65 +15,65 @@ import androidx.appcompat.content.res.AppCompatResources
 
 class ViewBuilder {
     companion object {
+        @Suppress("MemberCouldBePrivate")
         fun toPX(context: Activity, dp: Int): Int {
             return (context.resources.displayMetrics.density * dp).toInt()
         }
 
-        fun kerdesBetolt(kerdes_helye: TextView, kerdes: String?) {
-            (kerdes_helye.context as Activity).runOnUiThread {
-                kerdes_helye.text = kerdes
+        fun loadQuestion(questionView: TextView, question: String?) {
+            (questionView.context as Activity).runOnUiThread {
+                questionView.text = question
             }
         }
 
-        fun valaszGombKreal(valaszok_helye: LinearLayout, valasz: Answer):Int {
-            val context = valaszok_helye.context as Activity
-            val valaszGomb = MaterialButton(context)
-            val lp = LinearLayout.LayoutParams(valaszok_helye.layoutParams)
+        private fun putAnswerButton(answerLayout: LinearLayout, answer: Answer): Int {
+            val context = answerLayout.context as Activity
+            val answerButton = MaterialButton(context)
+            val lp = LinearLayout.LayoutParams(answerLayout.layoutParams)
             val viewId = MaterialButton.generateViewId()
             lp.setMargins(toPX(context, 9), toPX(context, 2), toPX(context, 9), toPX(context, 2))
-            Log.d("ki", valasz.content)
+            Log.d("ki", answer.content)
             Log.d("ki id", viewId.toString())
-            valaszGomb.apply {
+            answerButton.apply {
                 isAllCaps = false
-                text = valasz.content
+                text = answer.content
                 layoutParams = lp
                 id = viewId
                 setPadding(toPX(context, 15))
                 textSize = 20F
-                setTextColor(context.getColor(R.color.primary))
-                backgroundTintList = context.getColorStateList(R.color.on_primary)
                 cornerRadius = toPX(context, 10)
             }
-            valaszok_helye.addView(valaszGomb)
+            answerLayout.addView(answerButton)
+            (answerLayout.context as MainActivity).setAnswerState(viewId, AnswerState.DEFAULT)
             return viewId
         }
 
-        fun valaszBetoltMind(
+        fun loadAnswerAll(
             context: Activity,
-            valaszok_helye: LinearLayout,
-            valasz: List<Answer>? = null
-        ):ArrayList<Int> {
+            answerLayout: LinearLayout,
+            answer: List<Answer>? = null
+        ): ArrayList<Int> {
             val ids = ArrayList<Int>()
-            context.runOnUiThread(Runnable {
-                if (valasz !== null) {
-                    valaszok_helye.removeAllViewsInLayout()
-                    for (i in valasz.indices) {
-                        ids.add(valaszGombKreal(valaszok_helye, valasz[i]))
+            context.runOnUiThread {
+                if (answer !== null) {
+                    answerLayout.removeAllViewsInLayout()
+                    for (i in answer.indices) {
+                        ids.add(putAnswerButton(answerLayout, answer[i]))
                     }
                 }
-            })
+            }
             Log.d("ids", ids.toString())
             return ids
         }
 
-        fun kvizBetoltMind(
+        fun loadQuizAll(
             context: Activity,
-            kvizek_helye: LinearLayout,
-            tartalom: List<Quiz>,
+            quitLayout: LinearLayout,
+            content: List<Quiz>,
             token: String
         ) {
-            for (elem in tartalom) {
-                val lp = LinearLayout.LayoutParams(kvizek_helye.layoutParams)
+            for (elem in content) {
+                val lp = LinearLayout.LayoutParams(quitLayout.layoutParams)
                 lp.setMargins(20, 10, 20, 10)
                 val layout = LinearLayout(context)
                 layout.apply {
@@ -106,9 +102,9 @@ class ViewBuilder {
                     textSize = 20F
                     setTextColor(context.getColor(R.color.primary_variant))
                 }
-                val indito = MaterialButton(context)
+                val playButton = MaterialButton(context)
                 lp.setMargins(20, 0, 20, 0)
-                indito.apply {
+                playButton.apply {
                     isAllCaps = false
                     text = resources.getText(R.string.play)
                     layoutParams = lp
@@ -120,8 +116,8 @@ class ViewBuilder {
                 }
                 layout.addView(header)
                 layout.addView(description)
-                layout.addView(indito)
-                indito.setOnClickListener {
+                layout.addView(playButton)
+                playButton.setOnClickListener {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("id", elem.id)
                     intent.putExtra("token", token)
@@ -132,23 +128,21 @@ class ViewBuilder {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
-                kvizek_helye.addView(layout)
-                Log.d("Fejléc", elem.header)
-                Log.d("Leírás", elem.description)
-                Log.d("Leírás beiktatva", description.text.toString())
-                Log.d("Indító", elem.id.toString())
+                quitLayout.addView(layout)
+                Log.d(context.getString(R.string.header), elem.header)
+                Log.d(context.getString(R.string.description), elem.description)
             }
-            kvizek_helye.measure(
+            quitLayout.measure(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
         }
 
-        fun labelHibaBetolt(context: Activity, kvizek_helye: LinearLayout, hiba: String) {
+        fun loadLabelError(context: Activity, quizLayout: LinearLayout, error: String) {
             context.runOnUiThread {
-                kvizek_helye.removeAllViews()
+                quizLayout.removeAllViews()
                 val layout = LinearLayout(context)
-                val lp = LinearLayout.LayoutParams(kvizek_helye.layoutParams)
+                val lp = LinearLayout.LayoutParams(quizLayout.layoutParams)
                 lp.setMargins(20, 10, 20, 10)
                 layout.apply {
                     setPadding(toPX(context, 15))
@@ -160,7 +154,7 @@ class ViewBuilder {
                 lp.setMargins(20, 0, 20, 0)
                 header.apply {
                     layoutParams = lp
-                    text = "Hiba"
+                    text = context.getString(R.string.error)
                     isAllCaps = false
                     textSize = 20F
                     setTextColor(context.getColor(R.color.primary_variant))
@@ -170,12 +164,12 @@ class ViewBuilder {
                 lp.setMargins(20, 10, 20, 10)
                 description.apply {
                     layoutParams = lp
-                    text = hiba
+                    text = error
                     textSize = 20F
                     setTextColor(context.getColor(R.color.primary_variant))
                     textAlignment = View.TEXT_ALIGNMENT_TEXT_START
                 }
-                kvizek_helye.addView(layout, lp)
+                quizLayout.addView(layout, lp)
                 layout.addView(header)
                 layout.addView(description)
             }

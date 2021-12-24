@@ -2,33 +2,25 @@ package hu.petrik.quizion
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.ViewCompat
-import androidx.core.view.ViewCompat.animate
 import com.google.android.material.button.MaterialButton
-import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.databinding.ActivityMainBinding
 import hu.petrik.quizion.elemek.AnswerState
-import hu.petrik.quizion.elemek.ViewBuilder
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.json.JSONObject
-import java.time.Duration
 
+@Suppress("Typo","unused")
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
     lateinit var game: Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //TODO TELJES REMAKE A BACKEND-NEK MEGFELELŐEN
-        this.window.navigationBarColor = this.resources.getColor(R.color.primary)
+        this.window.navigationBarColor = getColor(R.color.primary)
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
         val view = bind.root
@@ -39,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("token", token)
         runBlocking {
             launch {
-                game = Game.newGame(id,token)
+                game = Game.newGame(id, token)
             }.join()
             game.play(bind)
         }
@@ -47,26 +39,13 @@ class MainActivity : AppCompatActivity() {
 
     fun jumpOnNext(rightId: Int) {
         TODO()
-        /*
-        var joe = false
-        suspend {
-            joe = JSONObject(
-                SQLConnector.apiHivas("POST","play/${game.quiz.id}",)[1]
-            ).get("us_rigth") as Boolean
-        }
-        if(joe){
-            Toast.makeText(this, "Jó 😁", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            Toast.makeText(this, "Nem jó 😫", Toast.LENGTH_SHORT).show()
-        }*/
     }
 
     fun endingScreen() {
         TODO()
     }
 
-    fun showNextButton(){
+    fun showNextButton() {
         bind.layoutNext!!.apply {
             visibility = View.VISIBLE
             alpha = 0f
@@ -82,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun hideNextButton(){
+    fun hideNextButton() {
         bind.layoutNext!!.apply {
             visibility = View.VISIBLE
             alpha = 1f
@@ -98,18 +77,20 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun setAnswerState(id:Int, state:AnswerState){
+    fun setAnswerState(id: Int, state: AnswerState) {
         val button = this.findViewById<MaterialButton>(id)
-        button.background = AppCompatResources.getDrawable(this,state.background)
-        button.setTextColor(AppCompatResources.getColorStateList(this,state.textColor))
+        button.background = AppCompatResources.getDrawable(this, state.background)
+        //button.setBackgroundColor(getColor(state.backgroundColor))
+        button.setTextColor(getColor(state.textColor))
+        Log.d("Answer_state set", state.toString())
     }
 
 
-    fun setCompletionLimit(count:Int){
+    fun setCompletionLimit(count: Int) {
         bind.progressCompletion!!.max = count
     }
 
-    fun incrementCompletion(){
+    fun incrementCompletion() {
         bind.progressCompletion!!.progress++
     }
 

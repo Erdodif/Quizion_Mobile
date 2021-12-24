@@ -1,9 +1,7 @@
 package hu.petrik.quizion
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
-import androidx.annotation.UiThread
 import com.google.android.material.button.MaterialButton
 import hu.petrik.quizion.adatbazis.SQLConnector
 import hu.petrik.quizion.databinding.ActivityMainBinding
@@ -12,14 +10,12 @@ import hu.petrik.quizion.elemek.Question
 import hu.petrik.quizion.elemek.Quiz
 import hu.petrik.quizion.elemek.ViewBuilder
 import hu.petrik.quizion.elemek.AnswerState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
-import kotlin.coroutines.CoroutineContext
 
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
     var quiz: Quiz
         private set
@@ -35,18 +31,19 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
         private set
 
     companion object {
+        @Suppress("SpellCheckingInspection")
         fun newGame(quiz_id: Int, token: String): Game = runBlocking {
             lateinit var quiz: Quiz
             var count = 0
             launch {
                 quiz = Quiz.getById(quiz_id)
                 count = JSONObject(
-                    SQLConnector.apiHivas(
+                    SQLConnector.serverCall(
                         "GET",
                         "quiz/$quiz_id/questions/count"
                     )[1]
                 ).getInt("count")
-                val result = SQLConnector.apiHivas(
+                val result = SQLConnector.serverCall(
                     "POST",
                     "play/newgame/$quiz_id",
                     token = token
@@ -70,7 +67,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
     suspend fun getCurrentQuestion(): Question {
         return Question(
             JSONObject(
-                SQLConnector.apiHivas(
+                SQLConnector.serverCall(
                     "GET", "play/${this.quiz.id}/question", token = token
                 )[1]
             )
@@ -79,7 +76,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
 
     suspend fun getCurrentAnswers(): ArrayList<Answer> {
         val response = JSONArray(
-            SQLConnector.apiHivas(
+            SQLConnector.serverCall(
                 "GET", "play/${this.quiz.id}/answers", token = token
             )[1]
         )
@@ -92,70 +89,69 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
     }
 
     fun loadCurrent(binding: ActivityMainBinding) = runBlocking {
-        lateinit var kerdes: Question
-        lateinit var valaszok: ArrayList<Answer>
+        lateinit var question: Question
+        lateinit var answers: ArrayList<Answer>
         launch {
-            kerdes = getCurrentQuestion()
-            valaszok = getCurrentAnswers()
-            Log.d("valaszok", valaszok.toString())
+            question = getCurrentQuestion()
+            answers = getCurrentAnswers()
+            Log.d(binding.root.context.getString(R.string.answers), answers.toString())
         }.join()
 
         try {
-            if (valaszok.isNotEmpty()) {
-                ViewBuilder.kerdesBetolt(binding.textViewKerdes!!, kerdes.content)
-                val ids = ViewBuilder.valaszBetoltMind(
+            if (answers.isNotEmpty()) {
+                ViewBuilder.loadQuestion(binding.textViewKerdes!!, question.content)
+                val ids = ViewBuilder.loadAnswerAll(
                     binding.root.context as Activity,
                     binding.layoutValaszok,
-                    valaszok
+                    answers
                 )
-                for (i in 0 until valaszok.size){
+                for (i in 0 until answers.size) {
                     val activity = binding.root.context as MainActivity
                     val id = ids[i]
-                    answers.add(valaszok[i])
-                    valaszok[i].buttonID = id
+                    this@Game.answers.add(answers[i])
+                    answers[i].buttonID = id
                     (activity.findViewById(id) as MaterialButton).setOnClickListener {
-                        activity.game.answerEvent(activity,id)
+                        activity.game.answerEvent(activity, id)
                     }
                 }
             } else {
-                ViewBuilder.kerdesBetolt(
+                ViewBuilder.loadQuestion(
                     binding.textViewKerdes!!,
-                    "Nem Sikerült csatlakozni"
+                    binding.root.context.getString(R.string.connection_failed)
                 )
             }
         } catch (e: Exception) {
-            ViewBuilder.kerdesBetolt(binding.textViewKerdes!!, e.message)
+            ViewBuilder.loadQuestion(binding.textViewKerdes!!, e.message)
         }
     }
 
     fun answerEvent(context: MainActivity, id: Int) {
         val answer = this.answers.find { it.buttonID == id }!!
-        answer.switchChoosen()
+        answer.switchChosen()
         context.setAnswerState(
             answer.buttonID!!,
-            if (answer.isChoosen) AnswerState.SELECTED else AnswerState.DEFAULT
+            if (answer.isChosen) AnswerState.SELECTED else AnswerState.DEFAULT
         )
-        if (answer.isChoosen && this.getSelectedCount() == 1){
+        if (answer.isChosen && this.getSelectedCount() == 1) {
             context.showNextButton()
-        }
-        else if (!answer.isChoosen && this.getSelectedCount() == 0){
+        } else if (!answer.isChosen && this.getSelectedCount() == 0) {
             context.hideNextButton()
         }
     }
 
-    fun getSelectedCount():Int{
+    fun getSelectedCount(): Int {
         var count = 0
         for (answer in this.answers) {
-            if (answer.isChoosen){
+            if (answer.isChosen) {
                 count++
             }
         }
         return count
     }
 
-    fun logAnswers(){
+    fun logAnswers() {
         Log.d("answerEvent / answers.size", this.answers.size.toString())
-        for(i in 0 until this.answers.size){
+        for (i in 0 until this.answers.size) {
             Log.d("answerEvent / Answer", answers[i].toString())
         }
     }

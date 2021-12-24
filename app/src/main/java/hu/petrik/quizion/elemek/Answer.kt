@@ -1,17 +1,18 @@
 package hu.petrik.quizion.elemek
 
-import hu.petrik.quizion.adatbazis.SQLConnector.Companion.apiHivas
+import hu.petrik.quizion.adatbazis.SQLConnector.Companion.serverCall
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
+@Suppress("unused")
 class Answer {
     var id: Int?
         private set
     var content: String
         private set
     var buttonID: Int? = null
-    var isChoosen: Boolean = false
+    var isChosen: Boolean = false
         private set
 
     constructor(
@@ -27,13 +28,13 @@ class Answer {
         this.content = jsonObject.getString("content")
     }
 
-    fun switchChoosen() {
-        this.isChoosen = !this.isChoosen
+    fun switchChosen() {
+        this.isChosen = !this.isChosen
     }
 
     companion object {
         suspend fun getAll(): ArrayList<Answer> {
-            val response = JSONArray(apiHivas("GET", "answers"))
+            val response = JSONArray(serverCall("GET", "answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -44,7 +45,7 @@ class Answer {
 
         suspend fun getAllByQuiz(id: Int, order: Int): ArrayList<Answer> {
             val response =
-                JSONArray(apiHivas("GET", "quiz/$id/question/$order/answers"))
+                JSONArray(serverCall("GET", "quiz/$id/question/$order/answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -56,7 +57,7 @@ class Answer {
         suspend fun getByQuiz(id: Int, questionOrder: Int, answerOrder: Int): Answer {
             return Answer(
                 JSONObject(
-                    apiHivas(
+                    serverCall(
                         "GET",
                         "quiz/$id/question/$questionOrder/answer/$answerOrder"
                     )[1]
@@ -66,7 +67,7 @@ class Answer {
 
         suspend fun getAllByQuestion(questionId: Int): ArrayList<Answer> {
             val response =
-                JSONArray(apiHivas("GET", "question/$questionId/answers"))
+                JSONArray(serverCall("GET", "question/$questionId/answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -78,7 +79,7 @@ class Answer {
         suspend fun getByQuestion(questionId: Int, answerOrder: Int): Answer {
             return Answer(
                 JSONObject(
-                    apiHivas(
+                    serverCall(
                         "GET",
                         "/question/$questionId/answer/$answerOrder"
                     )[1]
@@ -87,13 +88,13 @@ class Answer {
         }
 
         suspend fun getById(id: Int): Answer {
-            return Answer(JSONObject(apiHivas("GET", "answer/$id")[1]))
+            return Answer(JSONObject(serverCall("GET", "answer/$id")[1]))
         }
     }
 
     override fun toString(): String {
         return "Answer | Id: $id, Button Id: $buttonID, ${
-            if (isChoosen) "Selected" else "Unselected"
+            if (isChosen) "Selected" else "Unselected"
         }, content: $content"
     }
 }
