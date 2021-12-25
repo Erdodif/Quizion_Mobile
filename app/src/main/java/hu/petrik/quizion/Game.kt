@@ -88,15 +88,44 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
         return list
     }
 
+    fun sendResults(binding: ActivityMainBinding) = runBlocking {
+        val params = JSONObject()
+        val chosen = JSONArray()
+        for (answer in answers) {
+            if (answer.isChosen) {
+                chosen.put(answer.id)
+            }
+        }
+        params.put("chosen", chosen)
+        lateinit var response: ArrayList<String>
+        launch {
+            response = SQLConnector.serverCall(
+                "POST", "play/${this@Game.quiz.id}/choose", params, this@Game.token
+            )
+        }.join()
+        loadSuccess(binding, JSONObject(response[1]))
+    }
+
+
     fun loadCurrent(binding: ActivityMainBinding) = runBlocking {
         lateinit var question: Question
         lateinit var answers: ArrayList<Answer>
+        var current: Int = 0
         launch {
             question = getCurrentQuestion()
             answers = getCurrentAnswers()
             Log.d(binding.root.context.getString(R.string.answers), answers.toString())
+            val id = this@Game.quiz.id
+            current = JSONObject(
+                SQLConnector.serverCall(
+                    "GET",
+                    "play/${id.toString()}/state",
+                    null,
+                    token
+                )[1]
+            ).getInt("current")
         }.join()
-
+        (binding.root.context as MainActivity).setCompletionState(current)
         try {
             if (answers.isNotEmpty()) {
                 ViewBuilder.loadQuestion(binding.textViewKerdes!!, question.content)
@@ -147,6 +176,27 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
             }
         }
         return count
+    }
+
+    fun loadSuccess(binding: ActivityMainBinding, response: JSONObject) {
+        val context = binding.root.context as MainActivity
+        for (answer in this.answers) {
+            val current = response.getInt(answer.id.toString())
+            when {
+                current == 1 && answer.isChosen -> {
+                    context.setAnswerState(answer.buttonID!!, AnswerState.CHOSEN_CORRECT)
+                }
+                current == 1 && !answer.isChosen -> {
+                    context.setAnswerState(answer.buttonID!!, AnswerState.MISSING_CORRECT)
+                }
+                current == 0 && answer.isChosen -> {
+                    context.setAnswerState(answer.buttonID!!, AnswerState.CHOSEN_INCORRECT)
+                }
+            }
+            context.findViewById<MaterialButton>(answer.buttonID!!).setOnClickListener {
+                context.game.loadCurrent(binding)
+            }
+        }
     }
 
     fun logAnswers() {

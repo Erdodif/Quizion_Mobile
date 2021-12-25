@@ -5,8 +5,12 @@ import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.view.updateLayoutParams
 import com.google.android.material.button.MaterialButton
 import hu.petrik.quizion.databinding.ActivityMainBinding
 import hu.petrik.quizion.elemek.AnswerState
@@ -17,6 +21,7 @@ import kotlinx.coroutines.runBlocking
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
     lateinit var game: Game
+    private var buttonStateSend = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //TODO TELJES REMAKE A BACKEND-NEK MEGFELELŐEN
@@ -32,13 +37,21 @@ class MainActivity : AppCompatActivity() {
         runBlocking {
             launch {
                 game = Game.newGame(id, token)
+                bind.buttonSend!!.setOnClickListener {
+                    this@MainActivity.hideNextButton()
+                    if (buttonStateSend){
+                        this@MainActivity.game.sendResults(bind)
+                        this@MainActivity.toogleNextButton()
+                        this@MainActivity.showNextButton()
+                    }
+                    else{
+                        this@MainActivity.game.loadCurrent(bind)
+                        this@MainActivity.toogleNextButton()
+                    }
+                }
             }.join()
             game.play(bind)
         }
-    }
-
-    fun jumpOnNext(rightId: Int) {
-        TODO()
     }
 
     fun endingScreen() {
@@ -77,11 +90,25 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
+    fun toogleNextButton(){
+        this.showNextButton()
+        val button = bind.buttonSend!! as MaterialButton
+        if(buttonStateSend){
+            button.text = this.getString(R.string.next)
+            //TODO középre igazítani!
+        }
+        else{
+            button.text = this.getString(R.string.send)
+            //TODO Jobbra igazítani!
+        }
+        buttonStateSend = !buttonStateSend
+    }
+
     fun setAnswerState(id: Int, state: AnswerState) {
         val button = this.findViewById<MaterialButton>(id)
         button.background = AppCompatResources.getDrawable(this, state.background)
-        //button.setBackgroundColor(getColor(state.backgroundColor))
         button.setTextColor(getColor(state.textColor))
+        button.backgroundTintList = ContextCompat.getColorStateList(this,state.backgroundColor)
         Log.d("Answer_state set", state.toString())
     }
 
@@ -90,8 +117,8 @@ class MainActivity : AppCompatActivity() {
         bind.progressCompletion!!.max = count
     }
 
-    fun incrementCompletion() {
-        bind.progressCompletion!!.progress++
+    fun setCompletionState(state:Int) {
+        bind.progressCompletion!!.progress = state
     }
 
 }

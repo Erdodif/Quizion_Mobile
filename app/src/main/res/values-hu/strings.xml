@@ -26,4 +26,5 @@
     <string name="validation_and">"valamint "</string>
     <string name="validation_char">‍</string>
     <string name="validation_must">"A jelszónak tartalmaznia kell "</string>
+    <string name="next">Tovább</string>
 </resources>
