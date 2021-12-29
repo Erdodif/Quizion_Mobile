@@ -29,10 +29,9 @@ class QuizList : AppCompatActivity() {
         loadQuizzes(this, bind.layoutQuizList, token)
         bind.layoutQuizList.removeView(bind.tempLayout)
         setContentView(bind.root)
-        Toast.makeText(this, token, Toast.LENGTH_SHORT).show()
     }
 
-    fun loadQuizzes(context: Activity, quizLayout: LinearLayout, token: String): Unit = runBlocking {
+    fun loadQuizzes(context: QuizList, quizLayout: LinearLayout, token: String): Unit = runBlocking {
         launch {
             Log.d("Coroutine state", "running")
             val params: HashMap<String, Any> = HashMap()

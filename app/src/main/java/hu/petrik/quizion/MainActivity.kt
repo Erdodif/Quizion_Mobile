@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -24,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private var buttonStateSend = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //TODO TELJES REMAKE A BACKEND-NEK MEGFELELŐEN
         this.window.navigationBarColor = getColor(R.color.primary)
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
@@ -40,22 +40,22 @@ class MainActivity : AppCompatActivity() {
                 bind.buttonSend!!.setOnClickListener {
                     this@MainActivity.hideNextButton()
                     if (buttonStateSend){
-                        this@MainActivity.game.sendResults(bind)
-                        this@MainActivity.toogleNextButton()
-                        this@MainActivity.showNextButton()
+                        with(this@MainActivity){
+                            game.sendResults(bind)
+                            toogleNextButton()
+                            showNextButton()
+                        }
                     }
                     else{
-                        this@MainActivity.game.loadCurrent(bind)
-                        this@MainActivity.toogleNextButton()
+                        with(this@MainActivity){
+                            game.loadCurrent(bind)
+                            toogleNextButton()
+                        }
                     }
                 }
             }.join()
             game.play(bind)
         }
-    }
-
-    fun endingScreen() {
-        TODO()
     }
 
     fun showNextButton() {
@@ -95,11 +95,17 @@ class MainActivity : AppCompatActivity() {
         val button = bind.buttonSend!! as MaterialButton
         if(buttonStateSend){
             button.text = this.getString(R.string.next)
-            //TODO középre igazítani!
+            val lp = button.layoutParams as RelativeLayout.LayoutParams
+            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1)
+            lp.removeRule(RelativeLayout.CENTER_IN_PARENT)
+            button.layoutParams = lp
         }
         else{
             button.text = this.getString(R.string.send)
-            //TODO Jobbra igazítani!
+            val lp = button.layoutParams as RelativeLayout.LayoutParams
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT,1)
+            lp.removeRule(RelativeLayout.ALIGN_PARENT_LEFT)
+            button.layoutParams = lp
         }
         buttonStateSend = !buttonStateSend
     }

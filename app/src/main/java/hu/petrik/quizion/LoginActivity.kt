@@ -96,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
                         putString("Token", JSONObject(result[1]).getString("token"))
                         apply()
                     }
-                    ViewSwapper.swapActivity(context, QuizList())
+                    ViewSwapper.swapActivity(context, QuizList(), finish = false)
                     Log.d(getString(R.string.state), getString(R.string.login_successful))
                 } else {
                     Toast.makeText(context, getString(R.string.login_failed), Toast.LENGTH_SHORT)

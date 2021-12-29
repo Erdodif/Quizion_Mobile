@@ -29,4 +29,9 @@
     <string name="validation_and">"and "</string>
     <string name="validation_must">Password must contain</string>
     <string name="next">Next</string>
+    <string name="share">Share</string>
+    <string name="back_to_quizes">Back to quizzes</string>
+    <string name="rank">Rank</string>
+    <string name="name">Name</string>
+    <string name="points">Points</string>
 </resources>

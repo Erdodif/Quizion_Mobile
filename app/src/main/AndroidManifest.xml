@@ -13,9 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Quizion">
         <activity
+            android:name=".LeaderboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false"
-            android:theme="@style/Theme.Quizion"/>
+            android:theme="@style/Theme.Quizion" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -29,11 +32,11 @@
         <activity
             android:name=".QuizList"
             android:exported="true"
-            android:theme="@style/Theme.Quizion"/>
+            android:theme="@style/Theme.Quizion" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Quizion"/>
+            android:theme="@style/Theme.Quizion" />
     </application>
 
 </manifest>

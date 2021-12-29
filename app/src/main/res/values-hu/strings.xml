@@ -27,4 +27,9 @@
     <string name="validation_char">‍</string>
     <string name="validation_must">"A jelszónak tartalmaznia kell "</string>
     <string name="next">Tovább</string>
+    <string name="share">Megosztás</string>
+    <string name="back_to_quizes">Vissza a kvízekhez</string>
+    <string name="rank">Helyezés</string>
+    <string name="name">Név</string>
+    <string name="points">Pontok</string>
 </resources>

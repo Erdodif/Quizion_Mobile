@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat.startActivity
 
 class ViewSwapper {
     companion object {
-        fun swapActivity(from: Context, to: Activity, vararg extras:Pair<String,String>) {
+        fun swapActivity(from: Context, to: Activity, vararg extras:Pair<String,String>,finish:Boolean = true) {
             val intent = Intent(from, to::class.java)
             if (extras.isNotEmpty()){
                 for(extra in extras){
@@ -15,7 +15,9 @@ class ViewSwapper {
                 }
             }
             startActivity(from, intent, null)
-            (from as Activity).finish()
+            if (finish){
+                (from as Activity).finish()
+            }
         }
     }
 }

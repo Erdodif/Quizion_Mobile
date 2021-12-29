@@ -11,7 +11,19 @@ import android.app.Activity
 import hu.petrik.quizion.R
 import android.view.View
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import androidx.annotation.ColorRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.marginStart
+import hu.petrik.quizion.LeaderboardActivity
+import hu.petrik.quizion.QuizList
+import hu.petrik.quizion.adatbazis.SQLConnector
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
+import org.json.JSONObject
 
 class ViewBuilder {
     companion object {
@@ -49,7 +61,7 @@ class ViewBuilder {
         }
 
         fun loadAnswerAll(
-            context: Activity,
+            context: MainActivity,
             answerLayout: LinearLayout,
             answer: List<Answer>? = null
         ): ArrayList<Int> {
@@ -67,7 +79,7 @@ class ViewBuilder {
         }
 
         fun loadQuizAll(
-            context: Activity,
+            context: QuizList,
             quitLayout: LinearLayout,
             content: List<Quiz>,
             token: String
@@ -138,7 +150,7 @@ class ViewBuilder {
             )
         }
 
-        fun loadLabelError(context: Activity, quizLayout: LinearLayout, error: String) {
+        fun loadLabelError(context: QuizList, quizLayout: LinearLayout, error: String) {
             context.runOnUiThread {
                 quizLayout.removeAllViews()
                 val layout = LinearLayout(context)
@@ -175,5 +187,114 @@ class ViewBuilder {
             }
         }
 
+        private fun addResultTextView(
+            context: LeaderboardActivity,
+            to:RelativeLayout,
+            content: String,
+            vararg rules: Int,
+            paramTextSize: Float? = null,
+            @ColorRes paramTextColor: Int? = null
+        ){
+            val textView = TextView(context)
+            to.addView(textView)
+            val params = textView.layoutParams as RelativeLayout.LayoutParams
+            with(params) {
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
+                width = ViewGroup.LayoutParams.WRAP_CONTENT
+                for (i in rules.indices) {
+                    addRule(rules[i], 1)
+                }
+                marginStart = toPX(context, 15)
+                marginEnd = toPX(context, 15)
+            }
+            with(textView) {
+                if (paramTextColor === null) {
+                    setTextColor(getColor(context, R.color.on_primary))
+                } else {
+                    setTextColor(getColor(context, paramTextColor))
+                }
+                layoutParams = params
+                text = content
+                textSize = if (paramTextSize === null) {
+                    15F
+                } else {
+                    paramTextSize
+                }
+            }
+        }
+
+        fun loadLeaderboard(resultLayout: LinearLayout,selfResultLayout:RelativeLayout, quizId: Int, token: String) = runBlocking {
+            lateinit var results: JSONArray
+            lateinit var selfResults:JSONObject
+            val context = resultLayout.context as LeaderboardActivity
+            launch {
+                results = JSONArray(SQLConnector.serverCall("GET", "leaderboard/$quizId")[1])
+                selfResults = JSONObject(SQLConnector.serverCall("GET","ranking/$quizId", token = token)[1]).getJSONObject("user")
+            }.join()
+            for (i in 0 until results.length()) {
+                val result = results.getJSONObject(i)
+                val rank = result.getInt("rank")
+                val points = result.getInt("points")
+                val userName = result.getString("name")
+
+                val rowLayout = RelativeLayout(context)
+                resultLayout.addView(rowLayout)
+                with(rowLayout) {
+                    layoutParams.height = RelativeLayout.LayoutParams.WRAP_CONTENT
+                    layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT
+                    background = AppCompatResources.getDrawable(context, R.drawable.answer)
+                    backgroundTintList = context.getColorStateList(R.color.primary)
+                    setPadding(
+                        0,
+                        toPX(context, 5),
+                        0,
+                        toPX(context, 5)
+                    )
+                }
+
+                addResultTextView(
+                    context,rowLayout, "#$rank", RelativeLayout.CENTER_VERTICAL
+                )
+
+                addResultTextView(
+                    context,rowLayout, userName, RelativeLayout.CENTER_IN_PARENT
+                )
+
+                addResultTextView(
+                    context,
+                    rowLayout,
+                    points.toString(),
+                    RelativeLayout.CENTER_VERTICAL,
+                    RelativeLayout.ALIGN_PARENT_RIGHT
+                )
+
+                selfResultLayout.removeAllViews()
+                addResultTextView(
+                    context,
+                    selfResultLayout,
+                    selfResults.getString("rank"),
+                    RelativeLayout.CENTER_VERTICAL,
+                    paramTextSize = 18F,
+                    paramTextColor = R.color.primary_variant
+                    )
+                addResultTextView(
+                    context,
+                    selfResultLayout,
+                    selfResults.getString("name"),
+                    RelativeLayout.CENTER_IN_PARENT,
+                    paramTextSize = 18F,
+                    paramTextColor = R.color.primary_variant
+                    )
+                addResultTextView(
+                    context,
+                    selfResultLayout,
+                    "#${selfResults.getString("points")}",
+                    RelativeLayout.CENTER_VERTICAL,
+                    RelativeLayout.ALIGN_PARENT_RIGHT,
+                    paramTextSize = 18F,
+                    paramTextColor = R.color.primary_variant
+                    )
+            }
+        }
     }
 }

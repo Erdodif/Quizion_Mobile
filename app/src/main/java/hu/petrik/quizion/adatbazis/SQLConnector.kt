@@ -29,6 +29,7 @@ class SQLConnector {
                     if (token !== null) {
                         setRequestProperty("Authorization", "Bearer $token")
                     }
+                    instanceFollowRedirects = false
                     setRequestProperty("charset", "utf-8")
                     setRequestProperty("Accept", "application/json")
                     connectTimeout = 5000

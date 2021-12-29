@@ -44,11 +44,13 @@
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_szazalek_piktogram.xml" value="0.33611111111111114" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_x_piktogram.xml" value="0.33611111111111114" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/info_rounded_corner.xml" value="0.3828125" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/leaderboard_frame.xml" value="0.3828125" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/lined_green.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/rounded_corner.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/selected_answer.xml" value="0.3828125" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/top_info_button.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/unchosen_good_answer.xml" value="0.2046875" />
+        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_leaderboard.xml" value="0.36666666666666664" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_quiz_list.xml" value="0.25" />
