@@ -128,6 +128,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
         lateinit var question: Question
         lateinit var answers: ArrayList<Answer>
         var current = 0
+        var ended = false
         launch {
             try {
                 question = getCurrentQuestion()
@@ -152,39 +153,43 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
                         Pair("result", result.getString("result")),
                         Pair("token", this@Game.token)
                     )
+                    ended = true
+                    return@launch
                 }
             }
         }.join()
-        val context = binding.root.context as MainActivity
-        context.setCompletionState(current)
-        try {
-            if (answers.isNotEmpty()) {
-                this@Game.answers.clear()
-                ViewBuilder.loadQuestion(binding.textViewKerdes!!, question.content)
-                val ids = ViewBuilder.loadAnswerAll(
-                    binding.root.context as MainActivity,
-                    binding.layoutValaszok,
-                    answers
-                )
-                for (i in 0 until answers.size) {
-                    val activity = binding.root.context as MainActivity
-                    val id = ids[i]
-                    this@Game.answers.add(answers[i])
-                    answers[i].buttonID = id
-                    (activity.findViewById(id) as MaterialButton).setOnClickListener {
-                        activity.game.answerEvent(activity, id)
+        if (!ended){
+            val context = binding.root.context as MainActivity
+            context.setCompletionState(current)
+            try {
+                if (answers.isNotEmpty()) {
+                    this@Game.answers.clear()
+                    ViewBuilder.loadQuestion(binding.textViewKerdes!!, question.content)
+                    val ids = ViewBuilder.loadAnswerAll(
+                        binding.root.context as MainActivity,
+                        binding.layoutValaszok,
+                        answers
+                    )
+                    for (i in 0 until answers.size) {
+                        val activity = binding.root.context as MainActivity
+                        val id = ids[i]
+                        this@Game.answers.add(answers[i])
+                        answers[i].buttonID = id
+                        (activity.findViewById(id) as MaterialButton).setOnClickListener {
+                            activity.game.answerEvent(activity, id)
+                        }
                     }
+                    context.initializeTimer(this@Game.quiz.secondsPerQuiz * 1000 - this@Game.delay)
+                    context.showTimerBar()
+                } else {
+                    ViewBuilder.loadQuestion(
+                        binding.textViewKerdes!!,
+                        binding.root.context.getString(R.string.connection_failed)
+                    )
                 }
-                context.initializeTimer(this@Game.quiz.secondsPerQuiz * 1000 - this@Game.delay)
-                context.showTimerBar()
-            } else {
-                ViewBuilder.loadQuestion(
-                    binding.textViewKerdes!!,
-                    binding.root.context.getString(R.string.connection_failed)
-                )
+            } catch (e: Exception) {
+                ViewBuilder.loadQuestion(binding.textViewKerdes!!, e.message)
             }
-        } catch (e: Exception) {
-            ViewBuilder.loadQuestion(binding.textViewKerdes!!, e.message)
         }
     }
 
