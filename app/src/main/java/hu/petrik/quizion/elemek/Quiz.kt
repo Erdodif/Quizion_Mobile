@@ -13,17 +13,21 @@ class Quiz {
         private set
     var description: String
         private set
+    var secondsPerQuiz: Int
+        private set
 
-    constructor(id: Int?, header: String, description: String) {
+    constructor(id: Int?, header: String, description: String,secondsPerQuiz: Int) {
         this.id = id
         this.header = header
         this.description = description
+        this.secondsPerQuiz = secondsPerQuiz
     }
 
     constructor(jsonObject: JSONObject) {
         this.id = jsonObject.get("id") as Int?
         this.header = jsonObject.get("header") as String
         this.description = jsonObject.get("description") as String
+        this.secondsPerQuiz = jsonObject.get("seconds_per_quiz") as Int
     }
 
     companion object {

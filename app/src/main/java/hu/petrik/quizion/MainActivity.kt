@@ -2,12 +2,16 @@ package hu.petrik.quizion
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.res.ColorStateList
+import android.opengl.Visibility
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
     lateinit var game: Game
     private var buttonStateSend = true
+    lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         this.window.navigationBarColor = getColor(R.color.primary)
@@ -58,6 +63,68 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showTimerBar(){
+        bind.progressBarIdo!!.visibility = View.VISIBLE
+    }
+
+    fun hideTimerBar(){
+        bind.progressBarIdo!!.visibility = View.INVISIBLE
+    }
+
+    fun stopTimer(){
+        if (this::timer.isInitialized){
+            timer.cancel()
+        }
+        hideTimerBar()
+    }
+
+    fun initializeTimer(limitInMilis: Int){
+        setTimerLimit(limitInMilis)
+        setTimerState()
+        setTimerColor(R.color.fine)
+        timer = object: CountDownTimer(limitInMilis.toLong(),10){
+            val halfTime = limitInMilis / 2
+            val quaterTime = limitInMilis / 4
+            override fun onTick(milisUntilFinished:Long){
+                this@MainActivity.setTimerState(milisUntilFinished.toInt())
+                when {
+                    milisUntilFinished < quaterTime -> {
+                        setTimerColor(R.color.warning)
+                    }
+                    milisUntilFinished < halfTime -> {
+                        setTimerColor(R.color.alert)
+                    }
+                }
+            }
+            override fun onFinish(){
+                this@MainActivity.game.sendResults(bind)
+                hideTimerBar()
+                toogleNextButton(false)
+            }
+        }
+        timer.start()
+    }
+
+    fun setTimerColor(@ColorRes color:Int){
+        runOnUiThread {
+            //bind.progressBarIdo!!.progressTintList = ColorStateList.valueOf(getColor(color))
+            //bind.progressBarIdo!!.trackColor = getColor(color)
+            bind.progressBarIdo!!.setIndicatorColor(getColor(color))
+        }
+    }
+
+    fun setTimerLimit(limitInMilis:Int){
+        bind.progressBarIdo!!.max = limitInMilis
+    }
+
+    fun setTimerState(remainingTimeInMilis:Int? = null){
+        bind.progressBarIdo!!.progress = if(remainingTimeInMilis === null){
+            bind.progressBarIdo!!.max
+        } else{
+            remainingTimeInMilis
+        }
+    }
+
     fun showNextButton() {
         bind.layoutNext!!.apply {
             visibility = View.VISIBLE
@@ -90,10 +157,10 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun toogleNextButton(){
+    fun toogleNextButton(toFixedState:Boolean? = null){
         this.showNextButton()
-        val button = bind.buttonSend!! as MaterialButton
-        if(buttonStateSend){
+        val button = bind.buttonSend!!
+        if((toFixedState==null && buttonStateSend) || (toFixedState!==null && toFixedState)){
             button.text = this.getString(R.string.next)
             val lp = button.layoutParams as RelativeLayout.LayoutParams
             lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1)
@@ -107,7 +174,11 @@ class MainActivity : AppCompatActivity() {
             lp.removeRule(RelativeLayout.ALIGN_PARENT_LEFT)
             button.layoutParams = lp
         }
-        buttonStateSend = !buttonStateSend
+        buttonStateSend = if(toFixedState !==null){
+            toFixedState
+        } else{
+            !buttonStateSend
+        }
     }
 
     fun setAnswerState(id: Int, state: AnswerState) {

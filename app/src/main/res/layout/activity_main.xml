@@ -59,7 +59,8 @@
             android:layout_marginTop="5dp"
             app:trackColor="@color/primary"
             app:indicatorColor="@color/warning"
-            android:id="@+id/progressBar_Ido"/>
+            android:id="@+id/progressBar_Ido"
+            android:visibility="invisible"/>
     </LinearLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

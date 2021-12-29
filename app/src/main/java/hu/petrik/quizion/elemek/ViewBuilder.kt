@@ -272,7 +272,7 @@ class ViewBuilder {
                 addResultTextView(
                     context,
                     selfResultLayout,
-                    selfResults.getString("rank"),
+                    "#${selfResults.getString("rank")}",
                     RelativeLayout.CENTER_VERTICAL,
                     paramTextSize = 18F,
                     paramTextColor = R.color.primary_variant
@@ -288,7 +288,7 @@ class ViewBuilder {
                 addResultTextView(
                     context,
                     selfResultLayout,
-                    "#${selfResults.getString("points")}",
+                    selfResults.getString("points"),
                     RelativeLayout.CENTER_VERTICAL,
                     RelativeLayout.ALIGN_PARENT_RIGHT,
                     paramTextSize = 18F,

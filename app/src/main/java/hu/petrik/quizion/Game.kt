@@ -1,6 +1,5 @@
 package hu.petrik.quizion
 
-import android.app.Activity
 import android.util.Log
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
@@ -11,9 +10,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
+import java.time.Duration
+import java.time.LocalDateTime
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
+class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
     var quiz: Quiz
         private set
     var token: String
@@ -26,12 +27,15 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
         private set
     var currentIndex: Int = 0
         private set
+    var delay: Int = 0
+        private set
 
     companion object {
         @Suppress("SpellCheckingInspection")
         fun newGame(quiz_id: Int, token: String): Game = runBlocking {
             lateinit var quiz: Quiz
             var count = 0
+            val now = LocalDateTime.now()
             launch {
                 quiz = Quiz.getById(quiz_id)
                 count = JSONObject(
@@ -47,7 +51,8 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
                 )
                 Log.d("Új játék / ${result[0]}", result[1])
             }.join()
-            return@runBlocking Game(quiz, token, count)
+            val delay = Duration.between(now, LocalDateTime.now()).toMillis().toInt() + 100
+            return@runBlocking Game(quiz, token, count, delay)
         }
     }
 
@@ -55,6 +60,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
         this.quiz = quiz
         this.token = token
         this.numberOfQuestions = numberOfQuestions
+        this.delay = delay
     }
 
     fun play(binding: ActivityMainBinding) {
@@ -93,6 +99,8 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
     fun sendResults(binding: ActivityMainBinding) = runBlocking {
         val params = JSONObject()
         val chosen = JSONArray()
+        val context = binding.root.context as MainActivity
+        context.stopTimer()
         for (answer in answers) {
             if (answer.isChosen) {
                 chosen.put(answer.id)
@@ -107,12 +115,10 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
                 "POST", "play/${this@Game.quiz.id}/choose", params, this@Game.token
             )
         }.join()
-        if (response[0].toInt() == 408){
-            val context = binding.root.context as MainActivity
+        if (response[0].toInt() == 408) {
             Toast.makeText(context, "Timed out!", Toast.LENGTH_SHORT).show()
             context.toogleNextButton()
-        }
-        else{
+        } else {
             loadSuccess(binding, JSONArray(response[1]))
         }
     }
@@ -143,13 +149,14 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
                         binding.root.context,
                         LeaderboardActivity(),
                         Pair("quiz_id", this@Game.quiz.id.toString()),
-                        Pair("result",result.getString("result")),
+                        Pair("result", result.getString("result")),
                         Pair("token", this@Game.token)
                     )
                 }
             }
         }.join()
-        (binding.root.context as MainActivity).setCompletionState(current)
+        val context = binding.root.context as MainActivity
+        context.setCompletionState(current)
         try {
             if (answers.isNotEmpty()) {
                 this@Game.answers.clear()
@@ -168,6 +175,8 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int) {
                         activity.game.answerEvent(activity, id)
                     }
                 }
+                context.initializeTimer(this@Game.quiz.secondsPerQuiz * 1000 - this@Game.delay)
+                context.showTimerBar()
             } else {
                 ViewBuilder.loadQuestion(
                     binding.textViewKerdes!!,
