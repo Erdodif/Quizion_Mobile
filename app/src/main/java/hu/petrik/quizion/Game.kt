@@ -115,11 +115,23 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
                 "POST", "play/${this@Game.quiz.id}/choose", params, this@Game.token
             )
         }.join()
-        if (response[0].toInt() == 408) {
-            Toast.makeText(context, "Timed out!", Toast.LENGTH_SHORT).show()
-            context.toogleNextButton()
-        } else {
-            loadSuccess(binding, JSONArray(response[1]))
+        when {
+            response[0].toInt() == 408 -> {
+                Toast.makeText(context, "Timed out!", Toast.LENGTH_SHORT).show()
+                context.toogleNextButton()
+            }
+            response[0].toInt() == 404 -> {
+                ViewSwapper.swapActivity(
+                    binding.root.context,
+                    LeaderboardActivity(),
+                    Pair("quiz_id", this@Game.quiz.id.toString()),
+                    Pair("result", "timeout"),
+                    Pair("token", this@Game.token)
+                )
+            }
+            else -> {
+                loadSuccess(binding, JSONArray(response[1]))
+            }
         }
     }
 
