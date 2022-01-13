@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
+    tools:context=".activities.RegisterActivity"
     android:orientation="vertical"
     android:background="@color/secondary"
     >
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBaseline_toTopOf="parent"
         android:gravity="center"
         android:weightSum="100"
         android:orientation="vertical">
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="15"
@@ -30,8 +30,8 @@
                 android:src="@drawable/ic_quizion_logo"
                 android:layout_marginVertical="20dp"
                 android:orientation="vertical"/>
-        </LinearLayout>
-        <LinearLayout
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="85"
@@ -90,7 +90,7 @@
                     android:inputType="textPassword"
                     android:longClickable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -118,7 +118,7 @@
                     android:background="@color/on_secondary"
                     android:textColor="@color/on_primary"
                     android:id="@+id/button_back"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,20 @@
-package hu.petrik.quizion
+package hu.petrik.quizion.activities
 
 import android.util.Log
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
-import hu.petrik.quizion.adatbazis.SQLConnector
+import hu.petrik.quizion.R
+import hu.petrik.quizion.database.SQLConnector
 import hu.petrik.quizion.databinding.ActivityMainBinding
-import hu.petrik.quizion.elemek.*
+import hu.petrik.quizion.components.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Duration
 import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
@@ -123,7 +126,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
             response[0].toInt() == 404 -> {
                 ViewSwapper.swapActivity(
                     binding.root.context,
-                    LeaderboardActivity(),
+                    QuizzesActivity(),
                     Pair("quiz_id", this@Game.quiz.id.toString()),
                     Pair("result", "timeout"),
                     Pair("token", this@Game.token)
@@ -160,17 +163,17 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
                 if (result.has("result")) {
                     ViewSwapper.swapActivity(
                         binding.root.context,
-                        LeaderboardActivity(),
+                        QuizzesActivity(),
                         Pair("quiz_id", this@Game.quiz.id.toString()),
                         Pair("result", result.getString("result")),
-                        Pair("token", this@Game.token)
+                        Pair("Token", token)
                     )
                     ended = true
                     return@launch
                 }
             }
         }.join()
-        if (!ended){
+        if (!ended) {
             val context = binding.root.context as MainActivity
             context.setCompletionState(current)
             try {

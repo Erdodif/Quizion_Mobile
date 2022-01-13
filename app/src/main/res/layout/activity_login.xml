@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
+    tools:context=".activities.LoginActivity"
     android:orientation="vertical"
     android:background="@color/secondary"
     >
@@ -31,81 +31,11 @@
                 android:layout_marginHorizontal="20dp"
                 android:src="@drawable/ic_quizion_logo" />
         </LinearLayout>
-        <LinearLayout
+        <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="55"
-            android:orientation="vertical"
-            android:gravity="bottom">
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
-                android:layout_marginVertical="10dp"
-                android:id="@+id/textInputUID">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/username_or_email"
-                    android:inputType="text"
-                    android:focusedByDefault="true"
-                    android:longClickable="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
-                android:layout_marginVertical="10dp"
-                android:id="@+id/textInputPassword"
-                app:passwordToggleEnabled="true">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:longClickable="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/login"
-                android:textAllCaps="false"
-                android:textSize="20sp"
-                android:background="@color/on_secondary"
-                android:textColor="@color/on_primary"
-                android:id="@+id/buttonLogin"
-                android:layout_gravity="center"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
-                android:padding="10dp"
-                android:text="@string/register"
-                android:textAllCaps="false"
-                android:textSize="20sp"
-                android:background="@color/on_secondary"
-                android:textColor="@color/on_primary"
-                android:id="@+id/buttonRegister"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_weight="10"
-            android:visibility="invisible">
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/on_secondary"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="10dp"
-                android:text="Fiókok"
-                android:textColor="@color/on_primary"
-                android:textSize="15dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_weight="65"
+            android:id="@+id/fragment_login"
+            android:name="hu.petrik.quizion.fragments.LoginFragment"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,6 @@
-package hu.petrik.quizion.elemek
+package hu.petrik.quizion.components
 
-import hu.petrik.quizion.adatbazis.SQLConnector.Companion.serverCall
+import hu.petrik.quizion.database.SQLConnector.Companion.serverCall
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*

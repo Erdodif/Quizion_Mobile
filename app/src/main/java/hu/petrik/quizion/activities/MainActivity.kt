@@ -1,28 +1,24 @@
-package hu.petrik.quizion
+package hu.petrik.quizion.activities
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.content.res.ColorStateList
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import androidx.core.view.updateLayoutParams
 import com.google.android.material.button.MaterialButton
+import hu.petrik.quizion.R
 import hu.petrik.quizion.databinding.ActivityMainBinding
-import hu.petrik.quizion.elemek.AnswerState
+import hu.petrik.quizion.components.AnswerState
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-@Suppress("Typo","unused")
+@Suppress("Typo", "unused")
 class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
     lateinit var game: Game
@@ -37,22 +33,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         val id = intent.getIntExtra("id", -1)
         Log.d("id", id.toString())
-        val token = intent.getStringExtra("token")!!
-        Log.d("token", token)
+        val token = intent.getStringExtra("Token")!!
         runBlocking {
             launch {
                 game = Game.newGame(id, token)
                 bind.buttonSend!!.setOnClickListener {
                     this@MainActivity.hideNextButton()
-                    if (buttonStateSend){
-                        with(this@MainActivity){
+                    if (buttonStateSend) {
+                        with(this@MainActivity) {
                             game.sendResults(bind)
                             toogleNextButton()
                             showNextButton()
                         }
-                    }
-                    else{
-                        with(this@MainActivity){
+                    } else {
+                        with(this@MainActivity) {
                             game.loadCurrent(bind)
                             toogleNextButton()
                         }
@@ -63,29 +57,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showTimerBar(){
+    fun showTimerBar() {
         bind.progressBarIdo!!.visibility = View.VISIBLE
     }
 
-    fun hideTimerBar(){
+    fun hideTimerBar() {
         bind.progressBarIdo!!.visibility = View.INVISIBLE
     }
 
-    fun stopTimer(){
-        if (this::timer.isInitialized){
+    fun stopTimer() {
+        if (this::timer.isInitialized) {
             timer.cancel()
         }
         hideTimerBar()
     }
 
-    fun initializeTimer(limitInMilis: Int){
+    fun initializeTimer(limitInMilis: Int) {
         setTimerLimit(limitInMilis)
         setTimerState()
         setTimerColor(R.color.fine)
-        timer = object: CountDownTimer(limitInMilis.toLong(),10){
+        timer = object : CountDownTimer(limitInMilis.toLong(), 10) {
             val halfTime = limitInMilis / 2
             val quaterTime = limitInMilis / 4
-            override fun onTick(milisUntilFinished:Long){
+            override fun onTick(milisUntilFinished: Long) {
                 this@MainActivity.setTimerState(milisUntilFinished.toInt())
                 when {
                     milisUntilFinished < quaterTime -> {
@@ -96,7 +90,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            override fun onFinish(){
+
+            override fun onFinish() {
                 this@MainActivity.game.sendResults(bind)
                 hideTimerBar()
                 toogleNextButton(false)
@@ -105,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         timer.start()
     }
 
-    fun setTimerColor(@ColorRes color:Int){
+    fun setTimerColor(@ColorRes color: Int) {
         runOnUiThread {
             //bind.progressBarIdo!!.progressTintList = ColorStateList.valueOf(getColor(color))
             //bind.progressBarIdo!!.trackColor = getColor(color)
@@ -113,14 +108,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setTimerLimit(limitInMilis:Int){
+    fun setTimerLimit(limitInMilis: Int) {
         bind.progressBarIdo!!.max = limitInMilis
     }
 
-    fun setTimerState(remainingTimeInMilis:Int? = null){
-        bind.progressBarIdo!!.progress = if(remainingTimeInMilis === null){
+    fun setTimerState(remainingTimeInMilis: Int? = null) {
+        bind.progressBarIdo!!.progress = if (remainingTimeInMilis === null) {
             bind.progressBarIdo!!.max
-        } else{
+        } else {
             remainingTimeInMilis
         }
     }
@@ -157,26 +152,25 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun toogleNextButton(toFixedState:Boolean? = null){
+    fun toogleNextButton(toFixedState: Boolean? = null) {
         this.showNextButton()
         val button = bind.buttonSend!!
-        if((toFixedState==null && buttonStateSend) || (toFixedState!==null && toFixedState)){
+        if ((toFixedState == null && buttonStateSend) || (toFixedState !== null && toFixedState)) {
             button.text = this.getString(R.string.next)
             val lp = button.layoutParams as RelativeLayout.LayoutParams
-            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1)
+            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 1)
             lp.removeRule(RelativeLayout.CENTER_IN_PARENT)
             button.layoutParams = lp
-        }
-        else{
+        } else {
             button.text = this.getString(R.string.send)
             val lp = button.layoutParams as RelativeLayout.LayoutParams
-            lp.addRule(RelativeLayout.CENTER_IN_PARENT,1)
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT, 1)
             lp.removeRule(RelativeLayout.ALIGN_PARENT_LEFT)
             button.layoutParams = lp
         }
-        buttonStateSend = if(toFixedState !==null){
+        buttonStateSend = if (toFixedState !== null) {
             toFixedState
-        } else{
+        } else {
             !buttonStateSend
         }
     }
@@ -185,7 +179,7 @@ class MainActivity : AppCompatActivity() {
         val button = this.findViewById<MaterialButton>(id)
         button.background = AppCompatResources.getDrawable(this, state.background)
         button.setTextColor(getColor(state.textColor))
-        button.backgroundTintList = ContextCompat.getColorStateList(this,state.backgroundColor)
+        button.backgroundTintList = ContextCompat.getColorStateList(this, state.backgroundColor)
         Log.d("Answer_state set", state.toString())
     }
 
@@ -194,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         bind.progressCompletion!!.max = count
     }
 
-    fun setCompletionState(state:Int) {
+    fun setCompletionState(state: Int) {
         bind.progressCompletion!!.progress = state
     }
 

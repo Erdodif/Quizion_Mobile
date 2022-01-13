@@ -34,4 +34,17 @@
     <string name="rank">Rank</string>
     <string name="name">Name</string>
     <string name="points">Points</string>
+    <string name="password_field_required">Password required!</string>
+    <string name="password_field_min_8">Password must be at least 8 characters long!</string>
+    <string name="password_field_max_64">Password cannot be longer than 64 characters!</string>
+    <string name="passwords_not_same">The two passwords must be identical!</string>
+    <string name="register_successful">Register successful</string>
+    <string name="email_field_required">E-mail address required!</string>
+    <string name="email_too_long">E-mail is too long!</string>
+    <string name="email_invalid">The e-mail format is invalid!</string>
+    <string name="uname_field_required">Username required!</string>
+    <string name="uname_min_6">Username must be at least 6 characters long!</string>
+    <string name="uname_max_25">Username cannot be longer than 25 characters!</string>
+    <string name="uname_alphanumeric">Username might contain only letters, numbers, and space!</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

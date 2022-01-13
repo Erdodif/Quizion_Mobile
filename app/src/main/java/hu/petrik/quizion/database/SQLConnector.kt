@@ -1,6 +1,6 @@
 @file:Suppress("BlockingMethodInNonBlockingContext")
 
-package hu.petrik.quizion.adatbazis
+package hu.petrik.quizion.database
 
 import android.util.Log
 import org.json.JSONObject

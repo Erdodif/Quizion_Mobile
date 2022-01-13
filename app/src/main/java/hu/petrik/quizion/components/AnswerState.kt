@@ -1,4 +1,4 @@
-package hu.petrik.quizion.elemek
+package hu.petrik.quizion.components
 
 import hu.petrik.quizion.R
 

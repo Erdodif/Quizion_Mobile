@@ -1,20 +1,21 @@
-package hu.petrik.quizion
+package hu.petrik.quizion.activities
 
+import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import hu.petrik.quizion.adatbazis.SQLConnector
+import hu.petrik.quizion.R
+import hu.petrik.quizion.database.SQLConnector
 import hu.petrik.quizion.databinding.ActivityRegisterBinding
-import hu.petrik.quizion.elemek.ViewSwapper
+import hu.petrik.quizion.components.ViewSwapper
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.lang.StringBuilder
 
 class RegisterActivity : AppCompatActivity() {
-    //TODO Többnyelvűség megvalósítása
     private var registerInProgress = false
     override fun onCreate(savedInstanceState: Bundle?) {
         this.window.navigationBarColor = this.resources.getColor(R.color.secondary)
@@ -36,22 +37,23 @@ class RegisterActivity : AppCompatActivity() {
     private fun validateName(binding: ActivityRegisterBinding): Boolean {
         val name = binding.textInputUserName.editText!!.text.toString()
         val constraintWordCharacter = Regex("""[^\p{javaLetterOrDigit}]""")
+        val context = binding.root.context
         when {
             name.isEmpty() -> {
                 binding.textInputUserName.error =
-                    "A név megadása kötelező!"
+                    context.getString(R.string.uname_field_required)
             }
             name.length < 6 -> {
                 binding.textInputUserName.error =
-                    "A felhasználónévnek minimum 6 karakter hosszúnak kell lennie"
+                    context.getString(R.string.uname_min_6)
             }
             name.length > 25 -> {
                 binding.textInputUserName.error =
-                    "A felhasználónév maximum 25 karakter hosszú lehet"
+                    context.getString(R.string.uname_max_25)
             }
             constraintWordCharacter.containsMatchIn(name) -> {
                 binding.textInputUserName.error =
-                    "A felhasználónév nem tartalmazhat csak betűt, számot és szóközt!"
+                    context.getString(R.string.uname_alphanumeric)
             }
             else -> {
                 binding.textInputUserName.error = null
@@ -63,18 +65,19 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun validateEmail(binding: ActivityRegisterBinding): Boolean {
         val email = binding.textInputEmail.editText!!.text.toString()
+        val context = binding.root.context
         when {
             email.length < 6 -> {
                 binding.textInputEmail.error =
-                    "Email megadása közelező!"
+                    context.getString(R.string.email_field_required)
             }
             email.length > 40 -> {
                 binding.textInputEmail.error =
-                    "E-mail túl hosszú"
+                    context.getString(R.string.email_too_long)
             }
             !email.contains('@') || !email.contains('.') -> {
                 binding.textInputEmail.error =
-                    "Email érvénytelen"
+                    context.getString(R.string.email_invalid)
             }
             else -> {
                 binding.textInputEmail.error = null
@@ -93,16 +96,17 @@ class RegisterActivity : AppCompatActivity() {
         when {
             password.isEmpty() -> {
                 binding.textInputPassword.error =
-                    "A jelszó megadása kötelező!"
+                    context.getString(R.string.password_field_required)
                 passwordValid = false
             }
             password.length < 8 -> {
                 binding.textInputPassword.error =
-                    "A jelszó minimum 8 karakter hosszú kell hogy legyen!"
+                    context.getString(R.string.password_field_min_8)
                 passwordValid = false
             }
             password.length > 64 -> {
-                binding.textInputPassword.error = "A jelszó minimum 64 karakter hosszú lehet!"
+                binding.textInputPassword.error =
+                    context.getString(R.string.password_field_max_64)
                 passwordValid = false
             }
             else -> {
@@ -152,7 +156,8 @@ class RegisterActivity : AppCompatActivity() {
         val passwordAgain = binding.textInputPasswordAgain.editText!!.text.toString()
         var passwordValid = true
         if (password != passwordAgain) {
-            binding.textInputPasswordAgain.error = "A két jelszó nem egyezik!"
+            binding.textInputPasswordAgain.error =
+                (binding.root.context as Activity).getString(R.string.passwords_not_same)
             passwordValid = false
         }
         if (passwordValid) {
@@ -187,14 +192,14 @@ class RegisterActivity : AppCompatActivity() {
                 if (result[0].startsWith('2')) {
                     Toast.makeText(
                         binding.root.context,
-                        "Sikeres regisztráció!",
+                        context.getString(R.string.register_successful),
                         Toast.LENGTH_SHORT
                     ).show()
                     ViewSwapper.swapActivity(
                         this@RegisterActivity,
                         LoginActivity(),
                         Pair("userID", params.getString("name")),
-                        Pair("password",params.getString("password"))
+                        Pair("password", params.getString("password"))
                     )
                 }
             }.join()

@@ -1,6 +1,6 @@
-package hu.petrik.quizion.elemek
+package hu.petrik.quizion.components
 
-import hu.petrik.quizion.adatbazis.SQLConnector.Companion.serverCall
+import hu.petrik.quizion.database.SQLConnector.Companion.serverCall
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.collections.ArrayList
@@ -16,7 +16,7 @@ class Quiz {
     var secondsPerQuiz: Int
         private set
 
-    constructor(id: Int?, header: String, description: String,secondsPerQuiz: Int) {
+    constructor(id: Int?, header: String, description: String, secondsPerQuiz: Int) {
         this.id = id
         this.header = header
         this.description = description
