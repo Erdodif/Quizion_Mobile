@@ -34,7 +34,7 @@ class Quiz {
 
         @Suppress("SpellCheckingInspection")
         suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = serverCall("GET", "quizes/actives")
+            val response = serverCall("GET", "quizzes/actives")
             if (response[0].startsWith("2")) {
                 val json = JSONArray(response[1])
                 val list = ArrayList<Quiz>()
