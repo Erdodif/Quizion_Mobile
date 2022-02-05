@@ -42,11 +42,11 @@ class Question {
         }
 
         suspend fun getById(id: Int): Question {
-            return Question(JSONObject(serverCall("GET", "question/$id")[1]))
+            return Question(JSONObject(serverCall("GET", "questions/$id")[1]))
         }
 
         suspend fun getAllByQuiz(id: Int): ArrayList<Question> {
-            val response = JSONArray(serverCall("GET", "quiz/$id/questions"))
+            val response = JSONArray(serverCall("GET", "quizzzes/$id/questions"))
             val list = ArrayList<Question>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)

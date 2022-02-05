@@ -188,7 +188,7 @@ class RegisterActivity : AppCompatActivity() {
         params.put("password", binding.textInputPassword.editText!!.text.toString())
         runBlocking {
             launch {
-                val result = SQLConnector.serverCall("POST", "user/register", params)
+                val result = SQLConnector.serverCall("POST", "users/register", params)
                 if (result[0].startsWith('2')) {
                     Toast.makeText(
                         binding.root.context,

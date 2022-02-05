@@ -41,8 +41,9 @@ class LeaderboardFragment : Fragment() {
     }
 
     private fun init() {
-        val result = arguments!!.getString("result")
-        val quizId = arguments!!.getString("quiz_id")!!.toInt()
+        val arguments = requireArguments()
+        val result = arguments.getString("result")
+        val quizId = arguments.getString("quiz_id")!!.toInt()
         val token = (activity as QuizzesActivity).token
         Toast.makeText(activity, result, Toast.LENGTH_SHORT).show()
         loadLeaderboard(bind.layoutLeaderboard, bind.layoutResultSelf, quizId, token)
@@ -73,7 +74,7 @@ class LeaderboardFragment : Fragment() {
                     "ranking/$quizId",
                     token = token
                 )[1]
-            ).getJSONObject("user")
+            ).getJSONObject("users")
         }.join()
         for (i in 0 until results.length()) {
             val result = results.getJSONObject(i)

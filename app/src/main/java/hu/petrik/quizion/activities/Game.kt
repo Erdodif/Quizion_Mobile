@@ -44,7 +44,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
                 count = JSONObject(
                     SQLConnector.serverCall(
                         "GET",
-                        "quiz/$quiz_id/questions/count"
+                        "quizzes/$quiz_id/questions/count"
                     )[1]
                 ).getInt("count")
                 val result = SQLConnector.serverCall(

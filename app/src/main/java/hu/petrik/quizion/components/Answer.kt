@@ -45,7 +45,7 @@ class Answer {
 
         suspend fun getAllByQuiz(id: Int, order: Int): ArrayList<Answer> {
             val response =
-                JSONArray(serverCall("GET", "quiz/$id/question/$order/answers"))
+                JSONArray(serverCall("GET", "quizzes/$id/questions/$order/answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -59,7 +59,7 @@ class Answer {
                 JSONObject(
                     serverCall(
                         "GET",
-                        "quiz/$id/question/$questionOrder/answer/$answerOrder"
+                        "quizzes/$id/questions/$questionOrder/answers/$answerOrder"
                     )[1]
                 )
             )
@@ -67,7 +67,7 @@ class Answer {
 
         suspend fun getAllByQuestion(questionId: Int): ArrayList<Answer> {
             val response =
-                JSONArray(serverCall("GET", "question/$questionId/answers"))
+                JSONArray(serverCall("GET", "questions/$questionId/answers"))
             val list = ArrayList<Answer>()
             for (i in 0 until response.length()) {
                 val item = response.getJSONObject(i)
@@ -81,14 +81,14 @@ class Answer {
                 JSONObject(
                     serverCall(
                         "GET",
-                        "/question/$questionId/answer/$answerOrder"
+                        "/questions/$questionId/answers/$answerOrder"
                     )[1]
                 )
             )
         }
 
         suspend fun getById(id: Int): Answer {
-            return Answer(JSONObject(serverCall("GET", "answer/$id")[1]))
+            return Answer(JSONObject(serverCall("GET", "answers/$id")[1]))
         }
     }
 

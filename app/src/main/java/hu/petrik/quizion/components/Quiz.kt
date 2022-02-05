@@ -34,7 +34,7 @@ class Quiz {
 
         @Suppress("SpellCheckingInspection")
         suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = serverCall("GET", "quizzes/actives")
+            val response = serverCall("GET", "quizzes")
             if (response[0].startsWith("2")) {
                 val json = JSONArray(response[1])
                 val list = ArrayList<Quiz>()
@@ -49,7 +49,7 @@ class Quiz {
         }
 
         suspend fun getById(id: Int): Quiz {
-            return Quiz(JSONObject(serverCall("GET", "quiz/$id")[1]))
+            return Quiz(JSONObject(serverCall("GET", "quizzes/$id")[1]))
         }
     }
 }

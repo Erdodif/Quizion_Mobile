@@ -53,13 +53,17 @@ class LoginFragment : Fragment() {
             bind.textInputPassword.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             false
         }
-        if (arguments != null && arguments!!.containsKey("userID")
-            && arguments!!.containsKey("password")
-        ) {
-            val userID = arguments!!.getString("userID")!!
-            val password = arguments!!.getString("password")!!
-            fillFromRegister(userID, password)
+        try {
+            val arguments = requireArguments()
+            if (arguments!!.containsKey("userID")
+                && arguments!!.containsKey("password")
+            ) {
+                val userID = arguments!!.getString("userID")!!
+                val password = arguments!!.getString("password")!!
+                fillFromRegister(userID, password)
+            }
         }
+        catch (e:IllegalStateException){}
     }
 
     private fun fillFromRegister(userID: String, password: String) {
@@ -100,10 +104,12 @@ class LoginFragment : Fragment() {
         runBlocking {
             try {
                 val run = launch {
-                    result = SQLConnector.serverCall("POST", "user/login", params)
+                    result = SQLConnector.serverCall("POST", "users/login", params)
                 }
                 run.join()
                 if (result[0].startsWith("2")) {
+                    val remember_token = JSONObject(result[1]).getString("remember_token")
+                    val uName = JSONObject(result[1]).getString("userName")
                     val token = JSONObject(result[1]).getString("token")
                     ViewSwapper.swapActivity(
                         context,
