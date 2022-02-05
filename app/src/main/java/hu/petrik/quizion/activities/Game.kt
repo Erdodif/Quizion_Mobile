@@ -179,7 +179,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
             try {
                 if (answers.isNotEmpty()) {
                     this@Game.answers.clear()
-                    ViewBuilder.loadQuestion(binding.textViewKerdes!!, question.content)
+                    ViewBuilder.loadQuestion(binding.textViewKerdes, question.content)
                     val ids = ViewBuilder.loadAnswerAll(
                         binding.root.context as MainActivity,
                         binding.layoutValaszok,
@@ -198,12 +198,12 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
                     context.showTimerBar()
                 } else {
                     ViewBuilder.loadQuestion(
-                        binding.textViewKerdes!!,
+                        binding.textViewKerdes,
                         binding.root.context.getString(R.string.connection_failed)
                     )
                 }
             } catch (e: Exception) {
-                ViewBuilder.loadQuestion(binding.textViewKerdes!!, e.message)
+                ViewBuilder.loadQuestion(binding.textViewKerdes, e.message)
             }
         }
     }

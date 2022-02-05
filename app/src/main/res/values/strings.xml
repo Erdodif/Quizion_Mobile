@@ -46,5 +46,5 @@
     <string name="uname_min_6">Username must be at least 6 characters long!</string>
     <string name="uname_max_25">Username cannot be longer than 25 characters!</string>
     <string name="uname_alphanumeric">Username might contain only letters, numbers, and space!</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="remember_me">Remember me</string>
 </resources>

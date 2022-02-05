@@ -64,10 +64,10 @@ class QuizListFragment : Fragment() {
         }.join()
     }
 
-    fun loadQuizAll(quitLayout: LinearLayout, content: List<Quiz>, token: String) {
+    private fun loadQuizAll(quizLayout: LinearLayout, content: List<Quiz>, token: String) {
         for (elem in content) {
-            val lp = LinearLayout.LayoutParams(quitLayout.layoutParams)
-            lp.setMargins(20, 10, 20, 10)
+            val lp = LinearLayout.LayoutParams(quizLayout.layoutParams)
+            lp.setMargins(20, 20, 20, 20)
             val layout = LinearLayout(context)
             layout.apply {
                 setPadding(ViewBuilder.toPX(activity as Activity, 15))
@@ -95,17 +95,20 @@ class QuizListFragment : Fragment() {
                 textSize = 20F
                 setTextColor(context.getColor(R.color.primary_variant))
             }
-            val playButton = MaterialButton(context as Context)
-            lp.setMargins(20, 0, 20, 0)
+            val playButton = MaterialButton(
+                context as Activity,
+                null,
+                R.style.action_button
+            )
             playButton.apply {
-                isAllCaps = false
                 text = resources.getText(R.string.play)
                 layoutParams = lp
-                setPadding(ViewBuilder.toPX(activity as Activity, 15))
                 textSize = 20F
+                backgroundTintList = context.getColorStateList(R.color.on_secondary)
+                textAlignment = MaterialButton.TEXT_ALIGNMENT_CENTER
                 setTextColor(context.getColor(R.color.on_primary))
-                backgroundTintList = context.getColorStateList(R.color.secondary_variant)
-                cornerRadius = 20
+                cornerRadius = ViewBuilder.toPX(context as Activity,20)
+                setPadding(ViewBuilder.toPX(activity as Activity, 15))
             }
             layout.addView(header)
             layout.addView(description)
@@ -121,17 +124,17 @@ class QuizListFragment : Fragment() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            quitLayout.addView(layout)
+            quizLayout.addView(layout)
             Log.d(requireActivity().getString(R.string.header), elem.header)
             Log.d(requireActivity().getString(R.string.description), elem.description)
         }
-        quitLayout.measure(
+        quizLayout.measure(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
     }
 
-    fun loadLabelError(quizLayout: LinearLayout, error: String) {
+    private fun loadLabelError(quizLayout: LinearLayout, error: String) {
         requireActivity().runOnUiThread {
             quizLayout.removeAllViews()
             val layout = LinearLayout(context)
