@@ -27,7 +27,6 @@ class RegisterActivity : AppCompatActivity() {
         }
         bind.buttonRegister.setOnClickListener {
             Log.d("RegisterButtonState", "Pressed")
-            val params = JSONObject()
             if (validate(bind)) {
                 register(this, bind)
             }

@@ -115,15 +115,15 @@ class QuizListFragment : Fragment() {
                 intent.putExtra("id", elem.id)
                 intent.putExtra("Token", token)
                 (context as Context).startActivity(intent)
-                activity!!.finish()
+                requireActivity().finish()
             }
             layout.measure(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             quitLayout.addView(layout)
-            Log.d(activity!!.getString(R.string.header), elem.header)
-            Log.d(activity!!.getString(R.string.description), elem.description)
+            Log.d(requireActivity().getString(R.string.header), elem.header)
+            Log.d(requireActivity().getString(R.string.description), elem.description)
         }
         quitLayout.measure(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -132,7 +132,7 @@ class QuizListFragment : Fragment() {
     }
 
     fun loadLabelError(quizLayout: LinearLayout, error: String) {
-        activity!!.runOnUiThread {
+        requireActivity().runOnUiThread {
             quizLayout.removeAllViews()
             val layout = LinearLayout(context)
             val lp = LinearLayout.LayoutParams(quizLayout.layoutParams)
