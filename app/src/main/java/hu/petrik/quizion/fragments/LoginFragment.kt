@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
+import hu.petrik.quizion.R
 import hu.petrik.quizion.activities.LoginActivity
 import hu.petrik.quizion.activities.RegisterActivity
 import hu.petrik.quizion.components.ViewSwapper
@@ -29,12 +30,39 @@ class LoginFragment : Fragment() {
         return bind.root
     }
 
+    fun clearErrorMessages(){
+        bind.textInputPassword.error = null
+        bind.textInputUID.error = null
+    }
+
     private fun init() {
+        clearErrorMessages()
+        bind.textInputUID.setOnClickListener{
+            bind.textInputUID.error = null
+        }
+        bind.textInputPassword.setOnClickListener{
+            bind.textInputPassword.error = null
+        }
         bind.buttonLogin.setOnClickListener {
-            (activity as LoginActivity).login(
-                bind.textInputUID.editText!!.text.toString(),
-                bind.textInputPassword.editText!!.text.toString()
-            )
+            val activity = requireActivity()
+            val uID = bind.textInputUID.editText!!.text.toString()
+            val pass = bind.textInputPassword.editText!!.text.toString()
+            var noError = true
+            if(uID.isEmpty()){
+                bind.textInputUID.error = activity.getString(R.string.uid_field_missing)
+                noError = false
+            }
+            if(pass.isEmpty()){
+                bind.textInputPassword.error = activity.getString(R.string.password_field_missing)
+                noError = false
+            }
+            if(noError){
+                clearErrorMessages()
+                (activity as LoginActivity).login(
+                    uID,
+                    pass
+                )
+            }
         }
         bind.buttonRegister.setOnClickListener {
             ViewSwapper.swapActivity(activity as Context, RegisterActivity())

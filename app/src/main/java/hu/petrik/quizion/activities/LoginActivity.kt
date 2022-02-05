@@ -78,6 +78,7 @@ class LoginActivity : AppCompatActivity() {
                     transaction.replace(bind.fragmentLogin.id, LoginFragment())
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     transaction.commit()
+                    supportFragmentManager.executePendingTransactions()
                     ViewSwapper.swapActivity(
                         this@LoginActivity,
                         QuizzesActivity(),
@@ -86,10 +87,15 @@ class LoginActivity : AppCompatActivity() {
                     )
                     Log.d(getString(R.string.state), getString(R.string.login_successful))
                 } else {
-                    loadingFragment.setErrorMessage(getString(R.string.login_failed))
+                    Timer().schedule(object: TimerTask() {
+                        override fun run() {
+                            runOnUiThread {
+                                loadingFragment.setErrorMessage(getString(R.string.login_failed))
+                            }
+                        }
+                    },1000)
                     Log.d(getString(R.string.state), result[0])
-                    val timer = Timer()
-                    timer.schedule(object: TimerTask() {
+                    Timer().schedule(object: TimerTask() {
                         override fun run() {
                             transaction = supportFragmentManager.beginTransaction()
                             transaction.replace(bind.fragmentLogin.id, loginFragment)

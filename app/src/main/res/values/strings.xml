@@ -47,4 +47,6 @@
     <string name="uname_max_25">Username cannot be longer than 25 characters!</string>
     <string name="uname_alphanumeric">Username might contain only letters, numbers, and space!</string>
     <string name="remember_me">Remember me</string>
+    <string name="uid_field_missing">Missing user ID</string>
+    <string name="password_field_missing">Missing password</string>
 </resources>

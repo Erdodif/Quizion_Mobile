@@ -45,4 +45,6 @@
     <string name="uname_max_25">Felhasználónév nem lehet hosszabb 25 karakternél!</string>
     <string name="uname_alphanumeric">A felhasználónévben csak betűk, számok és szóköz lehet!</string>
     <string name="remember_me">Jegyezz meg</string>
+    <string name="uid_field_missing">Nincs megadva azonosító</string>
+    <string name="password_field_missing">Nincs megadva jelszó</string>
 </resources>
