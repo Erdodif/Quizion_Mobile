@@ -1,14 +1,20 @@
 package hu.petrik.quizion.fragments
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textview.MaterialTextView
 import hu.petrik.quizion.R
 import hu.petrik.quizion.activities.LoginActivity
 import hu.petrik.quizion.activities.RegisterActivity
@@ -16,7 +22,7 @@ import hu.petrik.quizion.components.ViewSwapper
 import hu.petrik.quizion.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
-
+    private var tokenLogin = false
     private lateinit var bind: FragmentLoginBinding
 
     private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
@@ -45,8 +51,9 @@ class LoginFragment : Fragment() {
         }
         bind.buttonLogin.setOnClickListener {
             val activity = requireActivity()
-            val uID = bind.textInputUID.editText!!.text.toString()
+            val uID = if (tokenLogin) bind.unameLocked.text as String else bind.textInputUID.editText!!.text.toString()
             val pass = bind.textInputPassword.editText!!.text.toString()
+            val remember =  if (tokenLogin) true else bind.checkboxRemember.isChecked
             var noError = true
             if(uID.isEmpty()){
                 bind.textInputUID.error = activity.getString(R.string.uid_field_missing)
@@ -60,7 +67,8 @@ class LoginFragment : Fragment() {
                 clearErrorMessages()
                 (activity as LoginActivity).login(
                     uID,
-                    pass
+                    pass,
+                    remember
                 )
             }
         }
@@ -71,6 +79,12 @@ class LoginFragment : Fragment() {
             bind.textInputPassword.editText!!.text = "".toEditable()
             bind.textInputPassword.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             false
+        }
+        bind.labelRemember.setOnClickListener {
+            bind.checkboxRemember.isChecked = !bind.checkboxRemember.isChecked
+        }
+        bind.buttonCancel.setOnClickListener {
+            clearEditor()
         }
         try {
             val arguments = requireArguments()
@@ -111,5 +125,32 @@ class LoginFragment : Fragment() {
         }
     }
 
+    fun fillFromExpiredToken(uName:String){
+        tokenLogin = true
+        bind.textInputUID.editText!!.text = uName.toEditable()
+        bind.textInputUID.isEnabled = false
+        bind.checkboxRemember.isChecked = true
+        bind.textInputUID.visibility = MaterialTextView.GONE
+        bind.buttonRegister.visibility = MaterialButton.GONE
+        bind.checkboxRemember.visibility = MaterialCheckBox.GONE
+        bind.labelRemember.visibility = TextView.GONE
+        bind.buttonCancel.visibility = MaterialButton.VISIBLE
+        bind.tokenLayout.visibility = LinearLayoutCompat.VISIBLE
+        bind.unameLocked.text = uName
 
+    }
+
+    fun clearEditor() {
+        tokenLogin = false
+        bind.textInputUID.editText!!.text = null
+        bind.unameLocked.text = null
+        bind.textInputUID.isEnabled = true
+        bind.checkboxRemember.isChecked = false
+        bind.textInputUID.visibility = MaterialTextView.VISIBLE
+        bind.buttonRegister.visibility = MaterialButton.VISIBLE
+        bind.checkboxRemember.visibility = MaterialCheckBox.VISIBLE
+        bind.labelRemember.visibility = TextView.VISIBLE
+        bind.buttonCancel.visibility = MaterialButton.GONE
+        bind.tokenLayout.visibility = LinearLayoutCompat.GONE
+    }
 }

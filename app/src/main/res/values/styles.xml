@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="action_button" parent="Widget.MaterialComponents.Button">
-        <item name="android:backgroundTint">@color/on_secondary</item>
+        <item name="android:backgroundTint">@color/textColorSecondary</item>
         <item name="cornerRadius">10dp</item>
         <item name="android:paddingHorizontal">22sp</item>
         <item name="android:paddingVertical">6sp</item>
-        <item name="android:textColor">@color/on_primary</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">20sp</item>
         <item name="textAllCaps">false</item>
     </style>

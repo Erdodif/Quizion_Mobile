@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        this.window.navigationBarColor = getColor(R.color.primary)
+        this.window.navigationBarColor = getColor(R.color.colorPrimary)
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
         val view = bind.root

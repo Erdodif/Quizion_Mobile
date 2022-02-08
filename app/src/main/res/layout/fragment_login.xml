@@ -8,6 +8,35 @@
     android:layout_height="match_parent"
     tools:context=".fragments.LoginFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/tokenLayout"
+        android:visibility="gone">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/renew_password"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="10dp"
+            android:background="@color/colorSecondaryDark"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/unameLocked"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="10dp"
+            android:background="@color/textColorPrimary"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimary"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +48,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/username_or_email"
             android:inputType="text"
+            android:textSize="16sp"
             android:focusedByDefault="true"
             android:longClickable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -34,6 +64,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:textSize="16sp"
             android:longClickable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -41,22 +72,24 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginHorizontal="40dp"
-        android:gravity="right">
+        android:gravity="end">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@string/remember_me"/>
-        <androidx.appcompat.widget.AppCompatCheckBox
+            android:text="@string/remember_me"
+            android:id="@+id/label_Remember"/>
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkbox_Remember"/>
-
+            android:id="@+id/checkbox_Remember"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryDark"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
+        android:layout_marginVertical="5dp"
         android:text="@string/login"
         style="@style/action_button"
         android:id="@+id/buttonLogin"
@@ -68,4 +101,12 @@
         style="@style/action_button"
         android:id="@+id/buttonRegister"
         android:layout_gravity="center"/>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        style="@style/action_button"
+        android:id="@+id/buttonCancel"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

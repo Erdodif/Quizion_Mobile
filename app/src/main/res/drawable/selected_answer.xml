@@ -6,11 +6,11 @@
         android:right="2dp"
         android:top="5dp">
         <shape>
-            <solid android:color="@color/on_secondary" />
+            <solid android:color="@color/textColorSecondary" />
             <corners android:radius="10dp" />
             <stroke
                 android:width="4dp"
-                android:color="@color/primary_variant" />
+                android:color="@color/colorPrimaryDark" />
         </shape>
     </item>
 </layer-list>

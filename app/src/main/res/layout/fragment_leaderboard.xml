@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_variant"
+        android:background="@color/colorPrimaryDark"
         android:paddingVertical="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp">
@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:text="@string/rank"
-            android:textColor="@color/on_primary"
+            android:textColor="@color/textColorPrimary"
             android:textSize="18sp" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/name"
             android:textAlignment="center"
-            android:textColor="@color/on_primary"
+            android:textColor="@color/textColorPrimary"
             android:textSize="20sp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
             android:text="@string/points"
-            android:textColor="@color/on_primary"
+            android:textColor="@color/textColorPrimary"
             android:textSize="20sp" />
     </RelativeLayout>
     <ScrollView
@@ -75,7 +75,7 @@
             android:text="#200000000"
             android:layout_marginStart="10dp"
             android:id="@+id/order"
-            android:textColor="@color/primary_variant"/>
+            android:textColor="@color/colorPrimaryDark"/>
         <TextView
             android:layout_centerInParent="true"
             android:textAlignment="center"
@@ -86,7 +86,7 @@
             android:textSize="18sp"
             android:text="Probaboi"
             android:layout_marginStart="10dp"
-            android:textColor="@color/primary_variant"/>
+            android:textColor="@color/colorPrimaryDark"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
             android:layout_marginEnd="10dp"
             android:textSize="15sp"
             android:id="@+id/points"
-            android:textColor="@color/primary_variant"/>
+            android:textColor="@color/colorPrimaryDark"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_marginHorizontal="10dp"
@@ -113,7 +113,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:backgroundTint="@color/primary_variant"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="@string/back_to_quizes" />
         <!--Megosztás gomb, később talán bekerül-->
         <com.google.android.material.button.MaterialButton
@@ -125,7 +125,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="5dp"
             android:text="@string/share"
-            android:backgroundTint="@color/primary_variant"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:visibility="gone"/>
     </RelativeLayout>
 </LinearLayout>

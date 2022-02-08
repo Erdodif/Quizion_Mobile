@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="hu.petrik.quizion.activities.MainActivity"
     android:orientation="vertical"
-    android:background="@color/secondary">
+    android:background="@color/colorSecondary">
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -40,7 +40,7 @@
                 android:shadowDy="5"
                 android:textSize="22sp"
                 android:textAlignment="center"
-                android:textColor="@color/on_primary"
+                android:textColor="@color/textColorPrimary"
                 android:background="@drawable/info_rounded_corner"/>
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
@@ -57,7 +57,7 @@
             android:scaleY="5"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="5dp"
-            app:trackColor="@color/primary"
+            app:trackColor="@color/colorPrimary"
             app:indicatorColor="@color/warning"
             android:id="@+id/progressBar_Ido"
             android:visibility="invisible"/>
@@ -84,8 +84,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:textSize="25sp"
                 android:textAlignment="center"
-                android:background="@color/secondary_variant"
-                android:textColor="@color/on_primary"/>
+                android:background="@color/colorSecondaryDark"
+                android:textColor="@color/textColorPrimary"/>
         </ScrollView>
         <!--Segítségek gomb, mejd bekerül-->
         <TextView
@@ -100,7 +100,7 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/on_primary"
+            android:textColor="@color/textColorPrimary"
             android:visibility="gone">
 
         </TextView>
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="15dp"
-                android:background="@color/on_primary"
+                android:background="@color/textColorPrimary"
                 android:orientation="vertical"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -142,14 +142,14 @@
                     android:scaleY="3"
                     android:max="100"
                     android:progress="20"
-                    app:indicatorColor="@color/primary_variant"
+                    app:indicatorColor="@color/colorPrimaryDark"
                     android:id="@+id/progress_completion"/>
 
                 <RelativeLayout
                     android:layout_marginTop="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/primary"
+                    android:background="@color/colorPrimary"
                     android:id="@+id/layout_Next"
                     android:visibility="gone">
 
@@ -161,7 +161,7 @@
                         android:layout_marginEnd="5dp"
                         android:text="@string/send"
                         android:layout_alignParentEnd="true"
-                        android:backgroundTint="@color/primary_variant"/>
+                        android:backgroundTint="@color/colorPrimaryDark"/>
 
                 </RelativeLayout>
             </LinearLayout>

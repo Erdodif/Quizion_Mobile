@@ -47,4 +47,6 @@
     <string name="remember_me">Jegyezz meg</string>
     <string name="uid_field_missing">Nincs megadva azonosító</string>
     <string name="password_field_missing">Nincs megadva jelszó</string>
+    <string name="renew_password">Add meg újra a jelszót</string>
+    <string name="cancel">Mégse</string>
 </resources>

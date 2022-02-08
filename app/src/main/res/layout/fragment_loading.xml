@@ -28,7 +28,7 @@
             android:textSize="20sp"
             android:textAlignment="center"
             android:background="@drawable/answer"
-            android:textColor="@color/primary"
+            android:textColor="@color/colorPrimary"
             android:visibility="gone"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 

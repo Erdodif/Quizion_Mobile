@@ -14,7 +14,7 @@ class QuizzesActivity : AppCompatActivity() {
 
     @Suppress("deprecation")
     override fun onCreate(savedInstanceState: Bundle?) {
-        this.window.navigationBarColor = this.resources.getColor(R.color.secondary)
+        this.window.navigationBarColor = this.resources.getColor(R.color.colorSecondary)
         super.onCreate(savedInstanceState)
         val bind = ActivityQuizListBinding.inflate(layoutInflater)
         setContentView(bind.root)

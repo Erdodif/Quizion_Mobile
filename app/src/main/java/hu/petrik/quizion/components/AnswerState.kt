@@ -12,31 +12,31 @@ enum class AnswerState(
     DEFAULT(
         "Default",
         R.drawable.answer,
-        R.color.primary,
-        R.color.on_primary
+        R.color.colorPrimary,
+        R.color.textColorPrimary
     ),
     SELECTED(
         "Selected",
         R.drawable.selected_answer,
-        R.color.on_primary,
-        R.color.primary
+        R.color.textColorPrimary,
+        R.color.colorPrimary
     ),
     CHOSEN_CORRECT(
         "Correct",
         R.drawable.chosen_good_answer,
-        R.color.primary_variant,
+        R.color.colorPrimaryDark,
         R.color.right_answer
     ),
     CHOSEN_INCORRECT(
         "Wrong",
         R.drawable.chosen_bad_answer,
-        R.color.primary_variant,
+        R.color.colorPrimaryDark,
         R.color.wrong_answer
     ),
     MISSING_CORRECT(
         "Missing",
         R.drawable.unchosen_good_answer,
-        R.color.primary_variant,
+        R.color.colorPrimaryDark,
         R.color.right_answer
     );
 

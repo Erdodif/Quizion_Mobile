@@ -49,4 +49,8 @@
     <string name="remember_me">Remember me</string>
     <string name="uid_field_missing">Missing user ID</string>
     <string name="password_field_missing">Missing password</string>
+    <string name="app_users_pref_file" translatable="false">Quizion_Users</string>
+    <string name="cancel">Cancel</string>
+    <string name="renew_password">Please enter your password again</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

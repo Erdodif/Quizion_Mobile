@@ -18,7 +18,7 @@ import java.lang.StringBuilder
 class RegisterActivity : AppCompatActivity() {
     private var registerInProgress = false
     override fun onCreate(savedInstanceState: Bundle?) {
-        this.window.navigationBarColor = this.resources.getColor(R.color.secondary)
+        this.window.navigationBarColor = this.resources.getColor(R.color.colorSecondary)
         super.onCreate(savedInstanceState)
         val bind = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(bind.root)

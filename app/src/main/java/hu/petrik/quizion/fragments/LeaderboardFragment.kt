@@ -88,7 +88,7 @@ class LeaderboardFragment : Fragment() {
                 layoutParams.height = RelativeLayout.LayoutParams.WRAP_CONTENT
                 layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT
                 background = AppCompatResources.getDrawable(context, R.drawable.answer)
-                backgroundTintList = context.getColorStateList(R.color.primary)
+                backgroundTintList = context.getColorStateList(R.color.colorPrimary)
                 setPadding(
                     0,
                     ViewBuilder.toPX(context, 5),
@@ -120,7 +120,7 @@ class LeaderboardFragment : Fragment() {
                 "#${selfResults.getString("rank")}",
                 RelativeLayout.CENTER_VERTICAL,
                 paramTextSize = 18F,
-                paramTextColor = R.color.primary_variant
+                paramTextColor = R.color.colorPrimaryDark
             )
             addResultTextView(
                 context,
@@ -128,7 +128,7 @@ class LeaderboardFragment : Fragment() {
                 selfResults.getString("name"),
                 RelativeLayout.CENTER_IN_PARENT,
                 paramTextSize = 18F,
-                paramTextColor = R.color.primary_variant
+                paramTextColor = R.color.colorPrimaryDark
             )
             addResultTextView(
                 context,
@@ -137,7 +137,7 @@ class LeaderboardFragment : Fragment() {
                 RelativeLayout.CENTER_VERTICAL,
                 RelativeLayout.ALIGN_PARENT_RIGHT,
                 paramTextSize = 18F,
-                paramTextColor = R.color.primary_variant
+                paramTextColor = R.color.colorPrimaryDark
             )
         }
     }
@@ -164,7 +164,7 @@ class LeaderboardFragment : Fragment() {
         }
         with(textView) {
             if (paramTextColor === null) {
-                setTextColor(ContextCompat.getColor(context, R.color.on_primary))
+                setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
             } else {
                 setTextColor(ContextCompat.getColor(context, paramTextColor))
             }

@@ -72,7 +72,7 @@ class QuizListFragment : Fragment() {
             layout.apply {
                 setPadding(ViewBuilder.toPX(activity as Activity, 15))
                 layoutParams = lp
-                background = AppCompatResources.getDrawable(context, R.color.on_primary)
+                background = AppCompatResources.getDrawable(context, R.color.textColorPrimary)
                 orientation = LinearLayout.VERTICAL
             }
             val header = TextView(context)
@@ -82,7 +82,7 @@ class QuizListFragment : Fragment() {
                 text = elem.header
                 isAllCaps = false
                 textSize = 20F
-                setTextColor(context.getColor(R.color.primary_variant))
+                setTextColor(context.getColor(R.color.colorPrimaryDark))
                 textAlignment = View.TEXT_ALIGNMENT_CENTER
             }
             val description = TextView(context)
@@ -93,7 +93,7 @@ class QuizListFragment : Fragment() {
                 text = elem.description
                 isAllCaps = false
                 textSize = 20F
-                setTextColor(context.getColor(R.color.primary_variant))
+                setTextColor(context.getColor(R.color.colorPrimaryDark))
             }
             val playButton = MaterialButton(
                 context as Activity,
@@ -104,9 +104,9 @@ class QuizListFragment : Fragment() {
                 text = resources.getText(R.string.play)
                 layoutParams = lp
                 textSize = 20F
-                backgroundTintList = context.getColorStateList(R.color.on_secondary)
+                backgroundTintList = context.getColorStateList(R.color.textColorSecondary)
                 textAlignment = MaterialButton.TEXT_ALIGNMENT_CENTER
-                setTextColor(context.getColor(R.color.on_primary))
+                setTextColor(context.getColor(R.color.textColorPrimary))
                 cornerRadius = ViewBuilder.toPX(context as Activity,20)
                 setPadding(ViewBuilder.toPX(activity as Activity, 15))
             }
@@ -143,7 +143,7 @@ class QuizListFragment : Fragment() {
             layout.apply {
                 setPadding(ViewBuilder.toPX(activity as Activity, 15))
                 layoutParams = lp
-                background = AppCompatResources.getDrawable(context, R.color.on_primary)
+                background = AppCompatResources.getDrawable(context, R.color.textColorPrimary)
                 orientation = LinearLayout.VERTICAL
             }
             val header = TextView(context)
@@ -153,7 +153,7 @@ class QuizListFragment : Fragment() {
                 text = context.getString(R.string.error)
                 isAllCaps = false
                 textSize = 20F
-                setTextColor(context.getColor(R.color.primary_variant))
+                setTextColor(context.getColor(R.color.colorPrimaryDark))
                 textAlignment = View.TEXT_ALIGNMENT_CENTER
             }
             val description = TextView(context)
@@ -162,7 +162,7 @@ class QuizListFragment : Fragment() {
                 layoutParams = lp
                 text = error
                 textSize = 20F
-                setTextColor(context.getColor(R.color.primary_variant))
+                setTextColor(context.getColor(R.color.colorPrimaryDark))
                 textAlignment = View.TEXT_ALIGNMENT_TEXT_START
             }
             quizLayout.addView(layout, lp)
