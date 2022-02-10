@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
 import hu.petrik.quizion.R
 import hu.petrik.quizion.components.ViewSwapper
@@ -27,6 +26,7 @@ import kotlin.collections.ArrayList
 class LoginActivity : AppCompatActivity() {
     lateinit var bind: ActivityLoginBinding
     var loginInProgress = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -36,99 +36,119 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bind = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bind.root)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        selectRelevantMethod()
+    }
+
+    fun selectRelevantMethod() {
         if (intent.hasExtra("userID") && intent.hasExtra("password")) {
             val loginparams = Bundle()
             loginparams.putString("userID", intent.getStringExtra("userID"))
             loginparams.putString("password", intent.getStringExtra("password"))
             val fragment = LoginFragment()
             fragment.arguments = loginparams
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(bind.fragmentLogin.id, fragment)
-            transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
-            transaction.commit()
+            startFragment(fragment, true)
+            intent.removeExtra("userID")
+            intent.removeExtra("password")
             return
         }
-        saveRememberToken("erdodif","xd")
-        fragmentManager.executePendingTransactions()
         val tokens = getRememberedTokens()
-        if(tokens !== null){
+        if (tokens !== null) {
             val fragment = LoginTokenFragment(tokens)
-            startFragment(LoadingFragment(),true)
-            //startFragment(fragment,true)
+            startFragment(fragment, true)
         }
     }
 
-    fun login(uID: String, password: String, rememberLogin: Boolean = false,loginViaToken:Boolean = false) {
+    private fun handleSuccesfulLogin(result: ArrayList<String>, rememberLogin: Boolean) {
+        val json = result[1]
+        if (rememberLogin) {
+            this@LoginActivity.saveRememberToken(
+                JSONObject(json).getString("userName"),
+                JSONObject(json).getString("remember_token")
+            )
+        }
+        val token = JSONObject(json).getString("token")
+        startFragment(LoginFragment(""), true)
+        ViewSwapper.swapActivity(
+            this@LoginActivity,
+            QuizzesActivity(),
+            Pair("Token", token),
+            finish = false
+        )
+        Log.d(getString(R.string.state), getString(R.string.login_successful))
+    }
+
+    private fun handleDelayedError(error: String, uID: String, loginViaToken: Boolean) {
+        val loginFragment = LoginFragment(uID)
+        val loadingFragment = bind.fragmentLogin.getFragment<LoadingFragment>()
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    loadingFragment.setErrorMessage(getString(R.string.login_failed))
+                }
+            }
+        }, 1000)
+        Log.d(getString(R.string.state), error)
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                if (loginViaToken) {
+                    loginFragment.initializerTask = {
+                        loginFragment.fillFromExpiredToken(uID)
+                    }
+                }
+                startFragment(loginFragment, true)
+            }
+        }, 2000)
+    }
+
+    private suspend fun getLoginResults(uID: String, password: String): ArrayList<String> {
+        val params = JSONObject()
+        params.put("userID", uID)
+        params.put("password", password)
+        return SQLConnector.serverCall("POST", "users/login", params)
+    }
+
+    private suspend fun getRememberResults(rememberToken: String): ArrayList<String> {
+        val params = JSONObject()
+        params.put("remember_token", rememberToken)
+        return SQLConnector.serverCall("POST", "users/login", params)
+    }
+
+    fun login(
+        uID: String,
+        password: String,
+        rememberLogin: Boolean = false,
+        loginViaToken: Boolean = false
+    ) {
         if (loginInProgress) {
             return
         }
         loginInProgress = true
-        val params = JSONObject()
-        params.put("userID", uID)
-        if(loginViaToken){
-            params.put("remember_token", password)
-        }else{
-            params.put("password", password)
-        }
         var result: ArrayList<String> = ArrayList()
         runBlocking {
             try {
-                val loginFragment = bind.fragmentLogin.getFragment<LoginFragment>()
                 val loadingFragment = LoadingFragment()
-                startFragment(loadingFragment,true,"LOADING")
+                startFragment(loadingFragment, true, "LOADING")
                 loadingFragment.setAnimationSource(R.raw.loading_3_lines_in_circle)
                 val run = launch {
-                    result = SQLConnector.serverCall("POST", "users/login", params)
+                    result = if (loginViaToken) {
+                        getRememberResults(password)
+                    } else {
+                        getLoginResults(uID, password)
+                    }
                 }
                 run.join()
                 if (result[0].startsWith("2")) {
-                    val json = result[1]
-                    if (rememberLogin){
-                        this@LoginActivity.saveRememberToken(
-                            JSONObject(json).getString("userName"),
-                            JSONObject(json).getString("remember_token")
-                        )
-                    }
-                    val token = JSONObject(json).getString("token")
-                    startFragment(LoginFragment(),true)
-                    ViewSwapper.swapActivity(
-                        this@LoginActivity,
-                        QuizzesActivity(),
-                        Pair("Token", token),
-                        finish = false
-                    )
-                    Log.d(getString(R.string.state), getString(R.string.login_successful))
+                    handleSuccesfulLogin(result, rememberLogin)
                 } else {
-                    Timer().schedule(object : TimerTask() {
-                        override fun run() {
-                            runOnUiThread {
-                                loadingFragment.setErrorMessage(getString(R.string.login_failed))
-                            }
-                        }
-                    }, 1000)
-                    Log.d(getString(R.string.state), result[0])
-                    Timer().schedule(object : TimerTask() {
-                        override fun run() {
-                            startFragment(loginFragment,true)
-                            if(loginViaToken){
-                                loginFragment.fillFromExpiredToken(uID)
-                            }
-                        }
-                    }, 2000)
+                    handleDelayedError(result[1], uID, loginViaToken)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(
-                    this@LoginActivity,
-                    getString(R.string.login_failed),
-                    Toast.LENGTH_SHORT
-                ).show()
-                Log.d(getString(R.string.state), getString(R.string.login_failed))
-                Timer().schedule(object : TimerTask() {
-                    override fun run() {
-                        startFragment(LoginFragment())
-                    }
-                }, 2000)
+                handleDelayedError(e.message.toString(), uID, loginViaToken)
             }
             return@runBlocking
         }
@@ -138,39 +158,42 @@ class LoginActivity : AppCompatActivity() {
     private fun saveRememberToken(userName: String, rememberToken: String) {
         val usersPrefs = getSharedPreferences(getString(R.string.app_users_pref_file), MODE_PRIVATE)
         usersPrefs.edit {
-            putString(userName,rememberToken)
+            putString(userName, rememberToken)
             apply()
         }
     }
-    private fun getRememberedTokens():List<Pair<String, String>>?{
+
+    private fun getRememberedTokens(): List<Pair<String, String>>? {
         val remembered = ArrayList<Pair<String, String>>()
         val userPrefs = getSharedPreferences(getString(R.string.app_users_pref_file), MODE_PRIVATE)
         val content = userPrefs.all
-        for(item in content){
-            Log.d("RememberToken", "${item.key}:${item.value}")
-            remembered.add(Pair(item.key,item.value as String))
+        for (item in content) {
+            remembered.add(Pair(item.key, item.value as String))
         }
-        if (remembered.isEmpty()){
+        if (remembered.isEmpty()) {
             return null
         }
         return remembered
     }
 
-    fun startFragment(fragment: Fragment, immediate:Boolean = false, tag:String? = null){
+    fun forgetRememberToken(userName: String) {
+        val usersPrefs = getSharedPreferences(getString(R.string.app_users_pref_file), MODE_PRIVATE)
+        usersPrefs.edit {
+            remove(userName)
+            apply()
+        }
+    }
+
+    fun startFragment(fragment: Fragment, immediate: Boolean = false, tag: String? = null) {
+        Log.d("Fragment váltás", fragment::class.simpleName.toString())
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(bind.fragmentLogin.id, fragment,tag)
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction.replace(bind.fragmentLogin.id, fragment, tag)
+        transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
         transaction.commit()
-        if (immediate){
+        if (immediate) {
             runOnUiThread {
                 supportFragmentManager.executePendingTransactions()
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val remembered = getRememberedTokens()
-        startFragment(LoginFragment(),true)
     }
 }

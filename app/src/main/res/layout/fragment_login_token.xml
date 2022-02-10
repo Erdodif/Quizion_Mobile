@@ -7,36 +7,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.LoginTokenFragment"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="40dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginBottom="10dp"
+    android:weightSum="60">
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login_as"
-        android:textSize="16sp"
-        android:layout_marginHorizontal="40dp"
+        android:textSize="25sp"
         android:layout_marginVertical="10dp"
         android:background="@color/textColorPrimary"
         android:padding="10dp"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/colorPrimary"
+        android:layout_weight="1"
+        app:lastBaselineToBottomHeight="10dp"/>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="58">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="200dp"
             android:id="@+id/layout_Users"
             android:orientation="vertical"
-            android:gravity="fill_vertical">
+            android:paddingHorizontal="15dp">
 
             <Space
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/action_button"
+        android:text="@string/log_in_other_user"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:id="@+id/button_Alternative_Login"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

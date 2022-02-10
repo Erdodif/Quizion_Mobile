@@ -49,4 +49,10 @@
     <string name="password_field_missing">Nincs megadva jelszó</string>
     <string name="renew_password">Add meg újra a jelszót</string>
     <string name="cancel">Mégse</string>
+    <string name="login_as">Bejelentkezés mint...</string>
+    <string name="log_in_other_user">Bejelentkezés másik profillal</string>
+    <string name="sure_forget">Biztosan el szeretné felejteni a fiókot?</string>
+    <string name="forget_profile">Profil elfelejtése</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
 </resources>

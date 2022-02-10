@@ -24,11 +24,32 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class LoginFragment : Fragment() {
+class LoginFragment(
+    uID: String? = null,
+    pass: String? = null,
+    var initializerTask: (()->Unit)? = null
+) : Fragment() {
     private var tokenLogin = false
     private lateinit var bind: FragmentLoginBinding
+    private var pass: String? = pass
+        set(value) {
+            field = value
+            if (this::bind.isInitialized) {
+                bind.textInputPassword.editText!!.text = value.toEditable()
+            }
+        }
+    private var uID: String? = uID
+        set(value) {
+            field = value
+            if (this::bind.isInitialized) {
+                bind.textInputUID.editText!!.text = value.toEditable()
+                bind.unameLocked.text = value
+            }
+        }
 
-    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+
+    private fun String?.toEditable(): Editable? =
+        if (this == null) null else Editable.Factory.getInstance().newEditable(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +57,10 @@ class LoginFragment : Fragment() {
     ): View {
         bind = FragmentLoginBinding.inflate(inflater, container, false)
         init()
+        bind.textInputPassword.editText!!.text = pass.toEditable()
+        bind.textInputUID.editText!!.text = uID.toEditable()
+        bind.unameLocked.text = uID
+        initializerTask?.invoke()
         return bind.root
     }
 
@@ -103,11 +128,17 @@ class LoginFragment : Fragment() {
         }
     }
 
+    fun fillState(uID: String?, pass: String?, remember: Boolean) {
+        this.uID = uID
+        this.pass = pass
+        bind.checkboxRemember.isChecked = remember
+    }
+
     private fun fillFromRegister(userID: String, password: String) {
-        bind.textInputUID.editText!!.text = userID.toEditable()
+        uID = userID
+        pass = password
         with(bind.textInputPassword) {
             bind.textInputPassword.endIconMode = TextInputLayout.END_ICON_NONE
-            editText!!.text = password.toEditable()
             editText!!.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     if (s.isNullOrEmpty()) {
@@ -131,7 +162,7 @@ class LoginFragment : Fragment() {
 
     fun fillFromExpiredToken(uName: String) {
         tokenLogin = true
-        bind.textInputUID.editText!!.text = uName.toEditable()
+        uID = uName
         bind.textInputUID.isEnabled = false
         bind.checkboxRemember.isChecked = true
         bind.textInputUID.visibility = MaterialTextView.GONE
@@ -146,8 +177,7 @@ class LoginFragment : Fragment() {
 
     fun clearEditor() {
         tokenLogin = false
-        bind.textInputUID.editText!!.text = null
-        bind.unameLocked.text = null
+        uID = null
         bind.textInputUID.isEnabled = true
         bind.checkboxRemember.isChecked = false
         bind.textInputUID.visibility = MaterialTextView.VISIBLE
