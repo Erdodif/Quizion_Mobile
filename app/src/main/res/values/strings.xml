@@ -53,4 +53,7 @@
     <string name="cancel">Cancel</string>
     <string name="renew_password">Please enter your password again</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_as">Login as</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

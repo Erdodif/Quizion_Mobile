@@ -20,6 +20,9 @@ import hu.petrik.quizion.activities.LoginActivity
 import hu.petrik.quizion.activities.RegisterActivity
 import hu.petrik.quizion.components.ViewSwapper
 import hu.petrik.quizion.databinding.FragmentLoginBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 class LoginFragment : Fragment() {
     private var tokenLogin = false
@@ -36,34 +39,35 @@ class LoginFragment : Fragment() {
         return bind.root
     }
 
-    fun clearErrorMessages(){
+    fun clearErrorMessages() {
         bind.textInputPassword.error = null
         bind.textInputUID.error = null
     }
 
     private fun init() {
         clearErrorMessages()
-        bind.textInputUID.setOnClickListener{
+        bind.textInputUID.setOnClickListener {
             bind.textInputUID.error = null
         }
-        bind.textInputPassword.setOnClickListener{
+        bind.textInputPassword.setOnClickListener {
             bind.textInputPassword.error = null
         }
         bind.buttonLogin.setOnClickListener {
             val activity = requireActivity()
-            val uID = if (tokenLogin) bind.unameLocked.text as String else bind.textInputUID.editText!!.text.toString()
+            val uID =
+                if (tokenLogin) bind.unameLocked.text as String else bind.textInputUID.editText!!.text.toString()
             val pass = bind.textInputPassword.editText!!.text.toString()
-            val remember =  if (tokenLogin) true else bind.checkboxRemember.isChecked
+            val remember = if (tokenLogin) true else bind.checkboxRemember.isChecked
             var noError = true
-            if(uID.isEmpty()){
+            if (uID.isEmpty()) {
                 bind.textInputUID.error = activity.getString(R.string.uid_field_missing)
                 noError = false
             }
-            if(pass.isEmpty()){
+            if (pass.isEmpty()) {
                 bind.textInputPassword.error = activity.getString(R.string.password_field_missing)
                 noError = false
             }
-            if(noError){
+            if (noError) {
                 clearErrorMessages()
                 (activity as LoginActivity).login(
                     uID,
@@ -95,8 +99,8 @@ class LoginFragment : Fragment() {
                 val password = arguments.getString("password")!!
                 fillFromRegister(userID, password)
             }
+        } catch (e: IllegalStateException) {
         }
-        catch (e:IllegalStateException){}
     }
 
     private fun fillFromRegister(userID: String, password: String) {
@@ -125,7 +129,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun fillFromExpiredToken(uName:String){
+    fun fillFromExpiredToken(uName: String) {
         tokenLogin = true
         bind.textInputUID.editText!!.text = uName.toEditable()
         bind.textInputUID.isEnabled = false

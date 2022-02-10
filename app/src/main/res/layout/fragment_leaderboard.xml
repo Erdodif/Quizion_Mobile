@@ -111,10 +111,9 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:text="@string/back_to_quizes" />
+            android:text="@string/back_to_quizes"
+            style="@style/action_button"/>
         <!--Megosztás gomb, később talán bekerül-->
         <com.google.android.material.button.MaterialButton
             android:layout_alignParentEnd="true"

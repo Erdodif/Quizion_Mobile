@@ -16,6 +16,7 @@ import hu.petrik.quizion.database.SQLConnector
 import hu.petrik.quizion.databinding.ActivityLoginBinding
 import hu.petrik.quizion.fragments.LoadingFragment
 import hu.petrik.quizion.fragments.LoginFragment
+import hu.petrik.quizion.fragments.LoginTokenFragment
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
@@ -45,6 +46,15 @@ class LoginActivity : AppCompatActivity() {
             transaction.replace(bind.fragmentLogin.id, fragment)
             transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
             transaction.commit()
+            return
+        }
+        saveRememberToken("erdodif","xd")
+        fragmentManager.executePendingTransactions()
+        val tokens = getRememberedTokens()
+        if(tokens !== null){
+            val fragment = LoginTokenFragment(tokens)
+            startFragment(LoadingFragment(),true)
+            //startFragment(fragment,true)
         }
     }
 
@@ -152,7 +162,9 @@ class LoginActivity : AppCompatActivity() {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction.commit()
         if (immediate){
-            supportFragmentManager.executePendingTransactions()
+            runOnUiThread {
+                supportFragmentManager.executePendingTransactions()
+            }
         }
     }
 

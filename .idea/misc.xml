@@ -26,8 +26,6 @@
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/layout/activity_quiz_list.xml" value="0.33" />
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
         <entry key="..\:/Mobil Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3828125" />
-        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/action_button.xml" value="0.2115" />
-        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/action_button_style.xml" value="0.2115" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/answer.xml" value="0.3828125" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/choosen_bad_answer.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/choosen_right_answer.xml" value="0.2046875" />
@@ -36,7 +34,6 @@
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/diagonal_line.xml" value="0.2046875" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1984375" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_fejlec.xml" value="0.33611111111111114" />
-        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_fejlec_2.xml" value="0.2115" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_fejlec_allo_kepernyore.xml" value="0.33611111111111114" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_homokora_piktogram.xml" value="0.33611111111111114" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/drawable/ic_kicsi_felso_fejlec.xml" value="0.33611111111111114" />
@@ -59,7 +56,6 @@
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_quiz_list.xml" value="0.33" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/fragment_leaderboard.xml" value="0.36666666666666664" />
-        <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/fragment_loading.xml" value="0.36666666666666664" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/fragment_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/fragment_quiz_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/fragment_tokened.xml" value="0.36666666666666664" />
@@ -67,10 +63,15 @@
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/layout/rounded_corner.xml" value="0.18854166666666666" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22135416666666666" />
         <entry key="..\:/Mobil_Projektek/Quizion_Mobile/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22135416666666666" />
+        <entry key="..\:/Projects/Mobil/Quizion_Mobile/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/Projects/Mobil/Quizion_Mobile/app/src/main/res/layout/fragment_leaderboard.xml" value="0.25" />
+        <entry key="..\:/Projects/Mobil/Quizion_Mobile/app/src/main/res/layout/fragment_loading.xml" value="0.25" />
+        <entry key="..\:/Projects/Mobil/Quizion_Mobile/app/src/main/res/layout/fragment_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/Projects/Mobil/Quizion_Mobile/app/src/main/res/layout/fragment_login_token.xml" value="0.25" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
