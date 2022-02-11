@@ -118,8 +118,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun login(
-        uID: String,
-        password: String,
+        uID: String, password: String,
         rememberLogin: Boolean = false,
         loginViaToken: Boolean = false
     ) {

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Space
+import androidx.core.view.children
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import hu.petrik.quizion.R
@@ -27,8 +28,7 @@ class LoginTokenFragment(var users: List<Pair<String, String>>) : Fragment() {
         for (user in users) {
             Log.d("Remember token", user.first + " : " + user.second)
             val spacer = Space(context)
-            val layoutParams = LinearLayout.LayoutParams(0, 0)
-            layoutParams.weight = 1F
+            val layoutParams = LinearLayout.LayoutParams(0, 0,1F)
             spacer.layoutParams = layoutParams
             val profileButton =
                 MaterialButton(ContextThemeWrapper(requireContext(), R.style.action_button))
