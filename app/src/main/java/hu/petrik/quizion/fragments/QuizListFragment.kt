@@ -19,7 +19,7 @@ import hu.petrik.quizion.R
 import hu.petrik.quizion.activities.MainActivity
 import hu.petrik.quizion.activities.QuizzesActivity
 import hu.petrik.quizion.components.Quiz
-import hu.petrik.quizion.components.ViewBuilder
+import hu.petrik.quizion.controllers.ViewBuilder
 import hu.petrik.quizion.databinding.FragmentQuizListBinding
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

@@ -1,9 +1,11 @@
-package hu.petrik.quizion.activities
+package hu.petrik.quizion.controllers
 
 import android.util.Log
 import android.widget.Toast
 import com.google.android.material.button.MaterialButton
 import hu.petrik.quizion.R
+import hu.petrik.quizion.activities.MainActivity
+import hu.petrik.quizion.activities.QuizzesActivity
 import hu.petrik.quizion.database.SQLConnector
 import hu.petrik.quizion.databinding.ActivityMainBinding
 import hu.petrik.quizion.components.*
@@ -13,7 +15,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Duration
 import java.time.LocalDateTime
-import java.util.*
 import kotlin.collections.ArrayList
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")

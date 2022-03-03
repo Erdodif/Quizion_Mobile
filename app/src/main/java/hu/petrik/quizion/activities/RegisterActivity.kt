@@ -9,7 +9,7 @@ import android.widget.Toast
 import hu.petrik.quizion.R
 import hu.petrik.quizion.database.SQLConnector
 import hu.petrik.quizion.databinding.ActivityRegisterBinding
-import hu.petrik.quizion.components.ViewSwapper
+import hu.petrik.quizion.controllers.ViewSwapper
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject

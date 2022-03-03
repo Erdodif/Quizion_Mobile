@@ -1,4 +1,4 @@
-package hu.petrik.quizion.components
+package hu.petrik.quizion.controllers
 
 import com.google.android.material.button.MaterialButton
 import hu.petrik.quizion.activities.MainActivity
@@ -7,6 +7,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.app.Activity
 import android.util.Log
+import hu.petrik.quizion.components.Answer
+import hu.petrik.quizion.components.AnswerState
 
 class ViewBuilder {
     companion object {

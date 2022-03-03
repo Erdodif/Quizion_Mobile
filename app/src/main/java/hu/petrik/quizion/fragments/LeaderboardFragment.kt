@@ -16,8 +16,8 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import hu.petrik.quizion.R
 import hu.petrik.quizion.activities.QuizzesActivity
-import hu.petrik.quizion.components.ViewBuilder
-import hu.petrik.quizion.components.ViewSwapper
+import hu.petrik.quizion.controllers.ViewBuilder
+import hu.petrik.quizion.controllers.ViewSwapper
 import hu.petrik.quizion.database.SQLConnector
 import hu.petrik.quizion.databinding.FragmentLeaderboardBinding
 import kotlinx.coroutines.launch
