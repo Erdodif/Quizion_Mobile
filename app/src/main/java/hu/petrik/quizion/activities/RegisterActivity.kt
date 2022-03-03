@@ -42,7 +42,7 @@ class RegisterActivity : AppCompatActivity() {
                 binding.textInputUserName.error =
                     context.getString(R.string.uname_field_required)
             }
-            name.length < 6 -> {
+            name.length < 5 -> {
                 binding.textInputUserName.error =
                     context.getString(R.string.uname_min_6)
             }
@@ -70,7 +70,7 @@ class RegisterActivity : AppCompatActivity() {
                 binding.textInputEmail.error =
                     context.getString(R.string.email_field_required)
             }
-            email.length > 40 -> {
+            email.length > 50 -> {
                 binding.textInputEmail.error =
                     context.getString(R.string.email_too_long)
             }

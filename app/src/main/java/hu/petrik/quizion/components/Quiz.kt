@@ -33,8 +33,8 @@ class Quiz {
     companion object {
 
         @Suppress("SpellCheckingInspection")
-        suspend fun getAllActive(): ArrayList<Quiz> {
-            val response = serverCall("GET", "quizzes")
+        suspend fun getAllActive(token: String): ArrayList<Quiz> {
+            val response = serverCall("GET", "quizzes",token = token)
             if (response[0].startsWith("2")) {
                 val json = JSONArray(response[1])
                 val list = ArrayList<Quiz>()
@@ -48,8 +48,8 @@ class Quiz {
             }
         }
 
-        suspend fun getById(id: Int): Quiz {
-            return Quiz(JSONObject(serverCall("GET", "quizzes/$id")[1]))
+        suspend fun getById(id: Int, token :String): Quiz {
+            return Quiz(JSONObject(serverCall("GET", "quizzes/$id", token = token)[1]))
         }
     }
 }

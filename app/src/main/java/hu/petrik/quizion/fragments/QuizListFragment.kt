@@ -48,7 +48,7 @@ class QuizListFragment : Fragment() {
             Log.d("Coroutine state", "running")
             val params: HashMap<String, Any> = HashMap()
             params["active"] = 1
-            val quizzes = Quiz.getAllActive()
+            val quizzes = Quiz.getAllActive(token)
             try {
                 if (quizzes.isNotEmpty()) {
                     loadQuizAll(quizLayout, quizzes, token)

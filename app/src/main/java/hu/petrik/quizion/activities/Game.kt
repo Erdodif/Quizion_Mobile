@@ -40,11 +40,12 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
             var count = 0
             val now = LocalDateTime.now()
             launch {
-                quiz = Quiz.getById(quiz_id)
+                quiz = Quiz.getById(quiz_id, token = token)
                 count = JSONObject(
                     SQLConnector.serverCall(
                         "GET",
-                        "quizzes/$quiz_id/questions/count"
+                        "quizzes/$quiz_id/questions/count",
+                        token = token
                     )[1]
                 ).getInt("count")
                 val result = SQLConnector.serverCall(
@@ -154,8 +155,7 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
                     SQLConnector.serverCall(
                         "GET",
                         "play/${id.toString()}/state",
-                        null,
-                        token
+                        token = token
                     )[1]
                 ).getInt("current")
             } catch (e: Exception) {
