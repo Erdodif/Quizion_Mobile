@@ -1,4 +1,4 @@
-package hu.petrik.quizion.components
+package hu.petrik.quizion.controllers
 
 import android.app.Activity
 import android.content.Context

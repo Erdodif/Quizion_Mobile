@@ -1,7 +1,6 @@
 package hu.petrik.quizion.fragments
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,11 +17,8 @@ import com.google.android.material.textview.MaterialTextView
 import hu.petrik.quizion.R
 import hu.petrik.quizion.activities.LoginActivity
 import hu.petrik.quizion.activities.RegisterActivity
-import hu.petrik.quizion.components.ViewSwapper
+import hu.petrik.quizion.controllers.ViewSwapper
 import hu.petrik.quizion.databinding.FragmentLoginBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class LoginFragment(
     uID: String? = null,

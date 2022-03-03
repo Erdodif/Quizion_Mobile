@@ -3,14 +3,13 @@ package hu.petrik.quizion.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
 import hu.petrik.quizion.R
-import hu.petrik.quizion.components.ViewSwapper
+import hu.petrik.quizion.controllers.ViewSwapper
 import hu.petrik.quizion.database.SQLConnector
 import hu.petrik.quizion.databinding.ActivityLoginBinding
 import hu.petrik.quizion.fragments.LoadingFragment

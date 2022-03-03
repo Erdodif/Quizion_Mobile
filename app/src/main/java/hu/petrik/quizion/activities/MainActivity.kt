@@ -15,6 +15,7 @@ import com.google.android.material.button.MaterialButton
 import hu.petrik.quizion.R
 import hu.petrik.quizion.databinding.ActivityMainBinding
 import hu.petrik.quizion.components.AnswerState
+import hu.petrik.quizion.controllers.Game
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
