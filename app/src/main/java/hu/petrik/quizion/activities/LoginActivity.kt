@@ -3,6 +3,7 @@ package hu.petrik.quizion.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
@@ -15,11 +16,13 @@ import hu.petrik.quizion.databinding.ActivityLoginBinding
 import hu.petrik.quizion.fragments.LoadingFragment
 import hu.petrik.quizion.fragments.LoginFragment
 import hu.petrik.quizion.fragments.LoginTokenFragment
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.json.JSONObject
+import java.lang.Thread.sleep
+import java.net.SocketTimeoutException
 import java.util.*
-import kotlin.collections.ArrayList
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
 @Suppress("Deprecation")
 class LoginActivity : AppCompatActivity() {
@@ -125,32 +128,39 @@ class LoginActivity : AppCompatActivity() {
             return
         }
         loginInProgress = true
-        var result: ArrayList<String> = ArrayList()
-        runBlocking {
+        lateinit var result: ArrayList<String>
+        val loadingFragment = LoadingFragment(R.raw.loading_3_lines_in_circle)
+        val job = suspend {
             try {
-                val loadingFragment = LoadingFragment()
-                startFragment(loadingFragment, true, "LOADING")
-                loadingFragment.setAnimationSource(R.raw.loading_3_lines_in_circle)
-                val run = launch {
-                    result = if (loginViaToken) {
-                        getRememberResults(password)
-                    } else {
-                        getLoginResults(uID, password)
-                    }
+                result = if (loginViaToken) {
+                    getRememberResults(password)
+                } else {
+                    getLoginResults(uID, password)
                 }
-                run.join()
                 if (result[0].startsWith("2")) {
                     handleSuccesfulLogin(result, rememberLogin)
                 } else {
                     handleDelayedError(result[1], uID, loginViaToken)
                 }
+            } catch (e: SocketTimeoutException) {
+                e.printStackTrace()
+                Log.e("Login", "Timed out")
+                handleDelayedError(
+                    this@LoginActivity.getString(R.string.error_timeout),
+                    uID,
+                    loginViaToken
+                )
             } catch (e: Exception) {
                 e.printStackTrace()
                 handleDelayedError(e.message.toString(), uID, loginViaToken)
             }
-            return@runBlocking
+            loginInProgress = false
         }
-        loginInProgress = false
+        startFragment(loadingFragment, true, "LOADING") {
+            runBlocking {
+                job()
+            }
+        }
     }
 
     private fun saveRememberToken(userName: String, rememberToken: String) {
@@ -188,6 +198,25 @@ class LoginActivity : AppCompatActivity() {
         transaction.replace(bind.fragmentLogin.id, fragment, tag)
         transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
         transaction.commit()
+        if (immediate) {
+            runOnUiThread {
+                supportFragmentManager.executePendingTransactions()
+            }
+        }
+    }
+
+    fun startFragment(
+        fragment: Fragment,
+        immediate: Boolean = false,
+        tag: String? = null,
+        oncommit: () -> Unit
+    ) {
+        Log.d("Fragment váltás", fragment::class.simpleName.toString())
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(bind.fragmentLogin.id, fragment, tag)
+        transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
+        transaction.commit()
+        transaction.runOnCommit(oncommit)
         if (immediate) {
             runOnUiThread {
                 supportFragmentManager.executePendingTransactions()
