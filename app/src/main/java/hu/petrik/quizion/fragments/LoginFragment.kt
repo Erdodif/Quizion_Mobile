@@ -19,11 +19,13 @@ import hu.petrik.quizion.activities.LoginActivity
 import hu.petrik.quizion.activities.RegisterActivity
 import hu.petrik.quizion.controllers.ViewSwapper
 import hu.petrik.quizion.databinding.FragmentLoginBinding
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class LoginFragment(
     uID: String? = null,
     pass: String? = null,
-    var initializerTask: (()->Unit)? = null
+    var initializerTask: (() -> Unit)? = null
 ) : Fragment() {
     private var tokenLogin = false
     private lateinit var bind: FragmentLoginBinding
