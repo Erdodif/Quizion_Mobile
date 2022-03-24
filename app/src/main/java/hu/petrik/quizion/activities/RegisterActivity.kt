@@ -185,6 +185,7 @@ class RegisterActivity : AppCompatActivity() {
         params.put("name", binding.textInputUserName.editText!!.text.toString())
         params.put("email", binding.textInputEmail.editText!!.text.toString())
         params.put("password", binding.textInputPassword.editText!!.text.toString())
+        params.put("password_confirmation", binding.textInputPasswordAgain.editText!!.text.toString())
         runBlocking {
             launch {
                 val result = SQLConnector.serverCall("POST", "users/register", params)
