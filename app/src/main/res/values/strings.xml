@@ -60,6 +60,11 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="error_timeout">Server not responding!</string>
+    <string name="email_not_verified">Email should be verified before login</string>
+    <string name="check_mailbox">Check the mailbox</string>
+    <string name="resend_email">Resend email</string>
+    <string name="email_sent">Confirmation email sent</string>
+    <string name="error_email_send">Error while sending sending comfirmation</string>
     <!-- TODO: Remove or change this placeholder text -->
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

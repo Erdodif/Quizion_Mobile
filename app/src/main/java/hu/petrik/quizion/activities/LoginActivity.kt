@@ -3,12 +3,12 @@ package hu.petrik.quizion.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+import hu.petrik.quizion.fragments.EmailVerificationFragment
 import hu.petrik.quizion.R
 import hu.petrik.quizion.controllers.ViewSwapper
 import hu.petrik.quizion.database.SQLConnector
@@ -18,11 +18,8 @@ import hu.petrik.quizion.fragments.LoginFragment
 import hu.petrik.quizion.fragments.LoginTokenFragment
 import kotlinx.coroutines.*
 import org.json.JSONObject
-import java.lang.Thread.sleep
 import java.net.SocketTimeoutException
 import java.util.*
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 
 @Suppress("Deprecation")
 class LoginActivity : AppCompatActivity() {
@@ -52,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
             loginparams.putString("password", intent.getStringExtra("password"))
             val fragment = LoginFragment()
             fragment.arguments = loginparams
-            startFragment(fragment, true)
+            startFragment(fragment, false)
             intent.removeExtra("userID")
             intent.removeExtra("password")
             return
@@ -60,8 +57,25 @@ class LoginActivity : AppCompatActivity() {
         val tokens = getRememberedTokens()
         if (tokens !== null) {
             val fragment = LoginTokenFragment(tokens)
-            startFragment(fragment, true)
+            startFragment(fragment, false)
         }
+    }
+
+    private fun handleEmailUnverified(uID: String, password: String, loginViaToken: Boolean) {
+        val emailVerificationFragment = EmailVerificationFragment(uID, password, loginViaToken)
+        val loadingFragment = bind.fragmentLogin.getFragment<LoadingFragment>()
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    loadingFragment.setErrorMessage(getString(R.string.email_not_verified))
+                }
+            }
+        }, 1000)
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                startFragment(emailVerificationFragment, false)
+            }
+        }, 2000)
     }
 
     private fun handleSuccesfulLogin(result: ArrayList<String>, rememberLogin: Boolean) {
@@ -73,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
             )
         }
         val token = JSONObject(json).getString("token")
-        startFragment(LoginFragment(""), true)
+        startFragment(LoginFragment(""), false)
         ViewSwapper.swapActivity(
             this@LoginActivity,
             QuizzesActivity(),
@@ -101,7 +115,7 @@ class LoginActivity : AppCompatActivity() {
                         loginFragment.fillFromExpiredToken(uID)
                     }
                 }
-                startFragment(loginFragment, true)
+                startFragment(loginFragment, false)
             }
         }, 2000)
     }
@@ -137,10 +151,10 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     getLoginResults(uID, password)
                 }
-                if (result[0].startsWith("2")) {
-                    handleSuccesfulLogin(result, rememberLogin)
-                } else {
-                    handleDelayedError(result[1], uID, loginViaToken)
+                when {
+                    result[0].startsWith("2") -> handleSuccesfulLogin(result, rememberLogin)
+                    result[0] == "403" -> handleEmailUnverified(uID, password, loginViaToken)
+                    else -> handleDelayedError(result[1], uID, loginViaToken)
                 }
             } catch (e: SocketTimeoutException) {
                 e.printStackTrace()
@@ -156,7 +170,7 @@ class LoginActivity : AppCompatActivity() {
             }
             loginInProgress = false
         }
-        startFragment(loadingFragment, true, "LOADING") {
+        startFragment(loadingFragment, false, "LOADING") {
             runBlocking {
                 job()
             }
@@ -192,34 +206,24 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun startFragment(fragment: Fragment, immediate: Boolean = false, tag: String? = null) {
-        Log.d("Fragment váltás", fragment::class.simpleName.toString())
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(bind.fragmentLogin.id, fragment, tag)
-        transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
-        transaction.commit()
-        if (immediate) {
-            runOnUiThread {
-                supportFragmentManager.executePendingTransactions()
-            }
-        }
-    }
-
     fun startFragment(
         fragment: Fragment,
         immediate: Boolean = false,
         tag: String? = null,
-        oncommit: () -> Unit
+        oncommit: (() -> Unit)? = null
     ) {
         Log.d("Fragment váltás", fragment::class.simpleName.toString())
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(bind.fragmentLogin.id, fragment, tag)
-        transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
-        transaction.commit()
-        transaction.runOnCommit(oncommit)
-        if (immediate) {
-            runOnUiThread {
-                supportFragmentManager.executePendingTransactions()
+        runOnUiThread {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(bind.fragmentLogin.id, fragment, tag)
+            transaction.setTransition(TRANSIT_FRAGMENT_OPEN)
+            if (oncommit != null) {
+                transaction.runOnCommit(oncommit)
+            }
+            if (immediate) {
+                transaction.commitNow()
+            } else {
+                transaction.commit()
             }
         }
     }

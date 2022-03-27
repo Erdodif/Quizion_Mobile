@@ -56,4 +56,9 @@
     <string name="yes">Igen</string>
     <string name="no">Nem</string>
     <string name="error_timeout">A szerver nem válaszol!</string>
+    <string name="email_not_verified">A bejelentkezéshez meg kell erősíteni az email címet</string>
+    <string name="check_mailbox">Postaláda megtekintése</string>
+    <string name="resend_email">Email újraküldése</string>
+    <string name="email_sent">Megerősítő email elküldve</string>
+    <string name="error_email_send">Hiba a megerősítő email küldése közben</string>
 </resources>
