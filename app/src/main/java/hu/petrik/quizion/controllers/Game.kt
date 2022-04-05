@@ -140,7 +140,6 @@ class Game(quiz: Quiz, token: String, numberOfQuestions: Int, delay: Int = 0) {
         }
     }
 
-
     fun loadCurrent(binding: ActivityMainBinding) = runBlocking {
         lateinit var question: Question
         lateinit var answers: ArrayList<Answer>
