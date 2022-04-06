@@ -22,7 +22,7 @@ class SQLConnector {
             token: String? = null
         ): ArrayList<String> = withContext(Dispatchers.IO) {
             val ki = ArrayList<String>()
-            val url = URL("http://10.147.20.1/api/$urlExtension")
+            val url = URL("http://10.0.2.2:8000/api/$urlExtension")
             try {
                 val connection = url.openConnection() as HttpURLConnection
                 with(connection) {
