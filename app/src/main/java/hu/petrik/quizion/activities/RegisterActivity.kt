@@ -136,7 +136,7 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     }
                     binding.textInputPassword.error =
-                        "${context.getString(R.string.validation_must)}$passwordErrorMessage${
+                        "${context.getString(R.string.validation_must)} $passwordErrorMessage ${
                             context.getString(
                                 R.string.validation_char
                             )
