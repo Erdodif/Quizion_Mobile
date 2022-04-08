@@ -35,7 +35,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun validateName(binding: ActivityRegisterBinding): Boolean {
         val name = binding.textInputUserName.editText!!.text.toString()
-        val constraintWordCharacter = Regex("""[^\p{javaLetterOrDigit}]""")
+        val constraintWordCharacter = Regex("""[^\p{javaLetter}]""")
         val context = binding.root.context
         when {
             name.isEmpty() -> {
@@ -52,7 +52,7 @@ class RegisterActivity : AppCompatActivity() {
             }
             constraintWordCharacter.containsMatchIn(name) -> {
                 binding.textInputUserName.error =
-                    context.getString(R.string.uname_alphanumeric)
+                    context.getString(R.string.uname_alpha)
             }
             else -> {
                 binding.textInputUserName.error = null

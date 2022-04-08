@@ -45,15 +45,14 @@
     <string name="uname_field_required">Username required!</string>
     <string name="uname_min_6">Username must be at least 6 characters long!</string>
     <string name="uname_max_25">Username cannot be longer than 25 characters!</string>
-    <string name="uname_alphanumeric">Username might contain only letters, numbers, and space!</string>
+    <string name="uname_alpha">Username might contain only letters!</string>
     <string name="remember_me">Remember me</string>
     <string name="uid_field_missing">Missing user ID</string>
     <string name="password_field_missing">Missing password</string>
     <string name="app_users_pref_file" translatable="false">Quizion_Users</string>
     <string name="cancel">Cancel</string>
     <string name="renew_password">Please enter your password again</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="login_as">Login as...</string>
+    <string name="login_as">Login as…</string>
     <string name="log_in_other_user">Log in with another profile</string>
     <string name="sure_forget">Are you sure you want to forget this account?</string>
     <string name="forget_profile">Forget profile</string>
@@ -64,7 +63,5 @@
     <string name="check_mailbox">Check the mailbox</string>
     <string name="resend_email">Resend email</string>
     <string name="email_sent">Confirmation email sent</string>
-    <string name="error_email_send">Error while sending sending comfirmation</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="error_email_send">Error while sending comfirmation</string>
 </resources>
