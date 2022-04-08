@@ -37,17 +37,17 @@ android {
             dimension 'dev'
         }
         zeroHome {
-            resValue 'string', 'app_name', 'Quizion(PC)'
+            resValue 'string', 'app_name', '(PC)Quizion'
             buildConfigField 'String', 'API_URL', '"http://10.147.20.1:8000"'
             dimension 'dev'
         }
         zeroLaptop {
-            resValue 'string', 'app_name', 'Quizion(Laptop)'
+            resValue 'string', 'app_name', '(Laptop)Quizion'
             buildConfigField 'String', 'API_URL', '"http://10.147.20.5:8000"'
             dimension 'dev'
         }
         onDevice {
-            resValue 'string', 'app_name', 'Quizion(Local)'
+            resValue 'string', 'app_name', '(Local)Quizion'
             buildConfigField 'String', 'API_URL', '"http://10.0.2.2:8000"'
             dimension 'dev'
         }
