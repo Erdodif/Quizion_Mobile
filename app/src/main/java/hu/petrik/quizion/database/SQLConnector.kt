@@ -2,7 +2,10 @@
 
 package hu.petrik.quizion.database
 
+import android.content.res.Resources
 import android.util.Log
+import hu.petrik.quizion.BuildConfig
+import hu.petrik.quizion.R
 import org.json.JSONObject
 import kotlinx.coroutines.*
 import java.io.*
@@ -22,7 +25,9 @@ class SQLConnector {
             token: String? = null
         ): ArrayList<String> = withContext(Dispatchers.IO) {
             val ki = ArrayList<String>()
-            val url = URL("http://10.0.2.2:8000/api/$urlExtension")
+            val baseUrl = BuildConfig.API_URL
+            Log.d("BaseUrl",baseUrl )
+            val url = URL("$baseUrl/api/$urlExtension")
             try {
                 val connection = url.openConnection() as HttpURLConnection
                 with(connection) {
