@@ -1,6 +1,6 @@
 <p align="center"><img src="https://github.com/Erdodif/Quizion_Backend/blob/master/public/images/logo.png" width="400"> </p>
 
-# Quizion Mobile
+# Quizion Mobil
 
 Quizion egy webböngészős, asztali és mobil kliensre készülő kvízalkalmazás, amellyel a felhasználók kvízek formájában mérhetik össze tudásukat, bővíthetik lexikális ismereteiket, valamint figyelemmel kísérhetik eredményeiket az interneten. 
 > Az alkalmazás célja, hogy egy, a kvízek köré épült közösség jöhessen létre, valamint, hogy a tanulás és a számonkérés egy új és interaktív formában történhessen. A felhasználóba-rát kialakítás és a személyre szabhatóság fontos és elengedhetetlen részét képezi az alkalma-zásnak.
