@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.marginStart
 import androidx.core.view.setMargins
 import androidx.core.view.setPadding
@@ -95,7 +98,7 @@ class QuizListFragment : Fragment() {
                 layoutParams = lp
                 text = elem.description
                 isAllCaps = false
-                textSize = 20F
+                textSize = 16F
                 setTextColor(context.getColor(R.color.colorPrimaryDark))
             }
             layout.addView(header)
@@ -116,31 +119,40 @@ class QuizListFragment : Fragment() {
         )
     }
 
-    private fun createButtonHolder(id: Int, token: String): RelativeLayout {
+    private fun createButtonHolder(id: Int, token: String): LinearLayout {
         val activity = activity as Activity
-        val playLp = RelativeLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            //ViewBuilder.toPX(activity, 0)
-            LinearLayout.LayoutParams.WRAP_CONTENT
+        val playLp = LinearLayout.LayoutParams(
+            0,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            1F
+            //RelativeLayout.LayoutParams.WRAP_CONTENT,
         )
-        with(playLp) {
-            addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-            marginStart = ViewBuilder.toPX(activity, 10)
-        }
-        val leaderLp = RelativeLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            //ViewBuilder.toPX(activity, 0)
-            LinearLayout.LayoutParams.WRAP_CONTENT
+        val leaderLp = LinearLayout.LayoutParams(
+            0,
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            1F
+            //RelativeLayout.LayoutParams.WRAP_CONTENT
         )
-        with(leaderLp) {
-            addRule(RelativeLayout.ALIGN_PARENT_LEFT)
-            marginEnd = ViewBuilder.toPX(activity, 10)
-        }
         val playButton = MaterialButton(
             context as Activity,
             null,
             R.style.action_button
         )
+        val leaderboardButton = MaterialButton(
+            context as Activity,
+            null,
+            R.style.action_button
+        )
+        playButton.id = LinearLayout.generateViewId()
+        leaderboardButton.id = LinearLayout.generateViewId()
+        with(playLp) {
+            marginStart = ViewBuilder.toPX(activity, 20)
+            marginEnd= ViewBuilder.toPX(activity, 10)
+        }
+        with(leaderLp) {
+            marginEnd= ViewBuilder.toPX(activity, 20)
+            marginStart = ViewBuilder.toPX(activity, 10)
+        }
         playButton.apply {
             text = resources.getText(R.string.play)
             layoutParams = playLp
@@ -150,18 +162,10 @@ class QuizListFragment : Fragment() {
             setTextColor(context.getColor(R.color.textColorPrimary))
             cornerRadius = ViewBuilder.toPX(context as Activity, 10)
             setPadding(
-                ViewBuilder.toPX(activity, 20),
-                ViewBuilder.toPX(activity, 10),
-                ViewBuilder.toPX(activity, 20),
                 ViewBuilder.toPX(activity, 10)
             )
         }
-        val leaderboarButton = MaterialButton(
-            context as Activity,
-            null,
-            R.style.action_button
-        )
-        leaderboarButton.apply {
+        leaderboardButton.apply {
             text = resources.getText(R.string.leaderboard)
             layoutParams = leaderLp
             textSize = 20F
@@ -170,19 +174,18 @@ class QuizListFragment : Fragment() {
             setTextColor(context.getColor(R.color.textColorPrimary))
             cornerRadius = ViewBuilder.toPX(context as Activity, 10)
             setPadding(
-                ViewBuilder.toPX(activity, 20),
-                ViewBuilder.toPX(activity, 10),
-                ViewBuilder.toPX(activity, 20),
                 ViewBuilder.toPX(activity, 10)
             )
         }
-        val buttonHolder = RelativeLayout(context)
-        buttonHolder.layoutParams = LinearLayout.LayoutParams(
+        val buttonHolder = LinearLayout(context as Activity)
+        val lp = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        buttonHolder.addView(leaderboarButton)
+        buttonHolder.layoutParams = lp
+        lp.topMargin = ViewBuilder.toPX(activity,10)
+        buttonHolder.orientation = LinearLayout.HORIZONTAL
+        buttonHolder.addView(leaderboardButton)
         buttonHolder.addView(playButton)
-
         playButton.setOnClickListener {
             ViewSwapper.swapActivity(
                 context as Context,
@@ -192,7 +195,7 @@ class QuizListFragment : Fragment() {
                 finish = true
             )
         }
-        leaderboarButton.setOnClickListener {
+        leaderboardButton.setOnClickListener {
             (activity as QuizzesActivity).showLeaderBoard("", id.toString())
         }
         return buttonHolder
