@@ -1,11 +1,11 @@
 <resources>
     <string name="register">Regisztráció</string>
     <string name="back">Vissza</string>
-    <string name="username_or_email">Felhasználónév vagy email</string>
+    <string name="username_or_email">Felhasználónév vagy E-mail</string>
     <string name="login">Bejelentkezés</string>
     <string name="password_again">Jelszó még egyszer</string>
     <string name="password">Jelszó</string>
-    <string name="email">Email cím</string>
+    <string name="email">E-mail cím</string>
     <string name="username">Felhasználónév</string>
     <string name="play">Játék</string>
     <string name="send">Elküld</string>
@@ -38,8 +38,8 @@
     <string name="passwords_not_same">A két jelszónak meg kell egyezznie!</string>
     <string name="register_successful">Sikeres regisztráció</string>
     <string name="email_field_required">E-mail cím megadása kötelező!</string>
-    <string name="email_too_long">Az e-mail túl hosszú!</string>
-    <string name="email_invalid">Az e-mail formátuma helytelen!</string>
+    <string name="email_too_long">Az E-mail túl hosszú!</string>
+    <string name="email_invalid">Az E-mail formátuma helytelen!</string>
     <string name="uname_field_required">Felhasználónév megadása kötelező!</string>
     <string name="uname_min_6">Felhasználónév minimum 6 karakter hosszúnak kell lennie!</string>
     <string name="uname_max_25">Felhasználónév nem lehet hosszabb 25 karakternél!</string>
@@ -56,9 +56,12 @@
     <string name="yes">Igen</string>
     <string name="no">Nem</string>
     <string name="error_timeout">A szerver nem válaszol!</string>
-    <string name="email_not_verified">A bejelentkezéshez meg kell erősíteni az email címet</string>
+    <string name="email_not_verified">A bejelentkezéshez meg kell erősíteni az E-mail címet</string>
     <string name="check_mailbox">Postaláda megtekintése</string>
-    <string name="resend_email">Email újraküldése</string>
-    <string name="email_sent">Megerősítő email elküldve</string>
-    <string name="error_email_send">Hiba a megerősítő email küldése közben</string>
+    <string name="resend_email">E-mail újraküldése</string>
+    <string name="email_sent">Megerősítő E-mail elküldve</string>
+    <string name="error_email_send">Hiba a megerősítő E-mail küldése közben</string>
+    <string name="create_account">Profil létrehozása</string>
+    <string name="user_has_no_result">Még nincs eredményed!</string>
+    <string name="leaderboard">Ranglétra</string>
 </resources>

@@ -66,15 +66,27 @@ class LeaderboardFragment : Fragment() {
         lateinit var results: JSONArray
         lateinit var selfResults: JSONObject
         val context = resultLayout.context as QuizzesActivity
+        var hasSelfResult = true
         launch {
-            results = JSONArray(SQLConnector.serverCall("GET", "leaderboard/$quizId")[1])
-            selfResults = JSONObject(
-                SQLConnector.serverCall(
-                    "GET",
-                    "ranking/$quizId",
-                    token = token
-                )[1]
-            ).getJSONObject("users")
+            val fetchResult = SQLConnector.serverCall("GET", "leaderboard/$quizId")
+            if(fetchResult[0].startsWith("2")){
+                results = JSONArray(fetchResult[1])
+                try {
+                    selfResults = JSONObject(
+                        SQLConnector.serverCall(
+                            "GET",
+                            "ranking/$quizId",
+                            token = token
+                        )[1]
+                    ).getJSONObject("users")
+                } catch (e: Exception) {
+                    hasSelfResult = false
+                }
+            }
+            else{
+                results = JSONArray()
+                hasSelfResult = false
+            }
         }.join()
         for (i in 0 until results.length()) {
             val result = results.getJSONObject(i)
@@ -114,31 +126,43 @@ class LeaderboardFragment : Fragment() {
             )
 
             selfResultLayout.removeAllViews()
-            addResultTextView(
-                context,
-                selfResultLayout,
-                "#${selfResults.getString("rank")}",
-                RelativeLayout.CENTER_VERTICAL,
-                paramTextSize = 18F,
-                paramTextColor = R.color.colorPrimaryDark
-            )
-            addResultTextView(
-                context,
-                selfResultLayout,
-                selfResults.getString("name"),
-                RelativeLayout.CENTER_IN_PARENT,
-                paramTextSize = 18F,
-                paramTextColor = R.color.colorPrimaryDark
-            )
-            addResultTextView(
-                context,
-                selfResultLayout,
-                selfResults.getString("points"),
-                RelativeLayout.CENTER_VERTICAL,
-                RelativeLayout.ALIGN_PARENT_RIGHT,
-                paramTextSize = 18F,
-                paramTextColor = R.color.colorPrimaryDark
-            )
+            if(hasSelfResult){
+                addResultTextView(
+                    context,
+                    selfResultLayout,
+                    "#${selfResults.getString("rank")}",
+                    RelativeLayout.CENTER_VERTICAL,
+                    paramTextSize = 18F,
+                    paramTextColor = R.color.colorPrimaryDark
+                )
+                addResultTextView(
+                    context,
+                    selfResultLayout,
+                    selfResults.getString("name"),
+                    RelativeLayout.CENTER_IN_PARENT,
+                    paramTextSize = 18F,
+                    paramTextColor = R.color.colorPrimaryDark
+                )
+                addResultTextView(
+                    context,
+                    selfResultLayout,
+                    selfResults.getString("points"),
+                    RelativeLayout.CENTER_VERTICAL,
+                    RelativeLayout.ALIGN_PARENT_RIGHT,
+                    paramTextSize = 18F,
+                    paramTextColor = R.color.colorPrimaryDark
+                )
+            }
+            else{
+                addResultTextView(
+                    context,
+                    selfResultLayout,
+                    getString(R.string.user_has_no_result),
+                    RelativeLayout.CENTER_IN_PARENT,
+                    paramTextSize = 18F,
+                    paramTextColor = R.color.colorPrimaryDark
+                )
+            }
         }
     }
 

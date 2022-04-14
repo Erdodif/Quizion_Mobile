@@ -1,12 +1,12 @@
 <resources>
     <string name="preference_file_key" translatable="false">hu.petrik.quizion.QuizionSharedPreferences</string>
     <string name="username">Username</string>
-    <string name="email">Email address</string>
+    <string name="email">E-mail address</string>
     <string name="password">Password</string>
     <string name="password_again">Password again</string>
     <string name="register">Register</string>
     <string name="back">Back</string>
-    <string name="username_or_email">Username or Email</string>
+    <string name="username_or_email">Username or E-mail</string>
     <string name="login">Login</string>
     <string name="play">Play</string>
     <string name="send">Send</string>
@@ -40,7 +40,7 @@
     <string name="register_successful">Register successful</string>
     <string name="email_field_required">E-mail address required!</string>
     <string name="email_too_long">E-mail is too long!</string>
-    <string name="email_invalid">The e-mail format is invalid!</string>
+    <string name="email_invalid">The E-mail format is invalid!</string>
     <string name="uname_field_required">Username required!</string>
     <string name="uname_min_6">Username must be at least 6 characters long!</string>
     <string name="uname_max_25">Username cannot be longer than 25 characters!</string>
@@ -58,9 +58,12 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="error_timeout">Server not responding!</string>
-    <string name="email_not_verified">Email should be verified before login</string>
+    <string name="email_not_verified">E-mail should be verified before login</string>
     <string name="check_mailbox">Check the mailbox</string>
-    <string name="resend_email">Resend email</string>
-    <string name="email_sent">Confirmation email sent</string>
+    <string name="resend_email">Resend E-mail</string>
+    <string name="email_sent">Confirmation E-mail sent</string>
     <string name="error_email_send">Error while sending comfirmation</string>
+    <string name="create_account">Create account</string>
+    <string name="user_has_no_result">You do not have any result yet!</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

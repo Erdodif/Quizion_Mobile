@@ -48,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/username"
                     android:inputType="text"
+                    android:textSize="20sp"
                     android:focusedByDefault="true"
                     android:longClickable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -61,6 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
+                    android:textSize="20sp"
                     android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -74,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
+                    android:textSize="20sp"
                     android:inputType="textPassword"
                     android:longClickable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -87,6 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password_again"
+                    android:textSize="20sp"
                     android:inputType="textPassword"
                     android:longClickable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -95,29 +99,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-                <androidx.appcompat.widget.AppCompatButton
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="@string/back"
+                    style="@style/action_button"
+                    android:textAllCaps="false"
+                    android:textSize="20sp"
+                    android:id="@+id/button_back"/>
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="20dp"
-                    android:padding="10dp"
                     android:layout_marginHorizontal="10dp"
                     android:text="@string/register"
-                    android:textAllCaps="false"
+                    style="@style/action_button"
                     android:textSize="20sp"
-                    android:background="@color/textColorSecondary"
-                    android:textColor="@color/textColorPrimary"
                     android:id="@+id/button_register"/>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:text="@string/back"
-                    android:textAllCaps="false"
-                    android:textSize="20sp"
-                    android:background="@color/textColorSecondary"
-                    android:textColor="@color/textColorPrimary"
-                    android:id="@+id/button_back"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>

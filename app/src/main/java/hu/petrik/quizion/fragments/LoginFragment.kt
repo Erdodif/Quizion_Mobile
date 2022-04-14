@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
@@ -19,8 +18,6 @@ import hu.petrik.quizion.activities.LoginActivity
 import hu.petrik.quizion.activities.RegisterActivity
 import hu.petrik.quizion.controllers.ViewSwapper
 import hu.petrik.quizion.databinding.FragmentLoginBinding
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 class LoginFragment(
     uID: String? = null,
@@ -107,9 +104,9 @@ class LoginFragment(
             bind.textInputPassword.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
             false
         }
-        bind.labelRemember.setOnClickListener {
+        /*bind.labelRemember.setOnClickListener {
             bind.checkboxRemember.isChecked = !bind.checkboxRemember.isChecked
-        }
+        }*/
         bind.buttonCancel.setOnClickListener {
             clearEditor()
         }
@@ -166,7 +163,6 @@ class LoginFragment(
         bind.textInputUID.visibility = MaterialTextView.GONE
         bind.buttonRegister.visibility = MaterialButton.GONE
         bind.checkboxRemember.visibility = MaterialCheckBox.GONE
-        bind.labelRemember.visibility = TextView.GONE
         bind.buttonCancel.visibility = MaterialButton.VISIBLE
         bind.tokenLayout.visibility = LinearLayoutCompat.VISIBLE
         bind.unameLocked.text = uName
@@ -181,7 +177,6 @@ class LoginFragment(
         bind.textInputUID.visibility = MaterialTextView.VISIBLE
         bind.buttonRegister.visibility = MaterialButton.VISIBLE
         bind.checkboxRemember.visibility = MaterialCheckBox.VISIBLE
-        bind.labelRemember.visibility = TextView.VISIBLE
         bind.buttonCancel.visibility = MaterialButton.GONE
         bind.tokenLayout.visibility = LinearLayoutCompat.GONE
     }

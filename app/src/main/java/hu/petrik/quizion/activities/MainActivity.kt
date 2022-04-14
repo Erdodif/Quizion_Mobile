@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         bind = ActivityMainBinding.inflate(layoutInflater)
         val view = bind.root
         setContentView(view)
-        val id = intent.getIntExtra("id", -1)
+        val id = intent.getStringExtra("id")?.let { Integer.parseInt(it) }!!
         Log.d("id", id.toString())
         val token = intent.getStringExtra("Token")!!
         runBlocking {

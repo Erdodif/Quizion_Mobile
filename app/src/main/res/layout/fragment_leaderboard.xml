@@ -67,15 +67,15 @@
         android:layout_weight="7"
         android:background="@drawable/answer"
         android:id="@+id/layout_Result_Self">
+
         <TextView
-            android:layout_centerVertical="true"
+            android:id="@+id/order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="#200000000"
+            android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:id="@+id/order"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
         <TextView
             android:layout_centerInParent="true"
             android:textAlignment="center"
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="Probaboi"
+            android:text="@string/user_has_no_result"
             android:layout_marginStart="10dp"
             android:textColor="@color/colorPrimaryDark"/>
         <TextView
@@ -92,7 +92,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:text="100000"
             android:layout_marginEnd="10dp"
             android:textSize="15sp"
             android:id="@+id/points"

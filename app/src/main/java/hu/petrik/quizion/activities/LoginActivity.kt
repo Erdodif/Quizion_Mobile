@@ -1,7 +1,5 @@
 package hu.petrik.quizion.activities
 
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -10,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
-import hu.petrik.quizion.BuildConfig
 import hu.petrik.quizion.fragments.EmailVerificationFragment
 import hu.petrik.quizion.R
 import hu.petrik.quizion.controllers.ViewSwapper
