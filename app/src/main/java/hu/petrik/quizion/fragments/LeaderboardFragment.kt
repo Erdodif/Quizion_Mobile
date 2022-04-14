@@ -45,7 +45,9 @@ class LeaderboardFragment : Fragment() {
         val result = arguments.getString("result")
         val quizId = arguments.getString("quiz_id")!!.toInt()
         val token = (activity as QuizzesActivity).token
-        Toast.makeText(activity, result, Toast.LENGTH_SHORT).show()
+        if(!result.isNullOrBlank()){
+            Toast.makeText(activity, result, Toast.LENGTH_SHORT).show()
+        }
         loadLeaderboard(bind.layoutLeaderboard, bind.layoutResultSelf, quizId, token)
         bind.buttonBack.setOnClickListener {
             ViewSwapper.swapActivity(
