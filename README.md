@@ -21,4 +21,4 @@ Négy, előre elkészített beállítási preferencia (flavor) elérhető, ami s
 
 ## Készítő
 
-> A modil alkalmazás Erdődi Fülöp saját munkájának eredménye
+> A modil alkalmazás Erdődi Fülöp saját munkájának eredménye.
