@@ -18,3 +18,7 @@ A mobil applikáción a felhasználó alapvető felhasználókezelési funkciók
 ### Telepítés
 > Fejlesztőknek a projekt másolását követően az alkalmazás indításához, monitorozásához és teszteléséhez az Android Studio programcsomag használatát javaljuk. Tesztszerverrel való kapcsolat létesítéséhet a manifest és a network_security_config fájlok testreszabása szükséges, valamint az alkalmazás újratelepítése elengedhetetlen a várt viselkedés eléréséhes.
 Négy, előre elkészített beállítási preferencia (flavor) elérhető, ami statikusan megadott url címeket állít be, ezzel könnyítve a fejlesztési folyamatot.
+
+## Készítő
+
+> A modil alkalmazás Erdődi Fülöp saját munkájának eredménye
